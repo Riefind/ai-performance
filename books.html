@@ -82,6 +82,35 @@
                 opacity: 0.9;
             }
 
+            .legend {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+                margin-bottom: 12px;
+                font-size: 12px;
+                color: #718096;
+            }
+
+            .legend-item {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .legend-dot {
+                width: 12px;
+                height: 12px;
+                border-radius: 4px;
+            }
+
+            .legend-dot.good {
+                background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            }
+
+            .legend-dot.bad {
+                background: linear-gradient(135deg, #fc8181 0%, #e53e3e 100%);
+            }
+
             .metric-section {
                 margin-bottom: 35px;
                 background: #f7fafc;
@@ -321,6 +350,15 @@
         <div class="container">
             <h1>Books.by - AI Agent Performance</h1>
             <p class="subtitle">Dec 17, 2025 - Jan 27, 2026</p>
+
+            <div class="legend">
+                <span class="legend-item"
+                    ><span class="legend-dot good"></span> Positive</span
+                >
+                <span class="legend-item"
+                    ><span class="legend-dot bad"></span> Negative</span
+                >
+            </div>
 
             <div class="summary-box">
                 <div class="summary-item good">
