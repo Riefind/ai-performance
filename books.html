@@ -44,35 +44,42 @@
             }
 
             .summary-box {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
-                padding: 15px;
-                border-radius: 12px;
-                margin-bottom: 25px;
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
                 gap: 15px;
+                margin-bottom: 25px;
             }
 
             .summary-item {
                 text-align: center;
+                padding: 20px 15px;
+                border-radius: 12px;
+                color: white;
+            }
+
+            .summary-item.good {
+                background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            }
+
+            .summary-item.bad {
+                background: linear-gradient(135deg, #fc8181 0%, #e53e3e 100%);
             }
 
             .summary-label {
-                font-size: 11px;
-                opacity: 0.9;
-                margin-bottom: 6px;
+                font-size: 12px;
+                opacity: 0.95;
+                margin-bottom: 8px;
             }
 
             .summary-value {
-                font-size: 20px;
+                font-size: 24px;
                 font-weight: 700;
             }
 
             .summary-change {
                 font-size: 11px;
-                margin-top: 3px;
-                opacity: 0.95;
+                margin-top: 6px;
+                opacity: 0.9;
             }
 
             .metric-section {
@@ -316,22 +323,20 @@
             <p class="subtitle">Dec 17, 2025 - Jan 27, 2026</p>
 
             <div class="summary-box">
-                <div class="summary-item">
-                    <div class="summary-label">AI Involvement</div>
-                    <div class="summary-value">99.3%</div>
-                    <div class="summary-change">Average across all weeks</div>
+                <div class="summary-item good">
+                    <div class="summary-label">AI Involvement Rate</div>
+                    <div class="summary-value">→ 99.25%</div>
+                    <div class="summary-change">Dec 17 → Jan 27</div>
                 </div>
-                <div class="summary-item">
-                    <div class="summary-label">AI Resolution Rate</div>
-                    <div class="summary-value">44.7%</div>
-                    <div class="summary-change">Average across all weeks</div>
+                <div class="summary-item good">
+                    <div class="summary-label">Resolved by AI</div>
+                    <div class="summary-value">↑ 6.4%</div>
+                    <div class="summary-change">Dec 17 → Jan 27</div>
                 </div>
-                <div class="summary-item">
+                <div class="summary-item good">
                     <div class="summary-label">AI CX Score</div>
-                    <div class="summary-value">8.5/10</div>
-                    <div class="summary-change">
-                        Average customer satisfaction
-                    </div>
+                    <div class="summary-value">↑ 0.3</div>
+                    <div class="summary-change">Dec 17 → Jan 27</div>
                 </div>
             </div>
 

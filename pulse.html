@@ -44,35 +44,42 @@
             }
 
             .summary-box {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
-                padding: 15px;
-                border-radius: 12px;
-                margin-bottom: 25px;
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
                 gap: 15px;
+                margin-bottom: 25px;
             }
 
             .summary-item {
                 text-align: center;
+                padding: 20px 15px;
+                border-radius: 12px;
+                color: white;
+            }
+
+            .summary-item.good {
+                background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            }
+
+            .summary-item.bad {
+                background: linear-gradient(135deg, #fc8181 0%, #e53e3e 100%);
             }
 
             .summary-label {
-                font-size: 11px;
-                opacity: 0.9;
-                margin-bottom: 6px;
+                font-size: 12px;
+                opacity: 0.95;
+                margin-bottom: 8px;
             }
 
             .summary-value {
-                font-size: 20px;
+                font-size: 24px;
                 font-weight: 700;
             }
 
             .summary-change {
                 font-size: 11px;
-                margin-top: 3px;
-                opacity: 0.95;
+                margin-top: 6px;
+                opacity: 0.9;
             }
 
             .metric-section {
@@ -318,20 +325,22 @@
             </p>
 
             <div class="summary-box">
-                <div class="summary-item">
-                    <div class="summary-label">Human FRT Improvement</div>
-                    <div class="summary-value">↓ 13%</div>
-                    <div class="summary-change">From Oct to Jan</div>
+                <div class="summary-item good">
+                    <div class="summary-label">Human FRT (After Handover)</div>
+                    <div class="summary-value">↓ 4 sec</div>
+                    <div class="summary-change">Oct 17 → Jan 18</div>
                 </div>
-                <div class="summary-item">
-                    <div class="summary-label">AI Close Improvement</div>
-                    <div class="summary-value">↓ 77%</div>
-                    <div class="summary-change">From Oct to Jan</div>
+                <div class="summary-item good">
+                    <div class="summary-label">AI Close (Without Handover)</div>
+                    <div class="summary-value">↓ 3:57</div>
+                    <div class="summary-change">Oct 17 → Jan 18</div>
                 </div>
-                <div class="summary-item">
-                    <div class="summary-label">Human Close Improvement</div>
-                    <div class="summary-value">↓ 29%</div>
-                    <div class="summary-change">From Oct to Jan</div>
+                <div class="summary-item good">
+                    <div class="summary-label">
+                        Human Close (After Handover)
+                    </div>
+                    <div class="summary-value">↓ 2:32</div>
+                    <div class="summary-change">Oct 17 → Jan 18</div>
                 </div>
             </div>
 
