@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Pulse Giftcards - Performance Dashboard</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                padding: 40px 20px;
+                min-height: 100vh;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                background: white;
+                border-radius: 16px;
+                padding: 30px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                position: relative;
+            }
+
+            h1 {
+                text-align: center;
+                color: #2d3748;
+                margin-bottom: 8px;
+                font-size: 24px;
+            }
+
+            .subtitle {
+                text-align: center;
+                color: #718096;
+                margin-bottom: 25px;
+                font-size: 13px;
+            }
+
+            .summary-box {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 15px;
+                border-radius: 12px;
+                margin-bottom: 25px;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 15px;
+            }
+
+            .summary-item {
+                text-align: center;
+            }
+
+            .summary-label {
+                font-size: 11px;
+                opacity: 0.9;
+                margin-bottom: 6px;
+            }
+
+            .summary-value {
+                font-size: 20px;
+                font-weight: 700;
+            }
+
+            .summary-change {
+                font-size: 11px;
+                margin-top: 3px;
+                opacity: 0.95;
+            }
+
+            .metric-section {
+                margin-bottom: 35px;
+                background: #f7fafc;
+                padding: 20px;
+                border-radius: 12px;
+                border-left: 4px solid #cbd5e0;
+            }
+
+            .metric-title {
+                font-size: 16px;
+                font-weight: 700;
+                color: #2d3748;
+                margin-bottom: 15px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .metric-description {
+                display: none;
+            }
+
+            .metric-indicator {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                display: inline-block;
+            }
+
+            .period-row {
+                margin-bottom: 12px;
+                padding-bottom: 12px;
+                border-bottom: 1px solid #e2e8f0;
+            }
+
+            .period-row:last-child {
+                border-bottom: none;
+                margin-bottom: 0;
+                padding-bottom: 0;
+            }
+
+            .period-label {
+                font-size: 12px;
+                color: #718096;
+                margin-bottom: 8px;
+                font-weight: 500;
+            }
+
+            .bars-container {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .bar-row {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .bar-track {
+                flex: 1;
+                height: 24px;
+                background: #f7fafc;
+                border-radius: 6px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .bar-fill {
+                height: 100%;
+                border-radius: 6px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                padding-right: 8px;
+                color: white;
+                font-size: 10px;
+                font-weight: 600;
+                transition: width 1s ease-out;
+            }
+
+            .bar-value {
+                min-width: 150px;
+                text-align: left;
+                font-size: 12px;
+                font-weight: 600;
+                flex-shrink: 0;
+                display: flex;
+                align-items: center;
+            }
+
+            .improvement-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 3px;
+                padding: 2px 6px;
+                border-radius: 10px;
+                font-size: 10px;
+                font-weight: 600;
+                margin-left: 6px;
+            }
+
+            .improvement {
+                background: #c6f6d5;
+                color: #22543d;
+            }
+
+            .regression {
+                background: #fed7d7;
+                color: #742a2a;
+            }
+
+            .neutral {
+                background: #e2e8f0;
+                color: #4a5568;
+            }
+
+            .arrow {
+                font-size: 10px;
+            }
+
+            .executive-summary {
+                background: #f8f9fa;
+                border-left: 4px solid #667eea;
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 25px;
+            }
+
+            .executive-summary h2 {
+                font-size: 16px;
+                color: #2d3748;
+                margin-bottom: 12px;
+                font-weight: 700;
+            }
+
+            .summary-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 15px;
+                margin-bottom: 15px;
+            }
+
+            .summary-point {
+                background: white;
+                padding: 12px;
+                border-radius: 6px;
+                border-left: 3px solid #667eea;
+            }
+
+            .summary-point-title {
+                font-size: 12px;
+                font-weight: 700;
+                color: #4a5568;
+                margin-bottom: 4px;
+            }
+
+            .summary-point-text {
+                font-size: 12px;
+                color: #718096;
+                line-height: 1.5;
+            }
+
+            .summary-point.positive {
+                border-left-color: #38a169;
+            }
+
+            .summary-point.negative {
+                border-left-color: #e53e3e;
+            }
+
+            .summary-point.neutral {
+                border-left-color: #4299e1;
+            }
+
+            .key-insight {
+                background: linear-gradient(135deg, #667eea15, #764ba215);
+                padding: 12px;
+                border-radius: 6px;
+                font-size: 12px;
+                color: #2d3748;
+                line-height: 1.6;
+            }
+
+            .key-insight strong {
+                color: #667eea;
+                font-weight: 700;
+            }
+
+            @media (max-width: 768px) {
+                .container {
+                    padding: 25px;
+                    padding-top: 60px;
+                }
+
+                h1 {
+                    font-size: 22px;
+                }
+
+                .bar-value {
+                    min-width: 120px;
+                    font-size: 12px;
+                }
+
+                .summary-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            @media print {
+                body {
+                    background: white;
+                }
+
+                .container {
+                    box-shadow: none;
+                    max-width: 100%;
+                    page-break-inside: avoid;
+                }
+
+                .metric-section {
+                    page-break-inside: avoid;
+                }
+
+                .executive-summary {
+                    page-break-after: avoid;
+                }
+
+                .period-row {
+                    page-break-inside: avoid;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Pulse Giftcards - Response Time Performance</h1>
+            <p class="subtitle">
+                Week-over-week improvements across handling workflows
+            </p>
+
+            <div class="summary-box">
+                <div class="summary-item">
+                    <div class="summary-label">Human FRT Improvement</div>
+                    <div class="summary-value">↓ 13%</div>
+                    <div class="summary-change">From Oct to Jan</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">AI Close Improvement</div>
+                    <div class="summary-value">↓ 77%</div>
+                    <div class="summary-change">From Oct to Jan</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Human Close Improvement</div>
+                    <div class="summary-value">↓ 29%</div>
+                    <div class="summary-change">From Oct to Jan</div>
+                </div>
+            </div>
+
+            <div class="executive-summary">
+                <h2>📊 Executive Summary</h2>
+                <div class="summary-grid">
+                    <div class="summary-point positive">
+                        <div class="summary-point-title">
+                            🚀 Major AI Efficiency Gains
+                        </div>
+                        <div class="summary-point-text">
+                            AI Close time improved 77% from 5+ minutes to ~1
+                            minute, showing dramatic optimization in AI-only
+                            resolution workflows.
+                        </div>
+                    </div>
+                    <div class="summary-point positive">
+                        <div class="summary-point-title">
+                            ⚡ Consistent Human Response
+                        </div>
+                        <div class="summary-point-text">
+                            Human FRT remains stable at 27-42 seconds with 13%
+                            overall improvement, demonstrating reliable handover
+                            performance.
+                        </div>
+                    </div>
+                    <div class="summary-point neutral">
+                        <div class="summary-point-title">
+                            ⏱️ Human Close Optimization
+                        </div>
+                        <div class="summary-point-text">
+                            Human closure times range 6-9 minutes with 29%
+                            improvement. Peak efficiency reached in early
+                            January.
+                        </div>
+                    </div>
+                </div>
+                <div class="key-insight">
+                    <strong>Key Insight:</strong> The most significant
+                    improvement is in AI-only resolutions, which became 4-5x
+                    faster. This suggests better AI training and automation,
+                    reducing the need for human handovers while maintaining
+                    quick human response when needed.
+                </div>
+            </div>
+
+            <div class="chart" id="chart"></div>
+        </div>
+
+        <script>
+            const pulseData = [
+                {
+                    period: "06/01/2026 - 18/01/2026",
+                    frt: 27,
+                    aiClose: 70,
+                    humanClose: 380,
+                },
+                {
+                    period: "27/12/2025 - 05/01/2026",
+                    frt: 36,
+                    aiClose: 66,
+                    humanClose: 395,
+                },
+                {
+                    period: "20/12/2025 - 26/12/2025",
+                    frt: 36,
+                    aiClose: 67,
+                    humanClose: 552,
+                },
+                {
+                    period: "01/12/2025 - 19/12/2025",
+                    frt: 38,
+                    aiClose: 70,
+                    humanClose: 384,
+                },
+                {
+                    period: "01/11/2025 - 30/11/2025",
+                    frt: 42,
+                    aiClose: 251,
+                    humanClose: 415,
+                },
+                {
+                    period: "17/10/2025 - 31/10/2025",
+                    frt: 31,
+                    aiClose: 307,
+                    humanClose: 532,
+                },
+            ];
+
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins}:${secs.toString().padStart(2, "0")}`;
+            }
+
+            function getChange(current, previous, higherIsBetter = false) {
+                if (!previous) return "";
+                const change = ((current - previous) / previous) * 100;
+                const isImprovement = higherIsBetter ? change > 0 : change < 0;
+                const absChange = Math.abs(change).toFixed(1);
+
+                if (Math.abs(change) < 1) {
+                    return `<span class="improvement-badge neutral"><span class="arrow">→</span> ${absChange}%</span>`;
+                } else if (isImprovement) {
+                    return `<span class="improvement-badge improvement"><span class="arrow">${higherIsBetter ? "↑" : "↓"}</span> ${absChange}%</span>`;
+                } else {
+                    return `<span class="improvement-badge regression"><span class="arrow">${higherIsBetter ? "↓" : "↑"}</span> ${absChange}%</span>`;
+                }
+            }
+
+            const metrics = [
+                {
+                    title: "Human FRT (After Handover)",
+                    description:
+                        "First Response Time when human agents handle tickets after AI handover",
+                    color: "#38a169",
+                    gradient: "linear-gradient(90deg, #48bb78, #38a169)",
+                    data: pulseData.map((d) => ({
+                        period: d.period,
+                        value: d.frt,
+                    })),
+                    formatter: formatTime,
+                    higherIsBetter: false,
+                },
+                {
+                    title: "AI Close (Without Handover)",
+                    description:
+                        "Time to close tickets fully handled by AI without human intervention",
+                    color: "#3182ce",
+                    gradient: "linear-gradient(90deg, #4299e1, #3182ce)",
+                    data: pulseData.map((d) => ({
+                        period: d.period,
+                        value: d.aiClose,
+                    })),
+                    formatter: formatTime,
+                    higherIsBetter: false,
+                },
+                {
+                    title: "Human Close (After Handover from AI Agent)",
+                    description:
+                        "Total time to close tickets that required human intervention after AI attempted resolution",
+                    color: "#dd6b20",
+                    gradient: "linear-gradient(90deg, #ed8936, #dd6b20)",
+                    data: pulseData.map((d) => ({
+                        period: d.period,
+                        value: d.humanClose,
+                    })),
+                    formatter: formatTime,
+                    higherIsBetter: false,
+                },
+            ];
+
+            const chart = document.getElementById("chart");
+            metrics.forEach((metric) => {
+                const section = document.createElement("div");
+                section.className = "metric-section";
+                section.style.borderLeftColor = metric.color;
+
+                let html = `
+                <div class="metric-title">
+                    <span class="metric-indicator" style="background: ${metric.color}"></span>
+                    ${metric.title}
+                </div>
+                <div class="metric-description">${metric.description}</div>
+            `;
+
+                const maxValue = Math.max(...metric.data.map((d) => d.value));
+                metric.data.forEach((item, idx) => {
+                    const prev =
+                        idx < metric.data.length - 1
+                            ? metric.data[idx + 1]
+                            : null;
+                    const change = getChange(
+                        item.value,
+                        prev?.value,
+                        metric.higherIsBetter,
+                    );
+
+                    html += `
+                    <div class="period-row">
+                        <div class="period-label">${item.period}</div>
+                        <div class="bars-container">
+                            <div class="bar-row">
+                                <div class="bar-track">
+                                    <div class="bar-fill" style="background: ${metric.gradient}" data-width="${(item.value / maxValue) * 100}"></div>
+                                </div>
+                                <div class="bar-value" style="color: ${metric.color}">${metric.formatter(item.value)}${change}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                });
+
+                section.innerHTML = html;
+                chart.appendChild(section);
+            });
+
+            setTimeout(() => {
+                document.querySelectorAll(".bar-fill").forEach((bar) => {
+                    bar.style.width = bar.getAttribute("data-width") + "%";
+                });
+            }, 100);
+        </script>
+    </body>
+</html>
