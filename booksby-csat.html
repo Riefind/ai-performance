@@ -1,0 +1,858 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CSAT Tickets Report | Books.by</title>
+        <link rel="stylesheet" href="assets/styles.css" />
+        <style>
+            /* CSAT Report Specific Styles */
+            .page-header {
+                background: var(--snow);
+                border-bottom: 1px solid var(--color-border);
+                padding: var(--space-lg) 0;
+                margin-bottom: var(--space-xl);
+            }
+
+            .page-header__inner {
+                display: flex;
+                align-items: center;
+                gap: var(--space-lg);
+            }
+
+            .page-header__logo {
+                height: 40px;
+                width: auto;
+            }
+
+            .page-header__content {
+                flex: 1;
+            }
+
+            .page-header h1 {
+                color: var(--espresso);
+                font-size: 1.75rem;
+            }
+
+            .page-header__meta {
+                color: var(--color-text-muted);
+                font-size: 0.875rem;
+                margin-top: var(--space-xs);
+            }
+
+            /* Summary Cards Grid */
+            .summary-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: var(--space-lg);
+                margin-bottom: var(--space-xl);
+            }
+
+            .summary-card {
+                background: var(--color-background);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-lg);
+                padding: var(--space-lg);
+            }
+
+            .summary-card__label {
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                color: var(--color-text-muted);
+                margin-bottom: var(--space-xs);
+            }
+
+            .summary-card__value {
+                font-size: 2.5rem;
+                font-weight: 600;
+                font-family: var(--font-display);
+            }
+
+            .summary-card__value--warning {
+                color: var(--salmon);
+            }
+            .summary-card__value--success {
+                color: var(--color-success);
+            }
+            .summary-card__value--info {
+                color: var(--color-info);
+            }
+
+            .summary-card__sub {
+                font-size: 0.875rem;
+                color: var(--color-text-muted);
+                margin-top: var(--space-xs);
+            }
+
+            /* Rating Distribution */
+            .rating-dist {
+                display: flex;
+                flex-direction: column;
+                gap: var(--space-sm);
+            }
+
+            .rating-row {
+                display: flex;
+                align-items: center;
+                gap: var(--space-md);
+            }
+
+            .rating-label {
+                width: 140px;
+                font-size: 0.875rem;
+                color: var(--color-text-muted);
+            }
+
+            .rating-bar-container {
+                flex: 1;
+                height: 24px;
+                background: var(--color-surface);
+                border-radius: var(--radius-sm);
+                overflow: hidden;
+            }
+
+            .rating-bar {
+                height: 100%;
+                border-radius: var(--radius-sm);
+                display: flex;
+                align-items: center;
+                padding-left: var(--space-sm);
+                font-size: 0.75rem;
+                font-weight: 500;
+                color: var(--snow);
+            }
+
+            .rating-bar--1 {
+                background: var(--burgundy);
+            }
+            .rating-bar--2 {
+                background: var(--redwood);
+            }
+            .rating-bar--3 {
+                background: var(--denim);
+            }
+            .rating-bar--4 {
+                background: var(--olive);
+            }
+            .rating-bar--5 {
+                background: var(--forest);
+            }
+
+            .rating-count {
+                width: 80px;
+                text-align: right;
+                font-size: 0.875rem;
+                color: var(--cocoa);
+            }
+
+            /* Issues Grid */
+            .issues-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: var(--space-lg);
+            }
+
+            .issue-card {
+                background: var(--color-background);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-lg);
+                padding: var(--space-lg);
+            }
+
+            .issue-card--critical {
+                border-left: 4px solid var(--burgundy);
+            }
+
+            .issue-card--positive {
+                border-left: 4px solid var(--forest);
+            }
+
+            .issue-card__title {
+                font-size: 1rem;
+                font-weight: 600;
+                margin-bottom: var(--space-md);
+            }
+
+            .issue-card--critical .issue-card__title {
+                color: var(--burgundy);
+            }
+            .issue-card--positive .issue-card__title {
+                color: var(--forest);
+            }
+
+            .issue-list {
+                list-style: none;
+            }
+
+            .issue-list li {
+                padding: var(--space-sm) 0;
+                border-bottom: 1px solid var(--color-border);
+                font-size: 0.875rem;
+                color: var(--color-text-muted);
+            }
+
+            .issue-list li:last-child {
+                border-bottom: none;
+            }
+
+            .issue-list strong {
+                color: var(--color-text);
+            }
+
+            /* Recommendations */
+            .rec-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: var(--space-md);
+            }
+
+            .rec-item {
+                display: flex;
+                gap: var(--space-md);
+                padding: var(--space-md);
+                background: var(--color-surface);
+                border-radius: var(--radius-md);
+            }
+
+            .rec-num {
+                width: 28px;
+                height: 28px;
+                background: var(--tangerine);
+                color: var(--espresso);
+                border-radius: var(--radius-full);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.875rem;
+                font-weight: 600;
+                flex-shrink: 0;
+            }
+
+            .rec-content h4 {
+                font-size: 0.875rem;
+                font-weight: 600;
+                margin-bottom: var(--space-xs);
+            }
+
+            .rec-content p {
+                font-size: 0.8125rem;
+                color: var(--color-text-muted);
+                margin-bottom: 0;
+            }
+
+            /* CSAT Badge */
+            .csat-badge {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 28px;
+                height: 28px;
+                border-radius: var(--radius-md);
+                font-weight: 600;
+                font-size: 0.875rem;
+                color: var(--snow);
+            }
+
+            .csat-badge--1 {
+                background: var(--burgundy);
+            }
+            .csat-badge--2 {
+                background: var(--redwood);
+            }
+            .csat-badge--3 {
+                background: var(--denim);
+            }
+            .csat-badge--4 {
+                background: var(--olive);
+            }
+            .csat-badge--5 {
+                background: var(--forest);
+            }
+
+            /* Status Badge */
+            .status-badge {
+                display: inline-block;
+                padding: var(--space-xs) var(--space-sm);
+                border-radius: var(--radius-sm);
+                font-size: 0.75rem;
+                font-weight: 500;
+            }
+
+            .status-badge--closed {
+                background: var(--color-surface);
+                color: var(--cocoa);
+            }
+
+            .status-badge--open {
+                background: var(--tangerine-100);
+                color: var(--espresso);
+            }
+
+            @media (max-width: 768px) {
+                .summary-card__value {
+                    font-size: 2rem;
+                }
+                .rating-label {
+                    width: 100px;
+                    font-size: 0.75rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <header class="page-header">
+            <div class="container">
+                <div class="page-header__inner">
+                    <img
+                        src="assets/images/logo.png"
+                        alt="Influx"
+                        class="page-header__logo"
+                    />
+                    <div class="page-header__content">
+                        <h1>CSAT Tickets Report</h1>
+                        <p class="page-header__meta">
+                            Generated: 2026-02-03 | 302 tickets analyzed | Data
+                            range: Jul 2025 - Feb 2026
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="container">
+                <!-- Summary Cards -->
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-card__label">Total Tickets</div>
+                        <div
+                            class="summary-card__value summary-card__value--info"
+                        >
+                            302
+                        </div>
+                        <div class="summary-card__sub">With CSAT ratings</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-card__label">
+                            Average CSAT Score
+                        </div>
+                        <div
+                            class="summary-card__value summary-card__value--warning"
+                        >
+                            2.9
+                        </div>
+                        <div class="summary-card__sub">
+                            Out of 5.0 (mixed satisfaction)
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-card__label">
+                            Very Satisfied (5)
+                        </div>
+                        <div
+                            class="summary-card__value summary-card__value--success"
+                        >
+                            30.5%
+                        </div>
+                        <div class="summary-card__sub">92 tickets</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-card__label">
+                            Very Dissatisfied (1)
+                        </div>
+                        <div
+                            class="summary-card__value summary-card__value--warning"
+                        >
+                            29.8%
+                        </div>
+                        <div class="summary-card__sub">90 tickets</div>
+                    </div>
+                </div>
+
+                <!-- Rating Distribution -->
+                <section class="section">
+                    <div class="section__header">
+                        <h2 class="section__title">CSAT Rating Distribution</h2>
+                    </div>
+                    <div class="card">
+                        <div class="rating-dist">
+                            <div class="rating-row">
+                                <span class="rating-label"
+                                    >5 - Very Satisfied</span
+                                >
+                                <div class="rating-bar-container">
+                                    <div
+                                        class="rating-bar rating-bar--5"
+                                        style="width: 30.5%"
+                                    >
+                                        30.5%
+                                    </div>
+                                </div>
+                                <span class="rating-count">92 tickets</span>
+                            </div>
+                            <div class="rating-row">
+                                <span class="rating-label">4 - Satisfied</span>
+                                <div class="rating-bar-container">
+                                    <div
+                                        class="rating-bar rating-bar--4"
+                                        style="width: 20.9%"
+                                    >
+                                        20.9%
+                                    </div>
+                                </div>
+                                <span class="rating-count">63 tickets</span>
+                            </div>
+                            <div class="rating-row">
+                                <span class="rating-label">3 - Neutral</span>
+                                <div class="rating-bar-container">
+                                    <div
+                                        class="rating-bar rating-bar--3"
+                                        style="width: 9.3%"
+                                    ></div>
+                                </div>
+                                <span class="rating-count">28 tickets</span>
+                            </div>
+                            <div class="rating-row">
+                                <span class="rating-label"
+                                    >2 - Dissatisfied</span
+                                >
+                                <div class="rating-bar-container">
+                                    <div
+                                        class="rating-bar rating-bar--2"
+                                        style="width: 9.6%"
+                                    ></div>
+                                </div>
+                                <span class="rating-count">29 tickets</span>
+                            </div>
+                            <div class="rating-row">
+                                <span class="rating-label"
+                                    >1 - Very Dissatisfied</span
+                                >
+                                <div class="rating-bar-container">
+                                    <div
+                                        class="rating-bar rating-bar--1"
+                                        style="width: 29.8%"
+                                    >
+                                        29.8%
+                                    </div>
+                                </div>
+                                <span class="rating-count">90 tickets</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Issues -->
+                <section class="section">
+                    <div class="section__header">
+                        <h2 class="section__title">Key Patterns</h2>
+                    </div>
+                    <div class="issues-grid">
+                        <div class="issue-card issue-card--critical">
+                            <h3 class="issue-card__title">
+                                Critical Issues (CSAT = 1)
+                            </h3>
+                            <ul class="issue-list">
+                                <li>
+                                    <strong>Login Issues</strong> - Multiple
+                                    reports of inability to access accounts,
+                                    magic link failures
+                                </li>
+                                <li>
+                                    <strong>Delayed Orders</strong> - Books not
+                                    received or severely delayed delivery
+                                </li>
+                                <li>
+                                    <strong>Refund Delays</strong> - Requests
+                                    taking weeks to process
+                                </li>
+                                <li>
+                                    <strong>Upload Issues</strong> - "Preparing
+                                    for Launch" status stuck
+                                </li>
+                                <li>
+                                    <strong>Royalty Problems</strong> - Payment
+                                    and earnings confusion
+                                </li>
+                                <li>
+                                    <strong>Long Resolution Times</strong> -
+                                    Average 200+ hours for low-CSAT tickets
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="issue-card issue-card--positive">
+                            <h3 class="issue-card__title">
+                                Success Factors (CSAT = 5)
+                            </h3>
+                            <ul class="issue-list">
+                                <li>
+                                    <strong>Quick Resolution</strong> - Issues
+                                    resolved under 24 hours
+                                </li>
+                                <li>
+                                    <strong>Clear Communication</strong> -
+                                    Transparent updates throughout
+                                </li>
+                                <li>
+                                    <strong>Book Launch Help</strong> -
+                                    Successful publishing assistance
+                                </li>
+                                <li>
+                                    <strong>Account Setup</strong> - Smooth
+                                    onboarding experience
+                                </li>
+                                <li>
+                                    <strong>ISBN Support</strong> - Efficient
+                                    ISBN-related assistance
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recommendations -->
+                <section class="section">
+                    <div class="section__header">
+                        <h2 class="section__title">Recommendations</h2>
+                    </div>
+                    <div class="card">
+                        <div class="rec-grid">
+                            <div class="rec-item">
+                                <span class="rec-num">1</span>
+                                <div class="rec-content">
+                                    <h4>Reduce First Response Time</h4>
+                                    <p>
+                                        Many low-CSAT tickets had long initial
+                                        response times (hours to days)
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="rec-item">
+                                <span class="rec-num">2</span>
+                                <div class="rec-content">
+                                    <h4>Improve Login/Access Flow</h4>
+                                    <p>
+                                        Frequent complaints about magic link not
+                                        working
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="rec-item">
+                                <span class="rec-num">3</span>
+                                <div class="rec-content">
+                                    <h4>Streamline Refund Process</h4>
+                                    <p>
+                                        Multiple tickets mention waiting weeks
+                                        for refunds
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="rec-item">
+                                <span class="rec-num">4</span>
+                                <div class="rec-content">
+                                    <h4>Book Launch QA</h4>
+                                    <p>
+                                        Several issues with "Preparing for
+                                        Launch" status stuck
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="rec-item">
+                                <span class="rec-num">5</span>
+                                <div class="rec-content">
+                                    <h4>ISBN Assignment</h4>
+                                    <p>
+                                        Common tag indicates recurring issues
+                                        with ISBN handling
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="rec-item">
+                                <span class="rec-num">6</span>
+                                <div class="rec-content">
+                                    <h4>After-Hours Support</h4>
+                                    <p>
+                                        Many tickets tagged outside_work_hours -
+                                        consider coverage expansion
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recent Tickets Table -->
+                <section class="section">
+                    <div class="section__header">
+                        <h2 class="section__title">
+                            Recent Tickets (Last 30 Days)
+                        </h2>
+                    </div>
+                    <div class="card">
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Ticket ID</th>
+                                        <th>Subject</th>
+                                        <th>CSAT</th>
+                                        <th>CX Score</th>
+                                        <th>Status</th>
+                                        <th>Assignee</th>
+                                        <th>Channel</th>
+                                        <th>Created</th>
+                                        <th>Resolution (hrs)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-mono text-sm">
+                                            215472914568548
+                                        </td>
+                                        <td>
+                                            Re: Welcome, and thank you for being
+                                            here.
+                                        </td>
+                                        <td>
+                                            <span
+                                                class="csat-badge csat-badge--3"
+                                                >3</span
+                                            >
+                                        </td>
+                                        <td>5</td>
+                                        <td>
+                                            <span
+                                                class="status-badge status-badge--closed"
+                                                >closed</span
+                                            >
+                                        </td>
+                                        <td>Samoy Burke</td>
+                                        <td>email</td>
+                                        <td>2026-02-01</td>
+                                        <td>0.83</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-mono text-sm">
+                                            215472911852875
+                                        </td>
+                                        <td>(blank)</td>
+                                        <td>
+                                            <span
+                                                class="csat-badge csat-badge--3"
+                                                >3</span
+                                            >
+                                        </td>
+                                        <td>5</td>
+                                        <td>
+                                            <span
+                                                class="status-badge status-badge--open"
+                                                >open</span
+                                            >
+                                        </td>
+                                        <td>Samoy Burke</td>
+                                        <td>conversation</td>
+                                        <td>2026-02-01</td>
+                                        <td>24.88</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-mono text-sm">
+                                            215472910116047
+                                        </td>
+                                        <td>
+                                            Changed mind about opening account
+                                        </td>
+                                        <td>
+                                            <span
+                                                class="csat-badge csat-badge--4"
+                                                >4</span
+                                            >
+                                        </td>
+                                        <td>-</td>
+                                        <td>
+                                            <span
+                                                class="status-badge status-badge--closed"
+                                                >closed</span
+                                            >
+                                        </td>
+                                        <td>Samoy Burke</td>
+                                        <td>email</td>
+                                        <td>2026-01-31</td>
+                                        <td>13.5</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-mono text-sm">
+                                            215472905670202
+                                        </td>
+                                        <td>No resolution after 3 weeks!!!</td>
+                                        <td>
+                                            <span
+                                                class="csat-badge csat-badge--5"
+                                                >5</span
+                                            >
+                                        </td>
+                                        <td>-</td>
+                                        <td>
+                                            <span
+                                                class="status-badge status-badge--closed"
+                                                >closed</span
+                                            >
+                                        </td>
+                                        <td>Samoy Burke</td>
+                                        <td>email</td>
+                                        <td>2026-01-31</td>
+                                        <td>24.46</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-mono text-sm">
+                                            215472902822805
+                                        </td>
+                                        <td>E-books</td>
+                                        <td>
+                                            <span
+                                                class="csat-badge csat-badge--4"
+                                                >4</span
+                                            >
+                                        </td>
+                                        <td>5</td>
+                                        <td>
+                                            <span
+                                                class="status-badge status-badge--closed"
+                                                >closed</span
+                                            >
+                                        </td>
+                                        <td>Samoy Burke</td>
+                                        <td>email</td>
+                                        <td>2026-01-31</td>
+                                        <td>29.96</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-mono text-sm">
+                                            215472894381661
+                                        </td>
+                                        <td>Account Login Issue</td>
+                                        <td>
+                                            <span
+                                                class="csat-badge csat-badge--4"
+                                                >4</span
+                                            >
+                                        </td>
+                                        <td>-</td>
+                                        <td>
+                                            <span
+                                                class="status-badge status-badge--closed"
+                                                >closed</span
+                                            >
+                                        </td>
+                                        <td>Samoy Burke</td>
+                                        <td>email</td>
+                                        <td>2026-01-30</td>
+                                        <td>16</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-mono text-sm">
+                                            215472850854761
+                                        </td>
+                                        <td>(blank)</td>
+                                        <td>
+                                            <span
+                                                class="csat-badge csat-badge--5"
+                                                >5</span
+                                            >
+                                        </td>
+                                        <td>4</td>
+                                        <td>
+                                            <span
+                                                class="status-badge status-badge--closed"
+                                                >closed</span
+                                            >
+                                        </td>
+                                        <td>Samoy Burke</td>
+                                        <td>conversation</td>
+                                        <td>2026-01-27</td>
+                                        <td>10.75</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-mono text-sm">
+                                            215472848999801
+                                        </td>
+                                        <td>Good day</td>
+                                        <td>
+                                            <span
+                                                class="csat-badge csat-badge--5"
+                                                >5</span
+                                            >
+                                        </td>
+                                        <td>2</td>
+                                        <td>
+                                            <span
+                                                class="status-badge status-badge--closed"
+                                                >closed</span
+                                            >
+                                        </td>
+                                        <td>Samoy Burke</td>
+                                        <td>email</td>
+                                        <td>2026-01-27</td>
+                                        <td>56.2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-mono text-sm">
+                                            215472847635334
+                                        </td>
+                                        <td>Difficulty launching book</td>
+                                        <td>
+                                            <span
+                                                class="csat-badge csat-badge--1"
+                                                >1</span
+                                            >
+                                        </td>
+                                        <td>-</td>
+                                        <td>
+                                            <span
+                                                class="status-badge status-badge--closed"
+                                                >closed</span
+                                            >
+                                        </td>
+                                        <td>Samoy Burke</td>
+                                        <td>email</td>
+                                        <td>2026-01-27</td>
+                                        <td>5.85</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-mono text-sm">
+                                            215472833580328
+                                        </td>
+                                        <td>Assistant needed</td>
+                                        <td>
+                                            <span
+                                                class="csat-badge csat-badge--4"
+                                                >4</span
+                                            >
+                                        </td>
+                                        <td>4</td>
+                                        <td>
+                                            <span
+                                                class="status-badge status-badge--closed"
+                                                >closed</span
+                                            >
+                                        </td>
+                                        <td>Samoy Burke</td>
+                                        <td>email</td>
+                                        <td>2026-01-26</td>
+                                        <td>46.2</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer__inner"></div>
+            </div>
+        </footer>
+    </body>
+</html>
