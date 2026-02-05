@@ -1,0 +1,1881 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Weekly Support Report | Books.by</title>
+        <link rel="stylesheet" href="assets/styles.css" />
+        <style>
+            .page-header {
+                background: var(--snow);
+                border-bottom: 1px solid var(--color-border);
+                padding: var(--space-lg) 0;
+            }
+
+            .page-header__inner {
+                display: flex;
+                align-items: center;
+                gap: var(--space-lg);
+            }
+
+            .page-header__logos {
+                display: flex;
+                align-items: center;
+                gap: var(--space-md);
+            }
+
+            .page-header__logo {
+                height: 40px;
+                width: auto;
+            }
+
+            .page-header__logo--booksby {
+                height: 40px;
+                width: 40px;
+                border-radius: var(--radius-sm);
+            }
+
+            .page-header__content {
+                flex: 1;
+            }
+
+            .page-header h1 {
+                color: var(--espresso);
+                font-size: 1.75rem;
+            }
+
+            .page-header__meta {
+                color: var(--color-text-muted);
+                font-size: 0.875rem;
+                margin-top: var(--space-xs);
+            }
+
+            /* Main Navigation Tabs */
+            .main-tabs {
+                background: var(--snow);
+                border-bottom: 1px solid var(--color-border);
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+
+            .main-tabs__inner {
+                display: flex;
+                gap: var(--space-xs);
+                overflow-x: auto;
+            }
+
+            .main-tab {
+                padding: var(--space-md) var(--space-lg);
+                font-size: 0.875rem;
+                font-weight: 500;
+                color: var(--color-text-muted);
+                background: none;
+                border: none;
+                border-bottom: 3px solid transparent;
+                cursor: pointer;
+                white-space: nowrap;
+                transition: all 0.2s ease;
+            }
+
+            .main-tab:hover {
+                color: var(--color-text);
+                background: var(--color-surface);
+            }
+
+            .main-tab.active {
+                color: var(--tangerine);
+                border-bottom-color: var(--tangerine);
+            }
+
+            .main-tab-content {
+                display: none;
+                padding-top: var(--space-xl);
+            }
+
+            .main-tab-content.active {
+                display: block;
+            }
+
+            /* Executive Summary */
+            .executive-summary {
+                background: linear-gradient(
+                    135deg,
+                    var(--sand) 0%,
+                    var(--bone) 100%
+                );
+                border-radius: var(--radius-lg);
+                padding: var(--space-xl);
+                margin-bottom: var(--space-xl);
+                color: var(--espresso);
+                border: 1px solid var(--hazelnut);
+            }
+
+            .executive-summary__title {
+                font-size: 1.25rem;
+                font-weight: 600;
+                margin-bottom: var(--space-md);
+                color: var(--espresso);
+            }
+
+            .executive-summary__columns {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: var(--space-xl);
+            }
+
+            .executive-summary__column h3 {
+                font-size: 0.875rem;
+                font-weight: 600;
+                color: var(--espresso);
+                margin-bottom: var(--space-md);
+            }
+
+            .executive-summary__column ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .executive-summary__column li {
+                font-size: 0.85rem;
+                color: var(--cocoa);
+                padding: var(--space-xs) 0;
+                padding-left: var(--space-md);
+                position: relative;
+                line-height: 1.5;
+            }
+
+            .executive-summary__column li::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0.7em;
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: var(--tangerine);
+            }
+
+            .executive-summary__column li strong {
+                color: var(--espresso);
+            }
+
+            .executive-summary__highlights {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: var(--space-md);
+                margin-top: var(--space-lg);
+                padding-top: var(--space-lg);
+                border-top: 1px solid var(--hazelnut);
+            }
+
+            .highlight-item {
+                text-align: center;
+            }
+
+            .highlight-item__value {
+                font-size: 2rem;
+                font-weight: 700;
+                color: var(--tangerine);
+            }
+
+            .highlight-item__label {
+                font-size: 0.75rem;
+                color: var(--mocha);
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+
+            /* Performance Cards */
+            .performance-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: var(--space-lg);
+            }
+
+            .performance-card {
+                background: var(--color-background);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-lg);
+                padding: var(--space-lg);
+                position: relative;
+            }
+
+            .performance-card--ai {
+                border-top: 4px solid var(--cerulean);
+            }
+            .performance-card--human {
+                border-top: 4px solid var(--tangerine);
+            }
+            .performance-card--hybrid {
+                border-top: 4px solid var(--olive);
+            }
+
+            .performance-card__icon {
+                position: absolute;
+                top: var(--space-md);
+                right: var(--space-md);
+                font-size: 1.5rem;
+                opacity: 0.3;
+            }
+
+            .performance-card__title {
+                font-size: 0.875rem;
+                font-weight: 600;
+                color: var(--color-text);
+                margin-bottom: var(--space-md);
+            }
+
+            .performance-card__metric {
+                margin-bottom: var(--space-sm);
+            }
+
+            .performance-card__metric-label {
+                font-size: 0.7rem;
+                color: var(--color-text-muted);
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+
+            .performance-card__metric-value {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: var(--color-text);
+            }
+
+            .performance-card__metric-sub {
+                font-size: 0.75rem;
+                color: var(--color-text-muted);
+            }
+
+            .performance-card__stats {
+                display: flex;
+                flex-direction: column;
+                gap: var(--space-xs);
+                margin-top: var(--space-md);
+                padding-top: var(--space-md);
+                border-top: 1px solid var(--color-border);
+            }
+
+            .performance-stat {
+                display: flex;
+                justify-content: space-between;
+                font-size: 0.8rem;
+            }
+
+            .performance-stat__label {
+                color: var(--color-text-muted);
+            }
+            .performance-stat__value {
+                font-weight: 500;
+            }
+
+            /* Stats Grid */
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: var(--space-lg);
+                margin-bottom: var(--space-xl);
+            }
+
+            .stats-card {
+                background: var(--color-background);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-lg);
+                padding: var(--space-lg);
+            }
+
+            .stats-card__title {
+                font-size: 0.875rem;
+                font-weight: 600;
+                color: var(--color-text);
+                margin-bottom: var(--space-md);
+            }
+
+            .stats-row {
+                display: flex;
+                justify-content: space-between;
+                padding: var(--space-xs) 0;
+                font-size: 0.875rem;
+                border-bottom: 1px solid var(--color-border);
+            }
+
+            .stats-row:last-child {
+                border-bottom: none;
+            }
+            .stats-row__label {
+                color: var(--color-text-muted);
+            }
+            .stats-row__value {
+                font-weight: 500;
+                color: var(--color-text);
+            }
+
+            /* Mini Bar Chart */
+            .mini-bars {
+                display: flex;
+                gap: var(--space-xs);
+                align-items: flex-end;
+                height: 60px;
+                margin-top: var(--space-sm);
+            }
+
+            .mini-bar {
+                flex: 1;
+                background: var(--denim);
+                border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+                position: relative;
+            }
+
+            .mini-bar__label {
+                position: absolute;
+                bottom: -20px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 0.625rem;
+                color: var(--color-text-muted);
+            }
+
+            /* Sentiment & Channel */
+            .sentiment-pills {
+                display: flex;
+                gap: var(--space-sm);
+                flex-wrap: wrap;
+            }
+
+            .sentiment-pill {
+                display: flex;
+                align-items: center;
+                gap: var(--space-xs);
+                padding: var(--space-xs) var(--space-sm);
+                border-radius: var(--radius-md);
+                font-size: 0.75rem;
+            }
+
+            .sentiment-pill--neutral {
+                background: #e5e7eb;
+                color: #374151;
+            }
+            .sentiment-pill--negative {
+                background: #fee2e2;
+                color: #991b1b;
+            }
+            .sentiment-pill--positive {
+                background: #d1fae5;
+                color: #065f46;
+            }
+
+            .channel-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--space-sm);
+            }
+
+            .channel-item {
+                display: flex;
+                justify-content: space-between;
+                padding: var(--space-sm);
+                background: var(--color-surface);
+                border-radius: var(--radius-sm);
+                font-size: 0.8rem;
+            }
+
+            /* Category Bar Chart */
+            .category-chart {
+                display: flex;
+                flex-direction: column;
+                gap: var(--space-sm);
+            }
+
+            .category-row {
+                display: flex;
+                align-items: center;
+                gap: var(--space-md);
+            }
+
+            .category-label {
+                width: 220px;
+                font-size: 0.8rem;
+                color: var(--color-text);
+                flex-shrink: 0;
+            }
+
+            .category-bar-container {
+                flex: 1;
+                height: 24px;
+                background: var(--color-surface);
+                border-radius: var(--radius-sm);
+                overflow: hidden;
+            }
+
+            .category-bar {
+                height: 100%;
+                border-radius: var(--radius-sm);
+                display: flex;
+                align-items: center;
+                padding-left: var(--space-sm);
+                font-size: 0.7rem;
+                font-weight: 500;
+                color: var(--snow);
+            }
+
+            .category-bar--1 {
+                background: var(--tangerine);
+            }
+            .category-bar--2 {
+                background: var(--salmon);
+            }
+            .category-bar--3 {
+                background: var(--redwood);
+            }
+            .category-bar--4 {
+                background: var(--denim);
+            }
+            .category-bar--5 {
+                background: var(--olive);
+            }
+            .category-bar--6 {
+                background: var(--forest);
+            }
+            .category-bar--7 {
+                background: var(--cerulean);
+            }
+            .category-bar--8 {
+                background: var(--mocha);
+            }
+
+            .category-count {
+                width: 40px;
+                text-align: right;
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: var(--color-text);
+            }
+
+            /* Example Cards */
+            .example-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: var(--space-md);
+            }
+
+            .example-card {
+                background: var(--color-background);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-lg);
+                padding: var(--space-lg);
+            }
+
+            .example-card__header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: var(--space-md);
+            }
+
+            .example-card__category {
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: var(--color-text);
+            }
+
+            .example-card__count {
+                font-size: 0.7rem;
+                padding: var(--space-xs) var(--space-sm);
+                background: var(--color-surface);
+                border-radius: var(--radius-sm);
+                color: var(--color-text-muted);
+            }
+
+            .example-card__message {
+                font-size: 0.8rem;
+                color: var(--color-text-muted);
+                line-height: 1.6;
+                padding: var(--space-md);
+                background: var(--color-surface);
+                border-radius: var(--radius-md);
+                border-left: 3px solid var(--denim);
+            }
+
+            .example-category {
+                margin-bottom: var(--space-xl);
+            }
+
+            .example-category__title {
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: var(--color-text);
+                margin-bottom: var(--space-md);
+                display: flex;
+                align-items: center;
+                gap: var(--space-sm);
+            }
+
+            .example-category__count {
+                font-size: 0.75rem;
+                font-weight: 400;
+                color: var(--color-text-muted);
+                padding: var(--space-xs) var(--space-sm);
+                background: var(--color-surface);
+                border-radius: var(--radius-sm);
+            }
+
+            /* Benchmark Summary */
+            .benchmark-summary {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: var(--space-md);
+                padding: var(--space-lg);
+                background: var(--color-background);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-lg);
+                margin-bottom: var(--space-lg);
+            }
+
+            .benchmark-stat {
+                text-align: center;
+            }
+
+            .benchmark-stat__value {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: var(--color-success);
+            }
+
+            .benchmark-stat__label {
+                font-size: 0.7rem;
+                color: var(--color-text-muted);
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+
+            .knowledge-updates__badge {
+                font-size: 0.7rem;
+                padding: var(--space-xs) var(--space-sm);
+                background: var(--color-success-bg);
+                color: var(--color-success);
+                border-radius: var(--radius-sm);
+                font-weight: 500;
+            }
+
+            /* Sub Tabs (for Knowledge section) */
+            .sub-tabs {
+                display: flex;
+                gap: var(--space-xs);
+                border-bottom: 1px solid var(--color-border);
+                margin-bottom: var(--space-lg);
+                overflow-x: auto;
+            }
+
+            .sub-tab {
+                padding: var(--space-sm) var(--space-md);
+                font-size: 0.8rem;
+                font-weight: 500;
+                color: var(--color-text-muted);
+                background: none;
+                border: none;
+                border-bottom: 2px solid transparent;
+                cursor: pointer;
+                white-space: nowrap;
+            }
+
+            .sub-tab:hover {
+                color: var(--color-text);
+                background: var(--color-surface);
+            }
+
+            .sub-tab.active {
+                color: var(--tangerine);
+                border-bottom-color: var(--tangerine);
+            }
+
+            .sub-tab-content {
+                display: none;
+            }
+
+            .sub-tab-content.active {
+                display: block;
+            }
+
+            .tab-panel {
+                background: var(--color-background);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-lg);
+                padding: var(--space-lg);
+            }
+
+            .tab-panel__header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: var(--space-md);
+            }
+
+            .tab-panel__title {
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--color-text);
+            }
+
+            .tab-panel__question {
+                padding: var(--space-md);
+                background: var(--color-surface);
+                border-radius: var(--radius-md);
+                margin-bottom: var(--space-md);
+                border-left: 3px solid var(--tangerine);
+            }
+
+            .tab-panel__question-label {
+                font-size: 0.7rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                color: var(--color-text-muted);
+                margin-bottom: var(--space-xs);
+            }
+
+            .tab-panel__question-text {
+                font-size: 0.9rem;
+                color: var(--color-text);
+            }
+
+            .tab-panel__responses {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: var(--space-md);
+            }
+
+            .tab-panel__response {
+                padding: var(--space-md);
+                background: var(--color-surface);
+                border-radius: var(--radius-md);
+            }
+
+            .tab-panel__response--expected {
+                border-left: 3px solid var(--denim);
+            }
+            .tab-panel__response--actual {
+                border-left: 3px solid var(--olive);
+            }
+
+            .tab-panel__response-label {
+                font-size: 0.7rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                color: var(--color-text-muted);
+                margin-bottom: var(--space-xs);
+            }
+
+            .tab-panel__response-text {
+                font-size: 0.85rem;
+                color: var(--color-text);
+                line-height: 1.6;
+            }
+
+            /* Insights List */
+            .insights-list {
+                font-size: 0.875rem;
+                color: var(--color-text-muted);
+                line-height: 1.8;
+                padding-left: var(--space-lg);
+                margin: 0;
+            }
+
+            .insights-list li {
+                margin-bottom: var(--space-sm);
+            }
+
+            .insights-list strong {
+                color: var(--color-text);
+            }
+
+            /* Responsive */
+            @media (max-width: 768px) {
+                .executive-summary__columns {
+                    grid-template-columns: 1fr;
+                }
+                .executive-summary__highlights {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+                .performance-grid {
+                    grid-template-columns: 1fr;
+                }
+                .stats-grid {
+                    grid-template-columns: 1fr;
+                }
+                .category-label {
+                    width: 140px;
+                    font-size: 0.7rem;
+                }
+                .example-grid {
+                    grid-template-columns: 1fr;
+                }
+                .tab-panel__responses {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <header class="page-header">
+            <div class="container">
+                <div class="page-header__inner">
+                    <div class="page-header__logos">
+                        <img
+                            src="assets/images/logo.png"
+                            alt="Influx"
+                            class="page-header__logo"
+                        />
+                        <img
+                            src="assets/images/booksby-logo.jpg"
+                            alt="Books.by"
+                            class="page-header__logo--booksby"
+                        />
+                    </div>
+                    <div class="page-header__content">
+                        <h1>Weekly Support Report</h1>
+                        <p class="page-header__meta">
+                            January 28 - February 2, 2026
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Navigation Tabs -->
+        <nav class="main-tabs">
+            <div class="container">
+                <div class="main-tabs__inner">
+                    <button class="main-tab active" data-main-tab="overview">
+                        Overview
+                    </button>
+                    <button class="main-tab" data-main-tab="tickets">
+                        Tickets
+                    </button>
+                    <button class="main-tab" data-main-tab="examples">
+                        Examples
+                    </button>
+                    <button class="main-tab" data-main-tab="knowledge">
+                        Knowledge
+                    </button>
+                    <button class="main-tab" data-main-tab="insights">
+                        Insights
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main">
+            <div class="container">
+                <!-- OVERVIEW TAB -->
+                <div class="main-tab-content active" id="overview">
+                    <!-- Executive Summary -->
+                    <div class="executive-summary">
+                        <div class="executive-summary__title">
+                            Executive Summary
+                        </div>
+                        <div class="executive-summary__columns">
+                            <div class="executive-summary__column">
+                                <h3>This Week</h3>
+                                <ul>
+                                    <li>
+                                        <strong
+                                            >595 unique inbound tickets</strong
+                                        >
+                                        (309 users, 286 leads),
+                                        <strong>70%</strong> resolved
+                                    </li>
+                                    <li>
+                                        AI resolved
+                                        <strong>46%</strong> autonomously (12
+                                        min avg)
+                                    </li>
+                                    <li>
+                                        Human handled <strong>44%</strong> after
+                                        escalation (8.9 hrs avg)
+                                    </li>
+                                    <li>
+                                        <strong>File uploads</strong> = top
+                                        issue (42% of queries)
+                                    </li>
+                                    <li>
+                                        <strong>31% negative</strong> sentiment
+                                        (shipping delays, account access)
+                                    </li>
+                                    <li>
+                                        Knowledge base updated: ISBN, trim
+                                        sizes, Lulu pricing
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="executive-summary__column">
+                                <h3>Recommendations</h3>
+                                <ul>
+                                    <li>
+                                        Expand AI knowledge for
+                                        <strong
+                                            >file upload troubleshooting</strong
+                                        >
+                                        to increase autonomous resolution
+                                    </li>
+                                    <li>
+                                        Improve
+                                        <strong
+                                            >proactive shipping delay</strong
+                                        >
+                                        communication to reduce negative
+                                        sentiment
+                                    </li>
+                                    <li>
+                                        Shift more
+                                        <strong>email traffic to chat</strong>
+                                        for faster AI response
+                                    </li>
+                                    <li>
+                                        All
+                                        <strong>5 new benchmarks passed</strong>
+                                        (96-100% similarity) - knowledge gaps
+                                        addressed
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="executive-summary__highlights">
+                            <div class="highlight-item">
+                                <div class="highlight-item__value">595</div>
+                                <div class="highlight-item__label">
+                                    Unique Inbound Tickets
+                                </div>
+                            </div>
+                            <div class="highlight-item">
+                                <div class="highlight-item__value">70%</div>
+                                <div class="highlight-item__label">
+                                    Resolution Rate
+                                </div>
+                            </div>
+                            <div class="highlight-item">
+                                <div class="highlight-item__value">46%</div>
+                                <div class="highlight-item__label">
+                                    AI Resolved
+                                </div>
+                            </div>
+                            <div class="highlight-item">
+                                <div class="highlight-item__value">12m</div>
+                                <div class="highlight-item__label">
+                                    AI Avg Resolution
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Performance Breakdown -->
+                    <section class="section">
+                        <div class="section__header">
+                            <h2 class="section__title">
+                                Performance Breakdown
+                            </h2>
+                        </div>
+                        <div class="performance-grid">
+                            <div class="performance-card performance-card--ai">
+                                <span class="performance-card__icon">🤖</span>
+                                <div class="performance-card__title">
+                                    AI Resolved
+                                </div>
+                                <div class="performance-card__metric">
+                                    <div class="performance-card__metric-label">
+                                        Tickets Resolved
+                                    </div>
+                                    <div class="performance-card__metric-value">
+                                        273
+                                    </div>
+                                    <div class="performance-card__metric-sub">
+                                        46% of total
+                                    </div>
+                                </div>
+                                <div class="performance-card__stats">
+                                    <div class="performance-stat">
+                                        <span class="performance-stat__label"
+                                            >Confirmed Resolution</span
+                                        >
+                                        <span class="performance-stat__value"
+                                            >79</span
+                                        >
+                                    </div>
+                                    <div class="performance-stat">
+                                        <span class="performance-stat__label"
+                                            >Assumed Resolution</span
+                                        >
+                                        <span class="performance-stat__value"
+                                            >194</span
+                                        >
+                                    </div>
+                                    <div class="performance-stat">
+                                        <span class="performance-stat__label"
+                                            >Avg Time to Close</span
+                                        >
+                                        <span class="performance-stat__value"
+                                            >12 min</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="performance-card performance-card--human"
+                            >
+                                <span class="performance-card__icon">👤</span>
+                                <div class="performance-card__title">
+                                    Human Resolved
+                                </div>
+                                <div class="performance-card__metric">
+                                    <div class="performance-card__metric-label">
+                                        Tickets Handled
+                                    </div>
+                                    <div class="performance-card__metric-value">
+                                        261
+                                    </div>
+                                    <div class="performance-card__metric-sub">
+                                        44% of total
+                                    </div>
+                                </div>
+                                <div class="performance-card__stats">
+                                    <div class="performance-stat">
+                                        <span class="performance-stat__label"
+                                            >Closed by Human</span
+                                        >
+                                        <span class="performance-stat__value"
+                                            >143</span
+                                        >
+                                    </div>
+                                    <div class="performance-stat">
+                                        <span class="performance-stat__label"
+                                            >Still Open</span
+                                        >
+                                        <span class="performance-stat__value"
+                                            >118</span
+                                        >
+                                    </div>
+                                    <div class="performance-stat">
+                                        <span class="performance-stat__label"
+                                            >Avg Time to Close</span
+                                        >
+                                        <span class="performance-stat__value"
+                                            >8.9 hrs</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="performance-card performance-card--hybrid"
+                            >
+                                <span class="performance-card__icon">📊</span>
+                                <div class="performance-card__title">
+                                    Overall
+                                </div>
+                                <div class="performance-card__metric">
+                                    <div class="performance-card__metric-label">
+                                        Total Closed
+                                    </div>
+                                    <div class="performance-card__metric-value">
+                                        416
+                                    </div>
+                                    <div class="performance-card__metric-sub">
+                                        70% resolution rate
+                                    </div>
+                                </div>
+                                <div class="performance-card__stats">
+                                    <div class="performance-stat">
+                                        <span class="performance-stat__label"
+                                            >Still Open</span
+                                        >
+                                        <span class="performance-stat__value"
+                                            >179</span
+                                        >
+                                    </div>
+                                    <div class="performance-stat">
+                                        <span class="performance-stat__label"
+                                            >Avg Rating</span
+                                        >
+                                        <span class="performance-stat__value"
+                                            >3.71 / 5</span
+                                        >
+                                    </div>
+                                    <div class="performance-stat">
+                                        <span class="performance-stat__label"
+                                            >Priority Tickets</span
+                                        >
+                                        <span class="performance-stat__value"
+                                            >2</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- TICKETS TAB -->
+                <div class="main-tab-content" id="tickets">
+                    <div class="stats-grid">
+                        <div class="stats-card">
+                            <div class="stats-card__title">Daily Volume</div>
+                            <div class="mini-bars">
+                                <div class="mini-bar" style="height: 71%">
+                                    <span class="mini-bar__label">28</span>
+                                </div>
+                                <div class="mini-bar" style="height: 100%">
+                                    <span class="mini-bar__label">29</span>
+                                </div>
+                                <div class="mini-bar" style="height: 59%">
+                                    <span class="mini-bar__label">30</span>
+                                </div>
+                                <div class="mini-bar" style="height: 65%">
+                                    <span class="mini-bar__label">31</span>
+                                </div>
+                                <div class="mini-bar" style="height: 60%">
+                                    <span class="mini-bar__label">1</span>
+                                </div>
+                                <div class="mini-bar" style="height: 92%">
+                                    <span class="mini-bar__label">2</span>
+                                </div>
+                            </div>
+                            <div style="margin-top: var(--space-lg)">
+                                <div class="stats-row">
+                                    <span class="stats-row__label"
+                                        >Jan 28 (Tue)</span
+                                    ><span class="stats-row__value">95</span>
+                                </div>
+                                <div class="stats-row">
+                                    <span class="stats-row__label"
+                                        >Jan 29 (Wed)</span
+                                    ><span class="stats-row__value">133</span>
+                                </div>
+                                <div class="stats-row">
+                                    <span class="stats-row__label"
+                                        >Jan 30 (Thu)</span
+                                    ><span class="stats-row__value">78</span>
+                                </div>
+                                <div class="stats-row">
+                                    <span class="stats-row__label"
+                                        >Jan 31 (Fri)</span
+                                    ><span class="stats-row__value">87</span>
+                                </div>
+                                <div class="stats-row">
+                                    <span class="stats-row__label"
+                                        >Feb 1 (Sat)</span
+                                    ><span class="stats-row__value">80</span>
+                                </div>
+                                <div class="stats-row">
+                                    <span class="stats-row__label"
+                                        >Feb 2 (Sun)</span
+                                    ><span class="stats-row__value">122</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-card">
+                            <div class="stats-card__title">
+                                Sentiment Analysis
+                            </div>
+                            <div
+                                class="sentiment-pills"
+                                style="margin-bottom: var(--space-md)"
+                            >
+                                <span
+                                    class="sentiment-pill sentiment-pill--neutral"
+                                    >Neutral: 297 (54%)</span
+                                >
+                                <span
+                                    class="sentiment-pill sentiment-pill--negative"
+                                    >Negative: 169 (31%)</span
+                                >
+                                <span
+                                    class="sentiment-pill sentiment-pill--positive"
+                                    >Positive: 82 (15%)</span
+                                >
+                            </div>
+                            <div
+                                class="stats-card__title"
+                                style="margin-top: var(--space-lg)"
+                            >
+                                Source Channel
+                            </div>
+                            <div class="channel-grid">
+                                <div class="channel-item">
+                                    <span>Email</span><span>334 (56%)</span>
+                                </div>
+                                <div class="channel-item">
+                                    <span>Chat</span><span>226 (38%)</span>
+                                </div>
+                                <div class="channel-item">
+                                    <span>Instagram</span><span>30 (5%)</span>
+                                </div>
+                                <div class="channel-item">
+                                    <span>Facebook</span><span>5 (1%)</span>
+                                </div>
+                            </div>
+
+                            <div
+                                class="stats-card__title"
+                                style="margin-top: var(--space-lg)"
+                            >
+                                Customer Type
+                            </div>
+                            <div class="channel-grid">
+                                <div class="channel-item">
+                                    <span>Registered Users</span
+                                    ><span>309 (52%)</span>
+                                </div>
+                                <div class="channel-item">
+                                    <span>Leads</span><span>286 (48%)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category Distribution -->
+                    <section class="section">
+                        <div class="section__header">
+                            <h2 class="section__title">Query Categories</h2>
+                            <p
+                                style="
+                                    font-size: 0.8rem;
+                                    color: var(--color-text-muted);
+                                "
+                            >
+                                329 categorized (55% of total)
+                            </p>
+                        </div>
+                        <div class="card">
+                            <div class="category-chart">
+                                <div class="category-row">
+                                    <span class="category-label"
+                                        >File upload issue (interior / cover /
+                                        PDF)</span
+                                    >
+                                    <div class="category-bar-container">
+                                        <div
+                                            class="category-bar category-bar--1"
+                                            style="width: 100%"
+                                        >
+                                            138
+                                        </div>
+                                    </div>
+                                    <span class="category-count">138</span>
+                                </div>
+                                <div class="category-row">
+                                    <span class="category-label"
+                                        >Product or process clarification</span
+                                    >
+                                    <div class="category-bar-container">
+                                        <div
+                                            class="category-bar category-bar--2"
+                                            style="width: 63%"
+                                        >
+                                            87
+                                        </div>
+                                    </div>
+                                    <span class="category-count">87</span>
+                                </div>
+                                <div class="category-row">
+                                    <span class="category-label"
+                                        >ISBN / ownership inquiry</span
+                                    >
+                                    <div class="category-bar-container">
+                                        <div
+                                            class="category-bar category-bar--3"
+                                            style="width: 12%"
+                                        >
+                                            17
+                                        </div>
+                                    </div>
+                                    <span class="category-count">17</span>
+                                </div>
+                                <div class="category-row">
+                                    <span class="category-label"
+                                        >Order not received / delayed
+                                        delivery</span
+                                    >
+                                    <div class="category-bar-container">
+                                        <div
+                                            class="category-bar category-bar--4"
+                                            style="width: 9%"
+                                        >
+                                            12
+                                        </div>
+                                    </div>
+                                    <span class="category-count">12</span>
+                                </div>
+                                <div class="category-row">
+                                    <span class="category-label"
+                                        >Account access issue</span
+                                    >
+                                    <div class="category-bar-container">
+                                        <div
+                                            class="category-bar category-bar--5"
+                                            style="width: 9%"
+                                        >
+                                            12
+                                        </div>
+                                    </div>
+                                    <span class="category-count">12</span>
+                                </div>
+                                <div class="category-row">
+                                    <span class="category-label"
+                                        >Subscription cancellation</span
+                                    >
+                                    <div class="category-bar-container">
+                                        <div
+                                            class="category-bar category-bar--6"
+                                            style="width: 7%"
+                                        >
+                                            10
+                                        </div>
+                                    </div>
+                                    <span class="category-count">10</span>
+                                </div>
+                                <div class="category-row">
+                                    <span class="category-label"
+                                        >Order status / tracking inquiry</span
+                                    >
+                                    <div class="category-bar-container">
+                                        <div
+                                            class="category-bar category-bar--7"
+                                            style="width: 7%"
+                                        >
+                                            10
+                                        </div>
+                                    </div>
+                                    <span class="category-count">10</span>
+                                </div>
+                                <div class="category-row">
+                                    <span class="category-label"
+                                        >Other categories</span
+                                    >
+                                    <div class="category-bar-container">
+                                        <div
+                                            class="category-bar category-bar--8"
+                                            style="width: 31%"
+                                        >
+                                            43
+                                        </div>
+                                    </div>
+                                    <span class="category-count">43</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- EXAMPLES TAB -->
+                <div class="main-tab-content" id="examples">
+                    <section class="section">
+                        <div class="section__header">
+                            <h2 class="section__title">
+                                Example Queries by Category
+                            </h2>
+                        </div>
+
+                        <div class="sub-tabs">
+                            <button
+                                class="sub-tab active"
+                                data-example-tab="ex1"
+                            >
+                                File upload (138)
+                            </button>
+                            <button class="sub-tab" data-example-tab="ex2">
+                                Clarification (87)
+                            </button>
+                            <button class="sub-tab" data-example-tab="ex3">
+                                ISBN (17)
+                            </button>
+                            <button class="sub-tab" data-example-tab="ex4">
+                                Order delayed (12)
+                            </button>
+                            <button class="sub-tab" data-example-tab="ex5">
+                                Account access (12)
+                            </button>
+                            <button class="sub-tab" data-example-tab="ex6">
+                                Cancellation (10)
+                            </button>
+                        </div>
+
+                        <div class="sub-tab-content active" id="ex1">
+                            <div class="example-grid">
+                                <div class="example-card">
+                                    <div class="example-card__message">
+                                        I can't upload my book.
+                                    </div>
+                                </div>
+                                <div class="example-card">
+                                    <div class="example-card__message">
+                                        Question about my book cover?
+                                    </div>
+                                </div>
+                                <div class="example-card">
+                                    <div class="example-card__message">
+                                        Hi. How do you change the cover?
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-tab-content" id="ex2">
+                            <div class="example-grid">
+                                <div class="example-card">
+                                    <div class="example-card__message">
+                                        Do you print board books?
+                                    </div>
+                                </div>
+                                <div class="example-card">
+                                    <div class="example-card__message">
+                                        What is your phone number?
+                                    </div>
+                                </div>
+                                <div class="example-card">
+                                    <div class="example-card__message">
+                                        Can I talk to a human please?
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-tab-content" id="ex3">
+                            <div class="example-grid">
+                                <div class="example-card">
+                                    <div class="example-card__message">
+                                        Where do I locate my FREE ISBN number?
+                                    </div>
+                                </div>
+                                <div class="example-card">
+                                    <div class="example-card__message">
+                                        I posted my book three times, no ISBN
+                                        number was given to them.
+                                    </div>
+                                </div>
+                                <div class="example-card">
+                                    <div class="example-card__message">
+                                        I publish on Books.by and IngramSpark
+                                        with the ISBN provided by Books.by.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-tab-content" id="ex4">
+                            <div class="example-grid">
+                                <div class="example-card">
+                                    <div class="example-card__message">
+                                        I have not received this order yet. When
+                                        is it going to arrive?
+                                    </div>
+                                </div>
+                                <div class="example-card">
+                                    <div class="example-card__message">
+                                        I have not received this order from
+                                        12/18. Please update.
+                                    </div>
+                                </div>
+                                <div class="example-card">
+                                    <div class="example-card__message">
+                                        My order is taking too long. It's been
+                                        over 3 weeks now.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-tab-content" id="ex5">
+                            <div class="example-grid">
+                                <div class="example-card">
+                                    <div class="example-card__message">
+                                        Keep requesting magic link and no
+                                        response. Trying to login for 15 min.
+                                    </div>
+                                </div>
+                                <div class="example-card">
+                                    <div class="example-card__message">
+                                        Why can't I login?
+                                    </div>
+                                </div>
+                                <div class="example-card">
+                                    <div class="example-card__message">
+                                        I logged in 15 minutes ago, nothing
+                                        happened.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-tab-content" id="ex6">
+                            <div class="example-grid">
+                                <div class="example-card">
+                                    <div class="example-card__message">
+                                        Please cancel this subscription
+                                        immediately.
+                                    </div>
+                                </div>
+                                <div class="example-card">
+                                    <div class="example-card__message">
+                                        What happens to my books if I cancel my
+                                        subscription?
+                                    </div>
+                                </div>
+                                <div class="example-card">
+                                    <div class="example-card__message">
+                                        I want to cancel my subscription. My
+                                        book is already published.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- KNOWLEDGE TAB -->
+                <div class="main-tab-content" id="knowledge">
+                    <section class="section">
+                        <div class="section__header">
+                            <h2 class="section__title">
+                                Knowledge Base Updates & Benchmark Results
+                            </h2>
+                        </div>
+
+                        <div class="benchmark-summary">
+                            <div class="benchmark-stat">
+                                <div class="benchmark-stat__value">5/5</div>
+                                <div class="benchmark-stat__label">
+                                    Tests Passed
+                                </div>
+                            </div>
+                            <div class="benchmark-stat">
+                                <div class="benchmark-stat__value">98.3%</div>
+                                <div class="benchmark-stat__label">
+                                    Avg Similarity
+                                </div>
+                            </div>
+                            <div class="benchmark-stat">
+                                <div class="benchmark-stat__value">100%</div>
+                                <div class="benchmark-stat__label">
+                                    Faithfulness
+                                </div>
+                            </div>
+                            <div class="benchmark-stat">
+                                <div class="benchmark-stat__value">3</div>
+                                <div class="benchmark-stat__label">
+                                    Topics Updated
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-tabs">
+                            <button class="sub-tab active" data-sub-tab="kb1">
+                                Own ISBN
+                            </button>
+                            <button class="sub-tab" data-sub-tab="kb2">
+                                Free ISBN
+                            </button>
+                            <button class="sub-tab" data-sub-tab="kb3">
+                                Trim Sizes
+                            </button>
+                            <button class="sub-tab" data-sub-tab="kb4">
+                                Lulu Pricing
+                            </button>
+                            <button class="sub-tab" data-sub-tab="kb5">
+                                Size Adjustments
+                            </button>
+                        </div>
+
+                        <div class="sub-tab-content active" id="kb1">
+                            <div class="tab-panel">
+                                <div class="tab-panel__header">
+                                    <div class="tab-panel__title">
+                                        ISBN Assignment - Own ISBN
+                                    </div>
+                                    <span class="knowledge-updates__badge"
+                                        >99.8% Similarity</span
+                                    >
+                                </div>
+                                <div class="tab-panel__question">
+                                    <div class="tab-panel__question-label">
+                                        Customer Question
+                                    </div>
+                                    <div class="tab-panel__question-text">
+                                        I have my own ISBN already. Do I need to
+                                        do anything special to use it?
+                                    </div>
+                                </div>
+                                <div class="tab-panel__responses">
+                                    <div
+                                        class="tab-panel__response tab-panel__response--expected"
+                                    >
+                                        <div class="tab-panel__response-label">
+                                            Expected Response
+                                        </div>
+                                        <div class="tab-panel__response-text">
+                                            If you have your own ISBN, simply
+                                            upload your cover file with the ISBN
+                                            already included. No manual
+                                            assignment is needed since the ISBN
+                                            is already in your file.
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="tab-panel__response tab-panel__response--actual"
+                                    >
+                                        <div class="tab-panel__response-label">
+                                            Agent Response
+                                        </div>
+                                        <div class="tab-panel__response-text">
+                                            If you have your own ISBN, you can
+                                            simply upload your cover file with
+                                            the ISBN already included. No manual
+                                            assignment is needed since the ISBN
+                                            is already in your file.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-tab-content" id="kb2">
+                            <div class="tab-panel">
+                                <div class="tab-panel__header">
+                                    <div class="tab-panel__title">
+                                        ISBN Assignment - Free ISBN
+                                    </div>
+                                    <span class="knowledge-updates__badge"
+                                        >96.4% Similarity</span
+                                    >
+                                </div>
+                                <div class="tab-panel__question">
+                                    <div class="tab-panel__question-label">
+                                        Customer Question
+                                    </div>
+                                    <div class="tab-panel__question-text">
+                                        How do I use the free ISBN from
+                                        Books.by?
+                                    </div>
+                                </div>
+                                <div class="tab-panel__responses">
+                                    <div
+                                        class="tab-panel__response tab-panel__response--expected"
+                                    >
+                                        <div class="tab-panel__response-label">
+                                            Expected Response
+                                        </div>
+                                        <div class="tab-panel__response-text">
+                                            Free ISBNs must be manually assigned
+                                            during the editing process in the
+                                            Books.by dashboard before uploading
+                                            your cover file. When you publish
+                                            your book with us, we'll assign a
+                                            free Bowker ISBN.
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="tab-panel__response tab-panel__response--actual"
+                                    >
+                                        <div class="tab-panel__response-label">
+                                            Agent Response
+                                        </div>
+                                        <div class="tab-panel__response-text">
+                                            To use the free ISBN from Books.by,
+                                            you need to assign it manually in
+                                            the Books.by dashboard during the
+                                            editing process, before you upload
+                                            your cover file. If you prefer, you
+                                            can also use your own ISBN by
+                                            uploading your cover file with the
+                                            ISBN already included.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-tab-content" id="kb3">
+                            <div class="tab-panel">
+                                <div class="tab-panel__header">
+                                    <div class="tab-panel__title">
+                                        Trim Sizes - Available Options
+                                    </div>
+                                    <span class="knowledge-updates__badge"
+                                        >98.8% Similarity</span
+                                    >
+                                </div>
+                                <div class="tab-panel__question">
+                                    <div class="tab-panel__question-label">
+                                        Customer Question
+                                    </div>
+                                    <div class="tab-panel__question-text">
+                                        What trim sizes are available for novels
+                                        and trade books?
+                                    </div>
+                                </div>
+                                <div class="tab-panel__responses">
+                                    <div
+                                        class="tab-panel__response tab-panel__response--expected"
+                                    >
+                                        <div class="tab-panel__response-label">
+                                            Expected Response
+                                        </div>
+                                        <div class="tab-panel__response-text">
+                                            For novels and trade books, we offer
+                                            the following trim sizes:
+                                            4.25x6.875, 5x8, 5.5x8.5 (most
+                                            popular), 6x9, and 6.14x9.21.
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="tab-panel__response tab-panel__response--actual"
+                                    >
+                                        <div class="tab-panel__response-label">
+                                            Agent Response
+                                        </div>
+                                        <div class="tab-panel__response-text">
+                                            The following trim sizes are
+                                            available for novels and trade
+                                            books: 4.25x6.875, 5x8, 5.5x8.5,
+                                            6x9, and 6.14x9.21.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-tab-content" id="kb4">
+                            <div class="tab-panel">
+                                <div class="tab-panel__header">
+                                    <div class="tab-panel__title">
+                                        Pricing - Lulu Comparison
+                                    </div>
+                                    <span class="knowledge-updates__badge"
+                                        >97.2% Similarity</span
+                                    >
+                                </div>
+                                <div class="tab-panel__question">
+                                    <div class="tab-panel__question-label">
+                                        Customer Question
+                                    </div>
+                                    <div class="tab-panel__question-text">
+                                        Why is Lulu showing a higher price than
+                                        Books.by for my book?
+                                    </div>
+                                </div>
+                                <div class="tab-panel__responses">
+                                    <div
+                                        class="tab-panel__response tab-panel__response--expected"
+                                    >
+                                        <div class="tab-panel__response-label">
+                                            Expected Response
+                                        </div>
+                                        <div class="tab-panel__response-text">
+                                            If Lulu shows higher pricing, it may
+                                            be due to premium color selection
+                                            instead of standard paperback. Make
+                                            sure to compare using the same print
+                                            type (standard color vs standard
+                                            color, not premium).
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="tab-panel__response tab-panel__response--actual"
+                                    >
+                                        <div class="tab-panel__response-label">
+                                            Agent Response
+                                        </div>
+                                        <div class="tab-panel__response-text">
+                                            When comparing prices with Lulu,
+                                            make sure you're comparing the same
+                                            print type. Lulu's higher pricing
+                                            may be due to premium color
+                                            selection instead of standard
+                                            paperback. Compare standard color vs
+                                            standard color for accurate pricing.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-tab-content" id="kb5">
+                            <div class="tab-panel">
+                                <div class="tab-panel__header">
+                                    <div class="tab-panel__title">
+                                        Trim Sizes - Minor Adjustments
+                                    </div>
+                                    <span class="knowledge-updates__badge"
+                                        >96.5% Similarity</span
+                                    >
+                                </div>
+                                <div class="tab-panel__question">
+                                    <div class="tab-panel__question-label">
+                                        Customer Question
+                                    </div>
+                                    <div class="tab-panel__question-text">
+                                        My book is 5.25x8 but you only have 5x8.
+                                        Can I still use your platform?
+                                    </div>
+                                </div>
+                                <div class="tab-panel__responses">
+                                    <div
+                                        class="tab-panel__response tab-panel__response--expected"
+                                    >
+                                        <div class="tab-panel__response-label">
+                                            Expected Response
+                                        </div>
+                                        <div class="tab-panel__response-text">
+                                            Yes, if your book trim size has a
+                                            small difference (e.g., 5.25x8 vs
+                                            5x8, only 0.25 inch difference), you
+                                            can resize your files to match our
+                                            available trim sizes. Minor
+                                            adjustments typically do not affect
+                                            the book layout significantly.
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="tab-panel__response tab-panel__response--actual"
+                                    >
+                                        <div class="tab-panel__response-label">
+                                            Agent Response
+                                        </div>
+                                        <div class="tab-panel__response-text">
+                                            Yes, you can still use our platform.
+                                            Since the difference is only 0.25
+                                            inches (5.25x8 vs 5x8), you can
+                                            resize your files to match our
+                                            available 5x8 trim size. Minor
+                                            adjustments like this typically
+                                            don't significantly affect your book
+                                            layout.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- INSIGHTS TAB -->
+                <div class="main-tab-content" id="insights">
+                    <section class="section">
+                        <div class="section__header">
+                            <h2 class="section__title">
+                                Key Insights & Recommendations
+                            </h2>
+                        </div>
+                        <div class="card">
+                            <ul class="insights-list">
+                                <li>
+                                    <strong>AI Resolution Rate at 46%</strong> -
+                                    AI successfully resolved nearly half of all
+                                    tickets autonomously with 12-minute average
+                                    resolution time vs 8.9 hours for
+                                    human-handled tickets
+                                </li>
+                                <li>
+                                    <strong>File upload issues dominate</strong>
+                                    (42% of categorized) - consider expanding AI
+                                    knowledge base with more troubleshooting
+                                    guides for interior layout, cover
+                                    formatting, and PDF issues
+                                </li>
+                                <li>
+                                    <strong
+                                        >Email remains primary channel</strong
+                                    >
+                                    (56%) - opportunity to shift more traffic to
+                                    chat where AI can provide instant responses
+                                </li>
+                                <li>
+                                    <strong>31% negative sentiment</strong> -
+                                    primarily from delayed orders and account
+                                    access frustrations; improve proactive
+                                    communication on shipping delays
+                                </li>
+                                <li>
+                                    <strong>Weekend spike on Feb 2</strong> (122
+                                    tickets) - ensure adequate AI coverage and
+                                    human backup for weekend support
+                                </li>
+                                <li>
+                                    <strong
+                                        >Knowledge updates addressing real
+                                        gaps</strong
+                                    >
+                                    - ISBN and trim size queries identified in
+                                    customer data now covered in knowledge base
+                                    with 98%+ accuracy
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer__inner">
+                    <span>Context Engine</span>
+                    <span>Report generated February 4, 2026</span>
+                </div>
+            </div>
+        </footer>
+
+        <script>
+            // Main tabs
+            document.querySelectorAll(".main-tab").forEach((tab) => {
+                tab.addEventListener("click", () => {
+                    document
+                        .querySelectorAll(".main-tab")
+                        .forEach((t) => t.classList.remove("active"));
+                    document
+                        .querySelectorAll(".main-tab-content")
+                        .forEach((c) => c.classList.remove("active"));
+                    tab.classList.add("active");
+                    document
+                        .getElementById(tab.dataset.mainTab)
+                        .classList.add("active");
+                });
+            });
+
+            // Sub tabs (for knowledge section)
+            document.querySelectorAll("[data-sub-tab]").forEach((tab) => {
+                tab.addEventListener("click", () => {
+                    const parent = tab.closest(".section");
+                    parent
+                        .querySelectorAll(".sub-tab")
+                        .forEach((t) => t.classList.remove("active"));
+                    parent
+                        .querySelectorAll(".sub-tab-content")
+                        .forEach((c) => c.classList.remove("active"));
+                    tab.classList.add("active");
+                    document
+                        .getElementById(tab.dataset.subTab)
+                        .classList.add("active");
+                });
+            });
+
+            // Example tabs
+            document.querySelectorAll("[data-example-tab]").forEach((tab) => {
+                tab.addEventListener("click", () => {
+                    const parent = tab.closest(".section");
+                    parent
+                        .querySelectorAll(".sub-tab")
+                        .forEach((t) => t.classList.remove("active"));
+                    parent
+                        .querySelectorAll(".sub-tab-content")
+                        .forEach((c) => c.classList.remove("active"));
+                    tab.classList.add("active");
+                    document
+                        .getElementById(tab.dataset.exampleTab)
+                        .classList.add("active");
+                });
+            });
+        </script>
+    </body>
+</html>
