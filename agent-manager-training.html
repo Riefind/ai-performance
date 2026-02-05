@@ -127,6 +127,91 @@
                 min-width: 100px;
             }
 
+            .demo-btn {
+                background: var(--tangerine);
+                color: var(--snow);
+                border: none;
+                padding: 0.5rem 1rem;
+                border-radius: 6px;
+                font-size: 0.85rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                display: flex;
+                align-items: center;
+                gap: 0.35rem;
+            }
+
+            .demo-btn:hover {
+                background: #e69400;
+                transform: translateY(-1px);
+            }
+
+            .demo-modal-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(32, 27, 19, 0.7);
+                z-index: 2000;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                padding: 2rem;
+            }
+
+            .demo-modal-overlay.show {
+                display: flex;
+            }
+
+            .demo-modal {
+                background: var(--bone);
+                border-radius: 16px;
+                width: 100%;
+                max-width: 900px;
+                max-height: 90vh;
+                overflow: hidden;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                animation: modalSlideIn 0.3s ease;
+                position: relative;
+            }
+
+            @keyframes modalSlideIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px) scale(0.95);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+
+            .demo-modal__close {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                background: var(--snow);
+                border: 1px solid var(--hazelnut);
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                font-size: 1.25rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--mocha);
+                transition: all 0.2s ease;
+                z-index: 10;
+            }
+
+            .demo-modal__close:hover {
+                background: var(--sand);
+                color: var(--espresso);
+            }
+
             .nav-links {
                 display: flex;
                 gap: 0.25rem;
@@ -2046,6 +2131,930 @@
                 margin-top: 1.5rem;
             }
 
+            /* Benchmark Demo Styles - 9 Phase Structure */
+            .benchmark-demo {
+                background: linear-gradient(
+                    180deg,
+                    var(--cream) 0%,
+                    var(--bone) 100%
+                );
+                border-radius: 16px;
+                border: 1px solid var(--hazelnut);
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+            }
+
+            .benchmark-demo__header {
+                padding: 1rem 1.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-bottom: 1px solid var(--hazelnut);
+                background: var(--snow);
+            }
+
+            .benchmark-demo__title {
+                font-weight: 600;
+                font-size: 1rem;
+                color: var(--espresso);
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .benchmark-demo__progress {
+                display: flex;
+                gap: 0.35rem;
+                align-items: center;
+            }
+
+            .benchmark-demo__dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: var(--hazelnut);
+                transition: all 0.3s ease;
+            }
+
+            .benchmark-demo__dot.active {
+                width: 20px;
+                border-radius: 4px;
+                background: var(--tangerine);
+            }
+
+            .benchmark-demo__dot.completed {
+                background: var(--tangerine);
+            }
+
+            .benchmark-demo__content {
+                padding: 2rem;
+                min-height: 420px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                flex: 1;
+            }
+
+            .benchmark-demo__start {
+                text-align: center;
+            }
+
+            .benchmark-demo__play-btn {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                background: var(--snow);
+                border: 3px solid var(--tangerine);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 1.5rem;
+                cursor: pointer;
+                box-shadow: 0 8px 32px rgba(255, 164, 0, 0.3);
+                transition: all 0.3s ease;
+                animation: pulse 2s infinite;
+            }
+
+            .benchmark-demo__play-btn:hover {
+                transform: scale(1.05);
+                box-shadow: 0 12px 48px rgba(255, 164, 0, 0.5);
+            }
+
+            .benchmark-demo__play-btn svg {
+                fill: var(--tangerine);
+                margin-left: 4px;
+            }
+
+            .benchmark-demo__start h3 {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+                color: var(--espresso);
+            }
+
+            .benchmark-demo__start p {
+                color: var(--mocha);
+                margin-bottom: 1rem;
+            }
+
+            .benchmark-demo__phase {
+                width: 100%;
+                max-width: 900px;
+                display: none;
+            }
+
+            .benchmark-demo__phase.active {
+                display: block;
+                animation: fadeInUp 0.5s ease;
+            }
+
+            /* Badge styles */
+            .benchmark-demo__badge {
+                display: inline-block;
+                padding: 0.5rem 1.25rem;
+                border-radius: 24px;
+                font-size: 0.75rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                margin-bottom: 1rem;
+            }
+
+            .benchmark-demo__badge--problem {
+                background: var(--burgundy);
+                color: var(--snow);
+            }
+            .benchmark-demo__badge--approach {
+                background: var(--olive);
+                color: var(--snow);
+            }
+            .benchmark-demo__badge--howit {
+                background: var(--tangerine);
+                color: var(--snow);
+            }
+            .benchmark-demo__badge--step {
+                background: var(--tangerine);
+                color: var(--snow);
+            }
+            .benchmark-demo__badge--knowledge {
+                background: var(--denim);
+                color: var(--snow);
+            }
+            .benchmark-demo__badge--response {
+                background: var(--salmon);
+                color: var(--snow);
+            }
+            .benchmark-demo__badge--score {
+                background: var(--olive);
+                color: var(--snow);
+            }
+            .benchmark-demo__badge--results {
+                background: var(--olive);
+                color: var(--snow);
+            }
+
+            .benchmark-demo__phase-title {
+                font-size: 2rem;
+                font-weight: 700;
+                color: var(--espresso);
+                margin-bottom: 1rem;
+                text-align: center;
+            }
+
+            .benchmark-demo__phase-title--tangerine {
+                color: var(--tangerine);
+            }
+
+            .benchmark-demo__phase-subtitle {
+                font-size: 1.1rem;
+                color: var(--mocha);
+                margin-bottom: 1.5rem;
+                text-align: center;
+                line-height: 1.5;
+            }
+
+            /* Why points (Phase 1) */
+            .benchmark-demo__why-points {
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            .benchmark-demo__why-item {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                padding: 1rem 1.25rem;
+                background: rgba(140, 21, 47, 0.08);
+                border-left: 4px solid var(--redwood);
+                border-radius: 8px;
+                opacity: 0;
+                transform: translateX(-20px);
+                transition: all 0.4s ease;
+            }
+
+            .benchmark-demo__why-item.show {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .benchmark-demo__why-icon {
+                font-size: 1.5rem;
+            }
+
+            .benchmark-demo__why-text {
+                font-size: 1rem;
+                color: var(--cocoa);
+            }
+
+            /* What diagram (Phase 2) */
+            .benchmark-demo__what-diagram {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 1rem;
+                margin: 1.5rem 0;
+                flex-wrap: wrap;
+            }
+
+            .benchmark-demo__what-step {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 1.25rem 1.5rem;
+                background: var(--snow);
+                border-radius: 12px;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.4s ease;
+            }
+
+            .benchmark-demo__what-step.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .benchmark-demo__what-icon {
+                font-size: 2rem;
+            }
+
+            .benchmark-demo__what-label {
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: var(--espresso);
+            }
+
+            .benchmark-demo__what-arrow {
+                font-size: 1.5rem;
+                color: var(--tangerine);
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .benchmark-demo__what-arrow.show {
+                opacity: 1;
+            }
+
+            .benchmark-demo__what-summary {
+                background: rgba(88, 115, 34, 0.1);
+                border: 2px solid var(--olive);
+                border-radius: 12px;
+                padding: 1rem 1.5rem;
+                text-align: center;
+                margin-top: 1rem;
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.4s ease;
+            }
+
+            .benchmark-demo__what-summary.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .benchmark-demo__what-summary-text {
+                font-size: 1rem;
+                color: var(--olive);
+                font-weight: 500;
+            }
+
+            /* Solution benefits (Phase 3) */
+            .benchmark-demo__benefits {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1rem;
+            }
+
+            .benchmark-demo__benefit {
+                background: var(--snow);
+                border-radius: 12px;
+                padding: 1.25rem 1rem;
+                text-align: center;
+                border: 2px solid var(--tangerine);
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.4s ease;
+            }
+
+            .benchmark-demo__benefit.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .benchmark-demo__benefit-icon {
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .benchmark-demo__benefit-title {
+                font-size: 0.95rem;
+                font-weight: 600;
+                color: var(--espresso);
+                margin-bottom: 0.35rem;
+            }
+
+            .benchmark-demo__benefit-desc {
+                font-size: 0.8rem;
+                color: var(--mocha);
+            }
+
+            /* Flywheel steps (Phase 4) */
+            .benchmark-demo__flywheel {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .benchmark-demo__flywheel-step {
+                background: var(--snow);
+                border-radius: 12px;
+                padding: 1.25rem 1rem;
+                text-align: center;
+                border: 3px solid var(--hazelnut);
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.4s ease;
+            }
+
+            .benchmark-demo__flywheel-step.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .benchmark-demo__flywheel-step.active {
+                transform: translateY(-6px) scale(1.02);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            }
+
+            .benchmark-demo__flywheel-step[data-color="analyze"] {
+                border-color: var(--denim);
+            }
+            .benchmark-demo__flywheel-step[data-color="train"] {
+                border-color: var(--olive);
+            }
+            .benchmark-demo__flywheel-step[data-color="test"] {
+                border-color: var(--tangerine);
+            }
+            .benchmark-demo__flywheel-step[data-color="deploy"] {
+                border-color: var(--salmon);
+            }
+
+            .benchmark-demo__flywheel-step.active[data-color="analyze"] {
+                background: var(--denim);
+            }
+            .benchmark-demo__flywheel-step.active[data-color="train"] {
+                background: var(--olive);
+            }
+            .benchmark-demo__flywheel-step.active[data-color="test"] {
+                background: var(--tangerine);
+            }
+            .benchmark-demo__flywheel-step.active[data-color="deploy"] {
+                background: var(--salmon);
+            }
+
+            .benchmark-demo__flywheel-icon {
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .benchmark-demo__flywheel-title {
+                font-size: 1.1rem;
+                font-weight: 700;
+                margin-bottom: 0.35rem;
+                transition: color 0.3s ease;
+            }
+
+            .benchmark-demo__flywheel-step[data-color="analyze"]
+                .benchmark-demo__flywheel-title {
+                color: var(--denim);
+            }
+            .benchmark-demo__flywheel-step[data-color="train"]
+                .benchmark-demo__flywheel-title {
+                color: var(--olive);
+            }
+            .benchmark-demo__flywheel-step[data-color="test"]
+                .benchmark-demo__flywheel-title {
+                color: var(--tangerine);
+            }
+            .benchmark-demo__flywheel-step[data-color="deploy"]
+                .benchmark-demo__flywheel-title {
+                color: var(--salmon);
+            }
+
+            .benchmark-demo__flywheel-step.active
+                .benchmark-demo__flywheel-title,
+            .benchmark-demo__flywheel-step.active
+                .benchmark-demo__flywheel-def {
+                color: var(--snow);
+            }
+
+            .benchmark-demo__flywheel-def {
+                font-size: 0.85rem;
+                color: var(--cocoa);
+            }
+
+            .benchmark-demo__flywheel-detail {
+                font-size: 0.8rem;
+                color: rgba(255, 255, 255, 0.85);
+                border-top: 1px solid rgba(255, 255, 255, 0.3);
+                padding-top: 0.5rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .benchmark-demo__flywheel-step.active
+                .benchmark-demo__flywheel-detail {
+                display: block;
+                animation: fadeIn 0.3s ease;
+            }
+
+            .benchmark-demo__flywheel-loop {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.75rem;
+                background: var(--snow);
+                padding: 0.75rem 1.5rem;
+                border-radius: 40px;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+                opacity: 0;
+                transition: opacity 0.4s ease;
+            }
+
+            .benchmark-demo__flywheel-loop.show {
+                opacity: 1;
+            }
+
+            .benchmark-demo__flywheel-loop-icon {
+                font-size: 1.25rem;
+            }
+
+            .benchmark-demo__flywheel-loop-text {
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--espresso);
+            }
+
+            /* Step cards (Phases 5-8) */
+            .benchmark-demo__step-definition {
+                background: rgba(255, 164, 0, 0.1);
+                border-radius: 10px;
+                padding: 1rem 1.5rem;
+                text-align: center;
+                margin-bottom: 1.25rem;
+                opacity: 0;
+                transform: translateY(15px);
+                transition: all 0.4s ease;
+            }
+
+            .benchmark-demo__step-definition.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .benchmark-demo__step-definition[data-color="denim"] {
+                background: rgba(70, 130, 180, 0.1);
+            }
+
+            .benchmark-demo__step-definition[data-color="salmon"] {
+                background: rgba(250, 128, 114, 0.15);
+            }
+
+            .benchmark-demo__step-definition-text {
+                font-size: 1rem;
+                color: var(--cocoa);
+            }
+
+            .benchmark-demo__card {
+                background: var(--snow);
+                border-radius: 12px;
+                padding: 1.5rem;
+                margin-bottom: 1rem;
+                border-left: 4px solid var(--tangerine);
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+                opacity: 0;
+                transform: translateY(15px);
+                transition: all 0.4s ease;
+            }
+
+            .benchmark-demo__card.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .benchmark-demo__card--question {
+                border-left-color: var(--tangerine);
+            }
+            .benchmark-demo__card--expected {
+                border-left-color: var(--olive);
+            }
+            .benchmark-demo__card--knowledge {
+                border-left-color: var(--denim);
+            }
+            .benchmark-demo__card--response {
+                border-left-color: var(--salmon);
+            }
+
+            .benchmark-demo__card-label {
+                font-size: 0.7rem;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+            }
+
+            .benchmark-demo__card-label--question {
+                color: var(--tangerine);
+            }
+            .benchmark-demo__card-label--expected {
+                color: var(--olive);
+            }
+            .benchmark-demo__card-label--knowledge {
+                color: var(--denim);
+            }
+            .benchmark-demo__card-label--response {
+                color: var(--salmon);
+            }
+
+            .benchmark-demo__card-text {
+                font-size: 1.1rem;
+                color: var(--espresso);
+                line-height: 1.5;
+            }
+
+            /* Knowledge items (Phase 6) */
+            .benchmark-demo__knowledge-list {
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .benchmark-demo__knowledge-item {
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+                padding: 1rem 1.25rem;
+                background: var(--snow);
+                border-radius: 12px;
+                border-left: 4px solid var(--denim);
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+                opacity: 0;
+                transform: translateX(-20px);
+                transition: all 0.4s ease;
+            }
+
+            .benchmark-demo__knowledge-item.show {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .benchmark-demo__relevance {
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: var(--denim);
+                min-width: 65px;
+                text-align: center;
+            }
+
+            .benchmark-demo__relevance-label {
+                font-size: 0.65rem;
+                font-weight: 400;
+                color: var(--mocha);
+            }
+
+            .benchmark-demo__knowledge-source {
+                font-size: 0.75rem;
+                color: var(--denim);
+                font-weight: 600;
+                margin-bottom: 0.25rem;
+            }
+
+            .benchmark-demo__knowledge-text {
+                font-size: 0.95rem;
+                color: var(--cocoa);
+            }
+
+            /* Response comparison (Phase 7) */
+            .benchmark-demo__responses {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+
+            /* Scores (Phase 8) */
+            .benchmark-demo__scores-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr auto;
+                gap: 1rem;
+                align-items: start;
+            }
+
+            .benchmark-demo__score-card {
+                background: var(--snow);
+                border-radius: 12px;
+                padding: 1.25rem;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+                opacity: 0;
+                transform: translateY(15px);
+                transition: all 0.4s ease;
+            }
+
+            .benchmark-demo__score-card.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .benchmark-demo__score-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 0.5rem;
+            }
+
+            .benchmark-demo__score-label {
+                font-size: 0.95rem;
+                font-weight: 600;
+                color: var(--espresso);
+            }
+
+            .benchmark-demo__score-value {
+                font-size: 2rem;
+                font-weight: 700;
+            }
+
+            .benchmark-demo__score-value--faith {
+                color: var(--denim);
+            }
+            .benchmark-demo__score-value--sim {
+                color: var(--olive);
+            }
+
+            .benchmark-demo__score-desc {
+                font-size: 0.8rem;
+                color: var(--mocha);
+                margin-bottom: 0.75rem;
+            }
+
+            .benchmark-demo__score-bar {
+                height: 10px;
+                background: var(--sand);
+                border-radius: 5px;
+                overflow: hidden;
+            }
+
+            .benchmark-demo__score-fill {
+                height: 100%;
+                border-radius: 5px;
+                transition: width 0.1s linear;
+            }
+
+            .benchmark-demo__score-fill--faith {
+                background: var(--denim);
+            }
+            .benchmark-demo__score-fill--sim {
+                background: var(--olive);
+            }
+
+            .benchmark-demo__result-badge {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 1.25rem;
+                opacity: 0;
+                transform: scale(0.8);
+                transition: all 0.4s ease;
+            }
+
+            .benchmark-demo__result-badge.show {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            .benchmark-demo__result-icon {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                background: var(--sand);
+                border: 4px solid var(--hazelnut);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 0.75rem;
+                transition: all 0.4s ease;
+            }
+
+            .benchmark-demo__result-icon.passed {
+                background: rgba(88, 115, 34, 0.15);
+                border-color: var(--olive);
+                box-shadow: 0 8px 24px rgba(88, 115, 34, 0.25);
+            }
+
+            .benchmark-demo__result-icon svg {
+                stroke: var(--olive);
+            }
+
+            .benchmark-demo__result-icon .spinner {
+                width: 32px;
+                height: 32px;
+                border: 4px solid var(--hazelnut);
+                border-top-color: var(--tangerine);
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+
+            .benchmark-demo__result-text {
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: var(--mocha);
+            }
+
+            .benchmark-demo__result-text.passed {
+                color: var(--olive);
+            }
+
+            /* Results metrics (Phase 9) */
+            .benchmark-demo__metrics {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.25rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .benchmark-demo__metric {
+                background: var(--snow);
+                border-radius: 16px;
+                padding: 1.5rem 1.25rem;
+                text-align: center;
+                border: 2px solid var(--olive);
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.4s ease;
+            }
+
+            .benchmark-demo__metric.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .benchmark-demo__metric-icon {
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .benchmark-demo__metric-value {
+                font-size: 2.25rem;
+                font-weight: 700;
+                color: var(--olive);
+                margin-bottom: 0.25rem;
+            }
+
+            .benchmark-demo__metric-label {
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--espresso);
+                margin-bottom: 0.25rem;
+            }
+
+            .benchmark-demo__metric-desc {
+                font-size: 0.8rem;
+                color: var(--mocha);
+            }
+
+            .benchmark-demo__cta {
+                text-align: center;
+                opacity: 0;
+                transition: opacity 0.4s ease;
+            }
+
+            .benchmark-demo__cta.show {
+                opacity: 1;
+            }
+
+            .benchmark-demo__cta-text {
+                font-size: 0.9rem;
+                color: var(--mocha);
+                margin-bottom: 1rem;
+            }
+
+            .benchmark-demo__restart-btn {
+                background: var(--tangerine);
+                color: var(--snow);
+                border: none;
+                padding: 0.85rem 2rem;
+                border-radius: 10px;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                box-shadow: 0 4px 16px rgba(255, 164, 0, 0.3);
+                transition: all 0.3s ease;
+            }
+
+            .benchmark-demo__restart-btn:hover {
+                background: #e69400;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(255, 164, 0, 0.4);
+            }
+
+            .benchmark-demo__typing-cursor {
+                animation: blink 0.5s infinite;
+            }
+
+            /* Footer */
+            .benchmark-demo__footer {
+                padding: 1rem 2rem;
+                border-top: 1px solid var(--hazelnut);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: var(--snow);
+                font-size: 0.85rem;
+                color: var(--mocha);
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes blink {
+                0%,
+                100% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0;
+                }
+            }
+
+            @keyframes pulse {
+                0%,
+                100% {
+                    transform: scale(1);
+                    box-shadow: 0 8px 32px rgba(255, 164, 0, 0.3);
+                }
+                50% {
+                    transform: scale(1.05);
+                    box-shadow: 0 12px 48px rgba(255, 164, 0, 0.5);
+                }
+            }
+
+            @keyframes spin {
+                from {
+                    transform: rotate(0deg);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            /* Responsive for demo */
+            @media (max-width: 900px) {
+                .benchmark-demo__benefits,
+                .benchmark-demo__flywheel {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+                .benchmark-demo__metrics {
+                    grid-template-columns: 1fr;
+                }
+                .benchmark-demo__scores-grid {
+                    grid-template-columns: 1fr;
+                }
+                .benchmark-demo__responses {
+                    grid-template-columns: 1fr;
+                }
+                .benchmark-demo__what-diagram {
+                    flex-direction: column;
+                }
+                .benchmark-demo__what-arrow {
+                    transform: rotate(90deg);
+                }
+            }
+
             /* Responsive */
             @media (max-width: 768px) {
                 .header__inner {
@@ -2150,7 +3159,15 @@
                     />
                 </a>
                 <span class="header__title">AI Agent Manager Training</span>
-                <div class="header__spacer"></div>
+                <div class="header__spacer">
+                    <button
+                        class="demo-btn"
+                        id="demoBtn"
+                        onclick="openDemoModal()"
+                    >
+                        🎯 See Demo
+                    </button>
+                </div>
             </div>
         </header>
 
@@ -5428,7 +6445,12 @@
                         text: "Need to restart? This button resets all your progress so you can begin again from scratch.",
                         position: "bottom",
                     },
-
+                    {
+                        target: ".demo-btn",
+                        title: "See it in action",
+                        text: "Watch an interactive demo of how benchmark testing works. It shows how AI Agent responses are validated before deployment.",
+                        position: "bottom",
+                    },
                     {
                         target: ".glossary-fab",
                         title: "Your glossary cheat sheet",
@@ -6144,6 +7166,434 @@
                     modal.classList.toggle("show");
                 }
 
+                // Benchmark Demo functionality - 9 Phase Structure
+                // Demo data
+                const demoData = {
+                    question: "What is your return policy?",
+                    expectedAnswer:
+                        "Returns are accepted within 30 days of purchase. For non-warranty returns, customers pay a $5 return shipping fee which is deducted from the refund.",
+                    aiAnswer:
+                        "Returns are accepted within 30 days. The customer is responsible for return shipping costs, which is a $5 fee deducted from your refund amount.",
+                    faithfulness: 0.94,
+                    similarity: 0.87,
+                };
+
+                let demoRunning = false;
+                let activeFlywheelStep = -1;
+
+                function wait(ms) {
+                    return new Promise((resolve) => setTimeout(resolve, ms));
+                }
+
+                function streamText(text, element, speed = 40) {
+                    return new Promise((resolve) => {
+                        let i = 0;
+                        element.innerHTML = "";
+                        const interval = setInterval(() => {
+                            if (i < text.length) {
+                                element.innerHTML =
+                                    text.slice(0, i + 1) +
+                                    '<span class="benchmark-demo__typing-cursor">|</span>';
+                                i++;
+                            } else {
+                                element.innerHTML = text;
+                                clearInterval(interval);
+                                resolve();
+                            }
+                        }, speed);
+                    });
+                }
+
+                function animateScore(target, valueEl, barEl, duration = 2000) {
+                    return new Promise((resolve) => {
+                        const start = Date.now();
+                        const animate = () => {
+                            const elapsed = Date.now() - start;
+                            const progress = Math.min(elapsed / duration, 1);
+                            const eased = 1 - Math.pow(1 - progress, 3);
+                            const current = target * eased;
+                            valueEl.textContent = current.toFixed(2);
+                            barEl.style.width = current * 100 + "%";
+                            if (progress < 1) {
+                                requestAnimationFrame(animate);
+                            } else {
+                                resolve();
+                            }
+                        };
+                        animate();
+                    });
+                }
+
+                function updateDemoProgress(phase) {
+                    const dots = document.querySelectorAll(
+                        ".benchmark-demo__dot",
+                    );
+                    dots.forEach((dot, i) => {
+                        dot.classList.remove("active", "completed");
+                        if (i + 1 < phase) {
+                            dot.classList.add("completed");
+                        } else if (i + 1 === phase) {
+                            dot.classList.add("active");
+                        }
+                    });
+                }
+
+                function showPhase(phaseNum) {
+                    document
+                        .querySelectorAll(".benchmark-demo__phase")
+                        .forEach((p) => p.classList.remove("active"));
+                    const phase = document.getElementById(
+                        `demoPhase${phaseNum}`,
+                    );
+                    if (phase) phase.classList.add("active");
+                    updateDemoProgress(phaseNum);
+                }
+
+                async function runBenchmarkDemo() {
+                    if (demoRunning) return;
+                    demoRunning = true;
+
+                    // Hide start screen
+                    document.getElementById("demoStart").style.display = "none";
+
+                    // Phase 1: Why AI Agent Management?
+                    showPhase(1);
+                    await wait(600);
+                    const whyItems = document.querySelectorAll(
+                        ".benchmark-demo__why-item",
+                    );
+                    for (let i = 0; i < whyItems.length; i++) {
+                        whyItems[i].classList.add("show");
+                        await wait(500);
+                    }
+                    await wait(2500);
+
+                    // Phase 2: What is Benchmark Testing?
+                    showPhase(2);
+                    await wait(400);
+                    const whatSteps = document.querySelectorAll(
+                        ".benchmark-demo__what-step",
+                    );
+                    const whatArrows = document.querySelectorAll(
+                        ".benchmark-demo__what-arrow",
+                    );
+                    for (let i = 0; i < whatSteps.length; i++) {
+                        whatSteps[i].classList.add("show");
+                        await wait(400);
+                        if (whatArrows[i]) {
+                            whatArrows[i].classList.add("show");
+                            await wait(300);
+                        }
+                    }
+                    await wait(500);
+                    document
+                        .getElementById("demoWhatSummary")
+                        .classList.add("show");
+                    await wait(2500);
+
+                    // Phase 3: The Solution - AI Agent Management
+                    showPhase(3);
+                    await wait(400);
+                    const benefits = document.querySelectorAll(
+                        ".benchmark-demo__benefit",
+                    );
+                    for (let i = 0; i < benefits.length; i++) {
+                        benefits[i].classList.add("show");
+                        await wait(350);
+                    }
+                    await wait(2500);
+
+                    // Phase 4: The Flywheel
+                    showPhase(4);
+                    await wait(400);
+                    const flywheelSteps = document.querySelectorAll(
+                        ".benchmark-demo__flywheel-step",
+                    );
+                    for (let i = 0; i < flywheelSteps.length; i++) {
+                        flywheelSteps[i].classList.add("show");
+                        await wait(300);
+                    }
+                    await wait(600);
+                    // Cycle through flywheel steps
+                    for (let i = 0; i < flywheelSteps.length; i++) {
+                        flywheelSteps.forEach((s) =>
+                            s.classList.remove("active"),
+                        );
+                        flywheelSteps[i].classList.add("active");
+                        await wait(1200);
+                    }
+                    flywheelSteps.forEach((s) => s.classList.remove("active"));
+                    document
+                        .getElementById("demoFlywheelLoop")
+                        .classList.add("show");
+                    await wait(2000);
+
+                    // Phase 5: Step 1 - Create Benchmark
+                    showPhase(5);
+                    await wait(400);
+                    document
+                        .getElementById("demoStep1Def")
+                        .classList.add("show");
+                    await wait(400);
+                    document
+                        .getElementById("demoQuestionCard")
+                        .classList.add("show");
+                    await wait(300);
+                    await streamText(
+                        demoData.question,
+                        document.getElementById("demoQuestion"),
+                        45,
+                    );
+                    await wait(400);
+                    document
+                        .getElementById("demoExpectedCard")
+                        .classList.add("show");
+                    await wait(300);
+                    await streamText(
+                        demoData.expectedAnswer,
+                        document.getElementById("demoExpected"),
+                        22,
+                    );
+                    await wait(2000);
+
+                    // Phase 6: Step 2 - Retrieve Knowledge
+                    showPhase(6);
+                    await wait(400);
+                    document
+                        .getElementById("demoStep2Def")
+                        .classList.add("show");
+                    await wait(400);
+                    const knowledgeItems = document.querySelectorAll(
+                        ".benchmark-demo__knowledge-item",
+                    );
+                    for (let i = 0; i < knowledgeItems.length; i++) {
+                        knowledgeItems[i].classList.add("show");
+                        await wait(500);
+                    }
+                    await wait(2000);
+
+                    // Phase 7: Step 3 - Generate Response
+                    showPhase(7);
+                    await wait(400);
+                    document
+                        .getElementById("demoStep3Def")
+                        .classList.add("show");
+                    await wait(400);
+                    document.getElementById("demoExpected2").textContent =
+                        demoData.expectedAnswer;
+                    await wait(300);
+                    await streamText(
+                        demoData.aiAnswer,
+                        document.getElementById("demoAiResponse"),
+                        28,
+                    );
+                    await wait(2000);
+
+                    // Phase 8: Step 4 - Calculate Score
+                    showPhase(8);
+                    await wait(400);
+                    document
+                        .getElementById("demoStep4Def")
+                        .classList.add("show");
+                    await wait(400);
+                    document
+                        .getElementById("demoFaithCard")
+                        .classList.add("show");
+                    document
+                        .getElementById("demoSimCard")
+                        .classList.add("show");
+                    document
+                        .getElementById("demoResultBadge")
+                        .classList.add("show");
+                    await wait(500);
+
+                    // Animate scores
+                    await Promise.all([
+                        animateScore(
+                            demoData.faithfulness,
+                            document.getElementById("demoFaithValue"),
+                            document.getElementById("demoFaithBar"),
+                            2200,
+                        ),
+                        animateScore(
+                            demoData.similarity,
+                            document.getElementById("demoSimValue"),
+                            document.getElementById("demoSimBar"),
+                            2200,
+                        ),
+                    ]);
+
+                    await wait(600);
+
+                    // Update badge and result
+                    document.getElementById("demoScoreBadge").textContent =
+                        "✓ Test Passed!";
+                    document.getElementById("demoScoreBadge").style.background =
+                        "var(--olive)";
+                    const resultIcon =
+                        document.getElementById("demoResultIcon");
+                    resultIcon.classList.add("passed");
+                    resultIcon.innerHTML =
+                        '<svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="var(--olive)" stroke-width="3"><polyline points="20 6 9 17 4 12" /></svg>';
+                    document.getElementById("demoResultText").textContent =
+                        "PASSED";
+                    document
+                        .getElementById("demoResultText")
+                        .classList.add("passed");
+                    await wait(2500);
+
+                    // Phase 9: Results
+                    showPhase(9);
+                    await wait(400);
+                    const metrics = document.querySelectorAll(
+                        ".benchmark-demo__metric",
+                    );
+                    for (let i = 0; i < metrics.length; i++) {
+                        metrics[i].classList.add("show");
+                        await wait(400);
+                    }
+                    await wait(800);
+                    document.getElementById("demoCTA").classList.add("show");
+                    demoRunning = false;
+                }
+
+                function resetBenchmarkDemo() {
+                    demoRunning = false;
+
+                    // Reset all phases
+                    document
+                        .querySelectorAll(".benchmark-demo__phase")
+                        .forEach((p) => p.classList.remove("active"));
+                    document
+                        .querySelectorAll(".benchmark-demo__dot")
+                        .forEach((d) =>
+                            d.classList.remove("active", "completed"),
+                        );
+
+                    // Reset Phase 1: Why points
+                    document
+                        .querySelectorAll(".benchmark-demo__why-item")
+                        .forEach((item) => item.classList.remove("show"));
+
+                    // Reset Phase 2: What diagram
+                    document
+                        .querySelectorAll(".benchmark-demo__what-step")
+                        .forEach((step) => step.classList.remove("show"));
+                    document
+                        .querySelectorAll(".benchmark-demo__what-arrow")
+                        .forEach((arrow) => arrow.classList.remove("show"));
+                    const whatSummary =
+                        document.getElementById("demoWhatSummary");
+                    if (whatSummary) whatSummary.classList.remove("show");
+
+                    // Reset Phase 3: Benefits
+                    document
+                        .querySelectorAll(".benchmark-demo__benefit")
+                        .forEach((b) => b.classList.remove("show"));
+
+                    // Reset Phase 4: Flywheel
+                    document
+                        .querySelectorAll(".benchmark-demo__flywheel-step")
+                        .forEach((s) => s.classList.remove("show", "active"));
+                    const flywheelLoop =
+                        document.getElementById("demoFlywheelLoop");
+                    if (flywheelLoop) flywheelLoop.classList.remove("show");
+
+                    // Reset Phase 5: Step 1 definition and cards
+                    const step1Def = document.getElementById("demoStep1Def");
+                    if (step1Def) step1Def.classList.remove("show");
+                    const questionCard =
+                        document.getElementById("demoQuestionCard");
+                    if (questionCard) questionCard.classList.remove("show");
+                    const expectedCard =
+                        document.getElementById("demoExpectedCard");
+                    if (expectedCard) expectedCard.classList.remove("show");
+                    document.getElementById("demoQuestion").innerHTML = "";
+                    document.getElementById("demoExpected").innerHTML = "";
+
+                    // Reset Phase 6: Knowledge
+                    const step2Def = document.getElementById("demoStep2Def");
+                    if (step2Def) step2Def.classList.remove("show");
+                    document
+                        .querySelectorAll(".benchmark-demo__knowledge-item")
+                        .forEach((k) => k.classList.remove("show"));
+
+                    // Reset Phase 7: AI Response
+                    const step3Def = document.getElementById("demoStep3Def");
+                    if (step3Def) step3Def.classList.remove("show");
+                    const expected2 = document.getElementById("demoExpected2");
+                    if (expected2) expected2.textContent = "";
+                    document.getElementById("demoAiResponse").innerHTML = "";
+
+                    // Reset Phase 8: Scores
+                    const step4Def = document.getElementById("demoStep4Def");
+                    if (step4Def) step4Def.classList.remove("show");
+                    const faithCard = document.getElementById("demoFaithCard");
+                    if (faithCard) faithCard.classList.remove("show");
+                    const simCard = document.getElementById("demoSimCard");
+                    if (simCard) simCard.classList.remove("show");
+                    const resultBadge =
+                        document.getElementById("demoResultBadge");
+                    if (resultBadge) resultBadge.classList.remove("show");
+                    document.getElementById("demoFaithValue").textContent =
+                        "0.00";
+                    document.getElementById("demoSimValue").textContent =
+                        "0.00";
+                    document.getElementById("demoFaithBar").style.width = "0%";
+                    document.getElementById("demoSimBar").style.width = "0%";
+                    document.getElementById("demoScoreBadge").textContent =
+                        "Step 4: Calculate Score";
+                    document.getElementById("demoScoreBadge").style.background =
+                        "";
+                    const resultIcon =
+                        document.getElementById("demoResultIcon");
+                    resultIcon.classList.remove("passed");
+                    resultIcon.innerHTML = '<div class="spinner"></div>';
+                    document.getElementById("demoResultText").textContent =
+                        "Checking...";
+                    document
+                        .getElementById("demoResultText")
+                        .classList.remove("passed");
+
+                    // Reset Phase 9: Metrics & CTA
+                    document
+                        .querySelectorAll(".benchmark-demo__metric")
+                        .forEach((m) => m.classList.remove("show"));
+                    const cta = document.getElementById("demoCTA");
+                    if (cta) cta.classList.remove("show");
+
+                    // Show start screen
+                    document.getElementById("demoStart").style.display =
+                        "block";
+                }
+
+                function openDemoModal() {
+                    document
+                        .getElementById("demoModalOverlay")
+                        .classList.add("show");
+                    document.body.style.overflow = "hidden";
+                }
+
+                function closeDemoModal(event) {
+                    if (event && event.target !== event.currentTarget) return;
+                    document
+                        .getElementById("demoModalOverlay")
+                        .classList.remove("show");
+                    document.body.style.overflow = "";
+                    resetBenchmarkDemo();
+                }
+
+                // Close demo modal with Escape key
+                document.addEventListener("keydown", (e) => {
+                    if (e.key === "Escape") {
+                        const demoModal =
+                            document.getElementById("demoModalOverlay");
+                        if (demoModal.classList.contains("show")) {
+                            closeDemoModal();
+                        }
+                    }
+                });
+
                 document
                     .getElementById("glossaryOverlay")
                     .addEventListener("click", toggleGlossary);
@@ -6168,6 +7618,898 @@
 
             <!-- Glossary Overlay -->
             <div class="glossary-overlay" id="glossaryOverlay"></div>
+
+            <!-- Benchmark Demo Modal -->
+            <div
+                class="demo-modal-overlay"
+                id="demoModalOverlay"
+                onclick="closeDemoModal(event)"
+            >
+                <div class="demo-modal" onclick="event.stopPropagation()">
+                    <button
+                        class="demo-modal__close"
+                        onclick="closeDemoModal()"
+                    >
+                        &times;
+                    </button>
+                    <div class="benchmark-demo" id="benchmarkDemo">
+                        <div class="benchmark-demo__header">
+                            <div class="benchmark-demo__title">
+                                <span>🎯</span> AI Agent Management Demo
+                            </div>
+                            <div
+                                class="benchmark-demo__progress"
+                                id="demoProgress"
+                            >
+                                <div
+                                    class="benchmark-demo__dot"
+                                    data-phase="1"
+                                ></div>
+                                <div
+                                    class="benchmark-demo__dot"
+                                    data-phase="2"
+                                ></div>
+                                <div
+                                    class="benchmark-demo__dot"
+                                    data-phase="3"
+                                ></div>
+                                <div
+                                    class="benchmark-demo__dot"
+                                    data-phase="4"
+                                ></div>
+                                <div
+                                    class="benchmark-demo__dot"
+                                    data-phase="5"
+                                ></div>
+                                <div
+                                    class="benchmark-demo__dot"
+                                    data-phase="6"
+                                ></div>
+                                <div
+                                    class="benchmark-demo__dot"
+                                    data-phase="7"
+                                ></div>
+                                <div
+                                    class="benchmark-demo__dot"
+                                    data-phase="8"
+                                ></div>
+                                <div
+                                    class="benchmark-demo__dot"
+                                    data-phase="9"
+                                ></div>
+                            </div>
+                        </div>
+                        <div class="benchmark-demo__content" id="demoContent">
+                            <!-- Start Screen -->
+                            <div class="benchmark-demo__start" id="demoStart">
+                                <button
+                                    class="benchmark-demo__play-btn"
+                                    onclick="runBenchmarkDemo()"
+                                >
+                                    <svg
+                                        width="40"
+                                        height="40"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <polygon points="5,3 19,12 5,21" />
+                                    </svg>
+                                </button>
+                                <h3>What is AI Agent Management?</h3>
+                                <p>
+                                    See how we optimize AI Agents with human
+                                    oversight
+                                </p>
+                            </div>
+
+                            <!-- Phase 1: Why AI Agent Management? -->
+                            <div class="benchmark-demo__phase" id="demoPhase1">
+                                <div style="text-align: center">
+                                    <span
+                                        class="benchmark-demo__badge benchmark-demo__badge--problem"
+                                        >The Problem</span
+                                    >
+                                    <h2
+                                        class="benchmark-demo__phase-title benchmark-demo__phase-title--tangerine"
+                                    >
+                                        Why AI Agent Management?
+                                    </h2>
+                                    <p class="benchmark-demo__phase-subtitle">
+                                        Without proper management, AI Agents
+                                        can:
+                                    </p>
+                                </div>
+                                <div
+                                    class="benchmark-demo__why-points"
+                                    id="demoWhyPoints"
+                                >
+                                    <div
+                                        class="benchmark-demo__why-item"
+                                        data-index="0"
+                                    >
+                                        <span class="benchmark-demo__why-icon"
+                                            >❌</span
+                                        >
+                                        <span class="benchmark-demo__why-text"
+                                            >Give wrong information to
+                                            customers</span
+                                        >
+                                    </div>
+                                    <div
+                                        class="benchmark-demo__why-item"
+                                        data-index="1"
+                                    >
+                                        <span class="benchmark-demo__why-icon"
+                                            >🔄</span
+                                        >
+                                        <span class="benchmark-demo__why-text"
+                                            >Respond inconsistently to the same
+                                            question</span
+                                        >
+                                    </div>
+                                    <div
+                                        class="benchmark-demo__why-item"
+                                        data-index="2"
+                                    >
+                                        <span class="benchmark-demo__why-icon"
+                                            >🚫</span
+                                        >
+                                        <span class="benchmark-demo__why-text"
+                                            >Operate without quality control or
+                                            oversight</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Phase 2: What is Benchmark Testing? -->
+                            <div class="benchmark-demo__phase" id="demoPhase2">
+                                <div style="text-align: center">
+                                    <span
+                                        class="benchmark-demo__badge benchmark-demo__badge--step"
+                                        >Key Concept</span
+                                    >
+                                    <h2 class="benchmark-demo__phase-title">
+                                        What is Benchmark Testing?
+                                    </h2>
+                                    <p class="benchmark-demo__phase-subtitle">
+                                        A simple way to check if your AI gives
+                                        correct answers.
+                                    </p>
+                                </div>
+                                <div
+                                    class="benchmark-demo__what-diagram"
+                                    id="demoWhatDiagram"
+                                >
+                                    <div
+                                        class="benchmark-demo__what-step"
+                                        data-index="0"
+                                    >
+                                        <span class="benchmark-demo__what-icon"
+                                            >❓</span
+                                        >
+                                        <span class="benchmark-demo__what-label"
+                                            >Question</span
+                                        >
+                                    </div>
+                                    <span
+                                        class="benchmark-demo__what-arrow"
+                                        data-index="0"
+                                        >→</span
+                                    >
+                                    <div
+                                        class="benchmark-demo__what-step"
+                                        data-index="1"
+                                    >
+                                        <span class="benchmark-demo__what-icon"
+                                            >🤖</span
+                                        >
+                                        <span class="benchmark-demo__what-label"
+                                            >AI Answer</span
+                                        >
+                                    </div>
+                                    <span
+                                        class="benchmark-demo__what-arrow"
+                                        data-index="1"
+                                        >→</span
+                                    >
+                                    <div
+                                        class="benchmark-demo__what-step"
+                                        data-index="2"
+                                    >
+                                        <span class="benchmark-demo__what-icon"
+                                            >✓</span
+                                        >
+                                        <span class="benchmark-demo__what-label"
+                                            >Check</span
+                                        >
+                                    </div>
+                                </div>
+                                <div
+                                    class="benchmark-demo__what-summary"
+                                    id="demoWhatSummary"
+                                >
+                                    <span
+                                        class="benchmark-demo__what-summary-text"
+                                        >✓ If the AI's answer matches what it
+                                        should be, the test passes.</span
+                                    >
+                                </div>
+                            </div>
+
+                            <!-- Phase 3: The Solution - AI Agent Management -->
+                            <div class="benchmark-demo__phase" id="demoPhase3">
+                                <div style="text-align: center">
+                                    <span
+                                        class="benchmark-demo__badge benchmark-demo__badge--approach"
+                                        >Our Approach</span
+                                    >
+                                    <h2
+                                        class="benchmark-demo__phase-title benchmark-demo__phase-title--tangerine"
+                                    >
+                                        AI Agent Management
+                                    </h2>
+                                    <p class="benchmark-demo__phase-subtitle">
+                                        We continuously optimize the AI agent
+                                        you already use,<br />with human
+                                        oversight that protects quality, brand
+                                        and customer trust.
+                                    </p>
+                                </div>
+                                <div
+                                    class="benchmark-demo__benefits"
+                                    id="demoBenefits"
+                                >
+                                    <div
+                                        class="benchmark-demo__benefit"
+                                        data-index="0"
+                                    >
+                                        <div
+                                            class="benchmark-demo__benefit-icon"
+                                        >
+                                            🎯
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__benefit-title"
+                                        >
+                                            Quality Control
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__benefit-desc"
+                                        >
+                                            Systematic testing ensures accuracy
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="benchmark-demo__benefit"
+                                        data-index="1"
+                                    >
+                                        <div
+                                            class="benchmark-demo__benefit-icon"
+                                        >
+                                            👁️
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__benefit-title"
+                                        >
+                                            Human Oversight
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__benefit-desc"
+                                        >
+                                            People review and approve changes
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="benchmark-demo__benefit"
+                                        data-index="2"
+                                    >
+                                        <div
+                                            class="benchmark-demo__benefit-icon"
+                                        >
+                                            📈
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__benefit-title"
+                                        >
+                                            Continuous Improvement
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__benefit-desc"
+                                        >
+                                            AI gets better over time
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="benchmark-demo__benefit"
+                                        data-index="3"
+                                    >
+                                        <div
+                                            class="benchmark-demo__benefit-icon"
+                                        >
+                                            🛡️
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__benefit-title"
+                                        >
+                                            Brand Protection
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__benefit-desc"
+                                        >
+                                            Consistent, on-brand responses
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Phase 4: The Flywheel -->
+                            <div class="benchmark-demo__phase" id="demoPhase4">
+                                <div style="text-align: center">
+                                    <span
+                                        class="benchmark-demo__badge benchmark-demo__badge--howit"
+                                        >How It Works</span
+                                    >
+                                    <h2 class="benchmark-demo__phase-title">
+                                        The Improvement Cycle
+                                    </h2>
+                                    <p class="benchmark-demo__phase-subtitle">
+                                        A repeating process that makes your AI
+                                        better every week.
+                                    </p>
+                                </div>
+                                <div
+                                    class="benchmark-demo__flywheel"
+                                    id="demoFlywheel"
+                                >
+                                    <div
+                                        class="benchmark-demo__flywheel-step"
+                                        data-color="analyze"
+                                        data-index="0"
+                                    >
+                                        <div
+                                            class="benchmark-demo__flywheel-icon"
+                                        >
+                                            📊
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__flywheel-title"
+                                        >
+                                            Analyze
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__flywheel-def"
+                                        >
+                                            Review performance
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__flywheel-detail"
+                                        >
+                                            Look at metrics and conversations to
+                                            find issues
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="benchmark-demo__flywheel-step"
+                                        data-color="train"
+                                        data-index="1"
+                                    >
+                                        <div
+                                            class="benchmark-demo__flywheel-icon"
+                                        >
+                                            📚
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__flywheel-title"
+                                        >
+                                            Train
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__flywheel-def"
+                                        >
+                                            Update knowledge
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__flywheel-detail"
+                                        >
+                                            Add or fix content so AI gives
+                                            better answers
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="benchmark-demo__flywheel-step"
+                                        data-color="test"
+                                        data-index="2"
+                                    >
+                                        <div
+                                            class="benchmark-demo__flywheel-icon"
+                                        >
+                                            🧪
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__flywheel-title"
+                                        >
+                                            Test
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__flywheel-def"
+                                        >
+                                            Verify accuracy
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__flywheel-detail"
+                                        >
+                                            Run benchmarks to make sure changes
+                                            work
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="benchmark-demo__flywheel-step"
+                                        data-color="deploy"
+                                        data-index="3"
+                                    >
+                                        <div
+                                            class="benchmark-demo__flywheel-icon"
+                                        >
+                                            🚀
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__flywheel-title"
+                                        >
+                                            Deploy
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__flywheel-def"
+                                        >
+                                            Go live
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__flywheel-detail"
+                                        >
+                                            Push approved changes to production
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="text-align: center">
+                                    <div
+                                        class="benchmark-demo__flywheel-loop"
+                                        id="demoFlywheelLoop"
+                                    >
+                                        <span
+                                            class="benchmark-demo__flywheel-loop-icon"
+                                            >🔄</span
+                                        >
+                                        <span
+                                            class="benchmark-demo__flywheel-loop-text"
+                                            >This cycle repeats to keep
+                                            improving</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Phase 5: Step 1 - Create Benchmark -->
+                            <div class="benchmark-demo__phase" id="demoPhase5">
+                                <div style="text-align: center">
+                                    <span
+                                        class="benchmark-demo__badge benchmark-demo__badge--step"
+                                        >Step 1: Create Benchmark</span
+                                    >
+                                </div>
+                                <div
+                                    class="benchmark-demo__step-definition"
+                                    id="demoStep1Def"
+                                >
+                                    <p
+                                        class="benchmark-demo__step-definition-text"
+                                    >
+                                        <strong>What this means:</strong> Write
+                                        down a question and the correct answer.
+                                    </p>
+                                </div>
+                                <div
+                                    class="benchmark-demo__card benchmark-demo__card--question"
+                                    id="demoQuestionCard"
+                                >
+                                    <div
+                                        class="benchmark-demo__card-label benchmark-demo__card-label--question"
+                                    >
+                                        Customer Question
+                                    </div>
+                                    <div
+                                        class="benchmark-demo__card-text"
+                                        id="demoQuestion"
+                                    ></div>
+                                </div>
+                                <div
+                                    class="benchmark-demo__card benchmark-demo__card--expected"
+                                    id="demoExpectedCard"
+                                >
+                                    <div
+                                        class="benchmark-demo__card-label benchmark-demo__card-label--expected"
+                                    >
+                                        Correct Answer
+                                    </div>
+                                    <div
+                                        class="benchmark-demo__card-text"
+                                        id="demoExpected"
+                                    ></div>
+                                </div>
+                            </div>
+
+                            <!-- Phase 6: Step 2 - Retrieve Knowledge -->
+                            <div class="benchmark-demo__phase" id="demoPhase6">
+                                <div style="text-align: center">
+                                    <span
+                                        class="benchmark-demo__badge benchmark-demo__badge--knowledge"
+                                        >Step 2: Retrieve Knowledge</span
+                                    >
+                                </div>
+                                <div
+                                    class="benchmark-demo__step-definition"
+                                    data-color="denim"
+                                    id="demoStep2Def"
+                                >
+                                    <p
+                                        class="benchmark-demo__step-definition-text"
+                                    >
+                                        <strong>What this means:</strong> The AI
+                                        searches your knowledge base for
+                                        relevant info.
+                                    </p>
+                                </div>
+                                <div
+                                    class="benchmark-demo__knowledge-list"
+                                    id="demoKnowledge"
+                                >
+                                    <div
+                                        class="benchmark-demo__knowledge-item"
+                                        data-index="0"
+                                    >
+                                        <div class="benchmark-demo__relevance">
+                                            94%
+                                            <div
+                                                class="benchmark-demo__relevance-label"
+                                            >
+                                                match
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div
+                                                class="benchmark-demo__knowledge-source"
+                                            >
+                                                Policies › Returns
+                                            </div>
+                                            <div
+                                                class="benchmark-demo__knowledge-text"
+                                            >
+                                                Returns are accepted within 30
+                                                days of purchase. Items must be
+                                                in original condition.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="benchmark-demo__knowledge-item"
+                                        data-index="1"
+                                    >
+                                        <div class="benchmark-demo__relevance">
+                                            89%
+                                            <div
+                                                class="benchmark-demo__relevance-label"
+                                            >
+                                                match
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div
+                                                class="benchmark-demo__knowledge-source"
+                                            >
+                                                Policies › Shipping
+                                            </div>
+                                            <div
+                                                class="benchmark-demo__knowledge-text"
+                                            >
+                                                For non-warranty returns, the
+                                                customer pays via a $5 deduction
+                                                from the refund.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="benchmark-demo__knowledge-item"
+                                        data-index="2"
+                                    >
+                                        <div class="benchmark-demo__relevance">
+                                            72%
+                                            <div
+                                                class="benchmark-demo__relevance-label"
+                                            >
+                                                match
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div
+                                                class="benchmark-demo__knowledge-source"
+                                            >
+                                                FAQ › Refunds
+                                            </div>
+                                            <div
+                                                class="benchmark-demo__knowledge-text"
+                                            >
+                                                Refunds are issued within 3
+                                                business days of receipt.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Phase 7: Step 3 - Generate Response -->
+                            <div class="benchmark-demo__phase" id="demoPhase7">
+                                <div style="text-align: center">
+                                    <span
+                                        class="benchmark-demo__badge benchmark-demo__badge--response"
+                                        >Step 3: Generate Response</span
+                                    >
+                                </div>
+                                <div
+                                    class="benchmark-demo__step-definition"
+                                    data-color="salmon"
+                                    id="demoStep3Def"
+                                >
+                                    <p
+                                        class="benchmark-demo__step-definition-text"
+                                    >
+                                        <strong>What this means:</strong> The AI
+                                        creates an answer using the knowledge it
+                                        found.
+                                    </p>
+                                </div>
+                                <div class="benchmark-demo__responses">
+                                    <div
+                                        class="benchmark-demo__card benchmark-demo__card--expected show"
+                                        id="demoExpectedCard2"
+                                    >
+                                        <div
+                                            class="benchmark-demo__card-label benchmark-demo__card-label--expected"
+                                        >
+                                            Correct Answer
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__card-text"
+                                            id="demoExpected2"
+                                        ></div>
+                                    </div>
+                                    <div
+                                        class="benchmark-demo__card benchmark-demo__card--response show"
+                                        id="demoAiCard"
+                                    >
+                                        <div
+                                            class="benchmark-demo__card-label benchmark-demo__card-label--response"
+                                        >
+                                            AI's Answer
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__card-text"
+                                            id="demoAiResponse"
+                                        ></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Phase 8: Step 4 - Calculate Score -->
+                            <div class="benchmark-demo__phase" id="demoPhase8">
+                                <div style="text-align: center">
+                                    <span
+                                        class="benchmark-demo__badge benchmark-demo__badge--score"
+                                        id="demoScoreBadge"
+                                        >Step 4: Calculate Score</span
+                                    >
+                                </div>
+                                <div
+                                    class="benchmark-demo__step-definition"
+                                    id="demoStep4Def"
+                                >
+                                    <p
+                                        class="benchmark-demo__step-definition-text"
+                                    >
+                                        <strong>What this means:</strong>
+                                        Measure how accurate the AI's answer is.
+                                    </p>
+                                </div>
+                                <div class="benchmark-demo__scores-grid">
+                                    <div
+                                        class="benchmark-demo__score-card"
+                                        id="demoFaithCard"
+                                    >
+                                        <div
+                                            class="benchmark-demo__score-header"
+                                        >
+                                            <span
+                                                class="benchmark-demo__score-label"
+                                                >Faithfulness</span
+                                            >
+                                            <span
+                                                class="benchmark-demo__score-value benchmark-demo__score-value--faith"
+                                                id="demoFaithValue"
+                                                >0.00</span
+                                            >
+                                        </div>
+                                        <div class="benchmark-demo__score-desc">
+                                            Is the answer factually correct?
+                                        </div>
+                                        <div class="benchmark-demo__score-bar">
+                                            <div
+                                                class="benchmark-demo__score-fill benchmark-demo__score-fill--faith"
+                                                id="demoFaithBar"
+                                                style="width: 0%"
+                                            ></div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="benchmark-demo__score-card"
+                                        id="demoSimCard"
+                                    >
+                                        <div
+                                            class="benchmark-demo__score-header"
+                                        >
+                                            <span
+                                                class="benchmark-demo__score-label"
+                                                >Similarity</span
+                                            >
+                                            <span
+                                                class="benchmark-demo__score-value benchmark-demo__score-value--sim"
+                                                id="demoSimValue"
+                                                >0.00</span
+                                            >
+                                        </div>
+                                        <div class="benchmark-demo__score-desc">
+                                            Does it mean the same thing?
+                                        </div>
+                                        <div class="benchmark-demo__score-bar">
+                                            <div
+                                                class="benchmark-demo__score-fill benchmark-demo__score-fill--sim"
+                                                id="demoSimBar"
+                                                style="width: 0%"
+                                            ></div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="benchmark-demo__result-badge"
+                                        id="demoResultBadge"
+                                    >
+                                        <div
+                                            class="benchmark-demo__result-icon"
+                                            id="demoResultIcon"
+                                        >
+                                            <div class="spinner"></div>
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__result-text"
+                                            id="demoResultText"
+                                        >
+                                            Checking...
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Phase 9: Results -->
+                            <div class="benchmark-demo__phase" id="demoPhase9">
+                                <div style="text-align: center">
+                                    <span
+                                        class="benchmark-demo__badge benchmark-demo__badge--results"
+                                        >Our Results</span
+                                    >
+                                    <h2 class="benchmark-demo__phase-title">
+                                        AI That Keeps Getting Better
+                                    </h2>
+                                    <p class="benchmark-demo__phase-subtitle">
+                                        Real results from our AI Agent
+                                        Management service:
+                                    </p>
+                                </div>
+                                <div
+                                    class="benchmark-demo__metrics"
+                                    id="demoMetrics"
+                                >
+                                    <div
+                                        class="benchmark-demo__metric"
+                                        data-index="0"
+                                    >
+                                        <div
+                                            class="benchmark-demo__metric-icon"
+                                        >
+                                            🎯
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__metric-value"
+                                        >
+                                            +15%
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__metric-label"
+                                        >
+                                            AI First-Response
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__metric-desc"
+                                        >
+                                            More queries handled without human
+                                            help
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="benchmark-demo__metric"
+                                        data-index="1"
+                                    >
+                                        <div
+                                            class="benchmark-demo__metric-icon"
+                                        >
+                                            📈
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__metric-value"
+                                        >
+                                            3x
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__metric-label"
+                                        >
+                                            More Queries Solved
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__metric-desc"
+                                        >
+                                            Dramatic increase in resolution rate
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="benchmark-demo__metric"
+                                        data-index="2"
+                                    >
+                                        <div
+                                            class="benchmark-demo__metric-icon"
+                                        >
+                                            ⚡
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__metric-value"
+                                        >
+                                            1 Day
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__metric-label"
+                                        >
+                                            Update Turnaround
+                                        </div>
+                                        <div
+                                            class="benchmark-demo__metric-desc"
+                                        >
+                                            Fast response to new requirements
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="benchmark-demo__cta" id="demoCTA">
+                                    <p class="benchmark-demo__cta-text">
+                                        Trusted by 750+ brands worldwide
+                                    </p>
+                                    <button
+                                        class="benchmark-demo__restart-btn"
+                                        onclick="resetBenchmarkDemo()"
+                                    >
+                                        ↺ Watch Again
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="benchmark-demo__footer">
+                            <span>Context Engine</span>
+                            <span>Analyze → Train → Test → Deploy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Welcome Tour -->
             <div class="tour-overlay" id="tourOverlay"></div>
