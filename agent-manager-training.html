@@ -2981,6 +2981,36 @@
                 color: var(--mocha);
             }
 
+            .benchmark-demo__nav-btn {
+                padding: 0.5rem 1.25rem;
+                border: 1px solid var(--denim);
+                background: white;
+                color: var(--denim);
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 0.9rem;
+                transition: all 0.2s;
+            }
+
+            .benchmark-demo__nav-btn:hover:not(:disabled) {
+                background: var(--denim);
+                color: white;
+            }
+
+            .benchmark-demo__nav-btn:disabled {
+                opacity: 0.4;
+                cursor: not-allowed;
+            }
+
+            .benchmark-demo__nav-btn--next {
+                background: var(--denim);
+                color: white;
+            }
+
+            .benchmark-demo__nav-btn--next:hover:not(:disabled) {
+                background: var(--slate);
+            }
+
             @keyframes fadeInUp {
                 from {
                     opacity: 0;
@@ -7238,6 +7268,8 @@
                     });
                 }
 
+                let currentDemoPhase = 0;
+
                 function showPhase(phaseNum) {
                     document
                         .querySelectorAll(".benchmark-demo__phase")
@@ -7249,212 +7281,244 @@
                     updateDemoProgress(phaseNum);
                 }
 
-                async function runBenchmarkDemo() {
-                    if (demoRunning) return;
-                    demoRunning = true;
+                function updateDemoNavigation() {
+                    const prevBtn = document.getElementById("demoPrevBtn");
+                    const nextBtn = document.getElementById("demoNextBtn");
+                    const phaseNum = document.getElementById("demoPhaseNum");
 
-                    // Hide start screen
-                    document.getElementById("demoStart").style.display = "none";
+                    phaseNum.textContent = currentDemoPhase;
+                    prevBtn.disabled = currentDemoPhase <= 0;
 
-                    // Phase 1: Why AI Agent Management?
-                    showPhase(1);
-                    await wait(600);
-                    const whyItems = document.querySelectorAll(
-                        ".benchmark-demo__why-item",
-                    );
-                    for (let i = 0; i < whyItems.length; i++) {
-                        whyItems[i].classList.add("show");
-                        await wait(500);
+                    if (currentDemoPhase >= 9) {
+                        nextBtn.textContent = "Restart ↺";
+                    } else {
+                        nextBtn.textContent = "Next →";
                     }
-                    await wait(2500);
+                }
 
-                    // Phase 2: What is Benchmark Testing?
-                    showPhase(2);
-                    await wait(400);
-                    const whatSteps = document.querySelectorAll(
-                        ".benchmark-demo__what-step",
-                    );
-                    const whatArrows = document.querySelectorAll(
-                        ".benchmark-demo__what-arrow",
-                    );
-                    for (let i = 0; i < whatSteps.length; i++) {
-                        whatSteps[i].classList.add("show");
-                        await wait(400);
-                        if (whatArrows[i]) {
-                            whatArrows[i].classList.add("show");
+                async function showDemoPhase(phaseNum) {
+                    // Hide start screen when showing any phase > 0
+                    if (phaseNum > 0) {
+                        document.getElementById("demoStart").style.display =
+                            "none";
+                    } else {
+                        document.getElementById("demoStart").style.display =
+                            "block";
+                    }
+
+                    showPhase(phaseNum);
+                    updateDemoNavigation();
+
+                    // Animate content for each phase
+                    switch (phaseNum) {
+                        case 1:
+                            // Phase 1: Why AI Agent Management?
+                            const whyItems = document.querySelectorAll(
+                                ".benchmark-demo__why-item",
+                            );
+                            for (let i = 0; i < whyItems.length; i++) {
+                                whyItems[i].classList.add("show");
+                                await wait(400);
+                            }
+                            break;
+
+                        case 2:
+                            // Phase 2: What is Benchmark Testing?
+                            const whatSteps = document.querySelectorAll(
+                                ".benchmark-demo__what-step",
+                            );
+                            const whatArrows = document.querySelectorAll(
+                                ".benchmark-demo__what-arrow",
+                            );
+                            for (let i = 0; i < whatSteps.length; i++) {
+                                whatSteps[i].classList.add("show");
+                                await wait(300);
+                                if (whatArrows[i]) {
+                                    whatArrows[i].classList.add("show");
+                                    await wait(200);
+                                }
+                            }
                             await wait(300);
-                        }
+                            document
+                                .getElementById("demoWhatSummary")
+                                .classList.add("show");
+                            break;
+
+                        case 3:
+                            // Phase 3: The Solution - AI Agent Management
+                            const benefits = document.querySelectorAll(
+                                ".benchmark-demo__benefit",
+                            );
+                            for (let i = 0; i < benefits.length; i++) {
+                                benefits[i].classList.add("show");
+                                await wait(300);
+                            }
+                            break;
+
+                        case 4:
+                            // Phase 4: The Flywheel
+                            const flywheelSteps = document.querySelectorAll(
+                                ".benchmark-demo__flywheel-step",
+                            );
+                            for (let i = 0; i < flywheelSteps.length; i++) {
+                                flywheelSteps[i].classList.add("show");
+                                await wait(250);
+                            }
+                            await wait(400);
+                            document
+                                .getElementById("demoFlywheelLoop")
+                                .classList.add("show");
+                            break;
+
+                        case 5:
+                            // Phase 5: Step 1 - Create Benchmark
+                            document
+                                .getElementById("demoStep1Def")
+                                .classList.add("show");
+                            await wait(300);
+                            document
+                                .getElementById("demoQuestionCard")
+                                .classList.add("show");
+                            await wait(200);
+                            await streamText(
+                                demoData.question,
+                                document.getElementById("demoQuestion"),
+                                35,
+                            );
+                            await wait(300);
+                            document
+                                .getElementById("demoExpectedCard")
+                                .classList.add("show");
+                            await wait(200);
+                            await streamText(
+                                demoData.expectedAnswer,
+                                document.getElementById("demoExpected"),
+                                18,
+                            );
+                            break;
+
+                        case 6:
+                            // Phase 6: Step 2 - Retrieve Knowledge
+                            document
+                                .getElementById("demoStep2Def")
+                                .classList.add("show");
+                            await wait(300);
+                            const knowledgeItems = document.querySelectorAll(
+                                ".benchmark-demo__knowledge-item",
+                            );
+                            for (let i = 0; i < knowledgeItems.length; i++) {
+                                knowledgeItems[i].classList.add("show");
+                                await wait(400);
+                            }
+                            break;
+
+                        case 7:
+                            // Phase 7: Step 3 - Generate Response
+                            document
+                                .getElementById("demoStep3Def")
+                                .classList.add("show");
+                            await wait(300);
+                            document.getElementById(
+                                "demoExpected2",
+                            ).textContent = demoData.expectedAnswer;
+                            await wait(200);
+                            await streamText(
+                                demoData.aiAnswer,
+                                document.getElementById("demoAiResponse"),
+                                22,
+                            );
+                            break;
+
+                        case 8:
+                            // Phase 8: Step 4 - Calculate Score
+                            document
+                                .getElementById("demoStep4Def")
+                                .classList.add("show");
+                            await wait(300);
+                            document
+                                .getElementById("demoFaithCard")
+                                .classList.add("show");
+                            document
+                                .getElementById("demoSimCard")
+                                .classList.add("show");
+                            document
+                                .getElementById("demoResultBadge")
+                                .classList.add("show");
+                            await wait(400);
+
+                            // Animate scores
+                            await Promise.all([
+                                animateScore(
+                                    demoData.faithfulness,
+                                    document.getElementById("demoFaithValue"),
+                                    document.getElementById("demoFaithBar"),
+                                    1800,
+                                ),
+                                animateScore(
+                                    demoData.similarity,
+                                    document.getElementById("demoSimValue"),
+                                    document.getElementById("demoSimBar"),
+                                    1800,
+                                ),
+                            ]);
+
+                            await wait(400);
+                            document.getElementById(
+                                "demoScoreBadge",
+                            ).textContent = "✓ Test Passed!";
+                            document.getElementById(
+                                "demoScoreBadge",
+                            ).style.background = "var(--olive)";
+                            const resultIcon =
+                                document.getElementById("demoResultIcon");
+                            resultIcon.classList.add("passed");
+                            resultIcon.innerHTML =
+                                '<svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="var(--olive)" stroke-width="3"><polyline points="20 6 9 17 4 12" /></svg>';
+                            document.getElementById(
+                                "demoResultText",
+                            ).textContent = "PASSED";
+                            document
+                                .getElementById("demoResultText")
+                                .classList.add("passed");
+                            break;
+
+                        case 9:
+                            // Phase 9: Results
+                            const metrics = document.querySelectorAll(
+                                ".benchmark-demo__metric",
+                            );
+                            for (let i = 0; i < metrics.length; i++) {
+                                metrics[i].classList.add("show");
+                                await wait(350);
+                            }
+                            await wait(500);
+                            document
+                                .getElementById("demoCTA")
+                                .classList.add("show");
+                            break;
                     }
-                    await wait(500);
-                    document
-                        .getElementById("demoWhatSummary")
-                        .classList.add("show");
-                    await wait(2500);
+                }
 
-                    // Phase 3: The Solution - AI Agent Management
-                    showPhase(3);
-                    await wait(400);
-                    const benefits = document.querySelectorAll(
-                        ".benchmark-demo__benefit",
-                    );
-                    for (let i = 0; i < benefits.length; i++) {
-                        benefits[i].classList.add("show");
-                        await wait(350);
+                function nextDemoPhase() {
+                    if (currentDemoPhase >= 9) {
+                        // Restart
+                        resetBenchmarkDemo();
+                        return;
                     }
-                    await wait(2500);
+                    currentDemoPhase++;
+                    showDemoPhase(currentDemoPhase);
+                }
 
-                    // Phase 4: The Flywheel
-                    showPhase(4);
-                    await wait(400);
-                    const flywheelSteps = document.querySelectorAll(
-                        ".benchmark-demo__flywheel-step",
-                    );
-                    for (let i = 0; i < flywheelSteps.length; i++) {
-                        flywheelSteps[i].classList.add("show");
-                        await wait(300);
-                    }
-                    await wait(600);
-                    // Cycle through flywheel steps
-                    for (let i = 0; i < flywheelSteps.length; i++) {
-                        flywheelSteps.forEach((s) =>
-                            s.classList.remove("active"),
-                        );
-                        flywheelSteps[i].classList.add("active");
-                        await wait(1200);
-                    }
-                    flywheelSteps.forEach((s) => s.classList.remove("active"));
-                    document
-                        .getElementById("demoFlywheelLoop")
-                        .classList.add("show");
-                    await wait(2000);
+                function prevDemoPhase() {
+                    if (currentDemoPhase <= 0) return;
+                    currentDemoPhase--;
+                    showDemoPhase(currentDemoPhase);
+                }
 
-                    // Phase 5: Step 1 - Create Benchmark
-                    showPhase(5);
-                    await wait(400);
-                    document
-                        .getElementById("demoStep1Def")
-                        .classList.add("show");
-                    await wait(400);
-                    document
-                        .getElementById("demoQuestionCard")
-                        .classList.add("show");
-                    await wait(300);
-                    await streamText(
-                        demoData.question,
-                        document.getElementById("demoQuestion"),
-                        45,
-                    );
-                    await wait(400);
-                    document
-                        .getElementById("demoExpectedCard")
-                        .classList.add("show");
-                    await wait(300);
-                    await streamText(
-                        demoData.expectedAnswer,
-                        document.getElementById("demoExpected"),
-                        22,
-                    );
-                    await wait(2000);
-
-                    // Phase 6: Step 2 - Retrieve Knowledge
-                    showPhase(6);
-                    await wait(400);
-                    document
-                        .getElementById("demoStep2Def")
-                        .classList.add("show");
-                    await wait(400);
-                    const knowledgeItems = document.querySelectorAll(
-                        ".benchmark-demo__knowledge-item",
-                    );
-                    for (let i = 0; i < knowledgeItems.length; i++) {
-                        knowledgeItems[i].classList.add("show");
-                        await wait(500);
-                    }
-                    await wait(2000);
-
-                    // Phase 7: Step 3 - Generate Response
-                    showPhase(7);
-                    await wait(400);
-                    document
-                        .getElementById("demoStep3Def")
-                        .classList.add("show");
-                    await wait(400);
-                    document.getElementById("demoExpected2").textContent =
-                        demoData.expectedAnswer;
-                    await wait(300);
-                    await streamText(
-                        demoData.aiAnswer,
-                        document.getElementById("demoAiResponse"),
-                        28,
-                    );
-                    await wait(2000);
-
-                    // Phase 8: Step 4 - Calculate Score
-                    showPhase(8);
-                    await wait(400);
-                    document
-                        .getElementById("demoStep4Def")
-                        .classList.add("show");
-                    await wait(400);
-                    document
-                        .getElementById("demoFaithCard")
-                        .classList.add("show");
-                    document
-                        .getElementById("demoSimCard")
-                        .classList.add("show");
-                    document
-                        .getElementById("demoResultBadge")
-                        .classList.add("show");
-                    await wait(500);
-
-                    // Animate scores
-                    await Promise.all([
-                        animateScore(
-                            demoData.faithfulness,
-                            document.getElementById("demoFaithValue"),
-                            document.getElementById("demoFaithBar"),
-                            2200,
-                        ),
-                        animateScore(
-                            demoData.similarity,
-                            document.getElementById("demoSimValue"),
-                            document.getElementById("demoSimBar"),
-                            2200,
-                        ),
-                    ]);
-
-                    await wait(600);
-
-                    // Update badge and result
-                    document.getElementById("demoScoreBadge").textContent =
-                        "✓ Test Passed!";
-                    document.getElementById("demoScoreBadge").style.background =
-                        "var(--olive)";
-                    const resultIcon =
-                        document.getElementById("demoResultIcon");
-                    resultIcon.classList.add("passed");
-                    resultIcon.innerHTML =
-                        '<svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="var(--olive)" stroke-width="3"><polyline points="20 6 9 17 4 12" /></svg>';
-                    document.getElementById("demoResultText").textContent =
-                        "PASSED";
-                    document
-                        .getElementById("demoResultText")
-                        .classList.add("passed");
-                    await wait(2500);
-
-                    // Phase 9: Results
-                    showPhase(9);
-                    await wait(400);
-                    const metrics = document.querySelectorAll(
-                        ".benchmark-demo__metric",
-                    );
-                    for (let i = 0; i < metrics.length; i++) {
-                        metrics[i].classList.add("show");
-                        await wait(400);
-                    }
-                    await wait(800);
-                    document.getElementById("demoCTA").classList.add("show");
-                    demoRunning = false;
+                // Keep runBenchmarkDemo for the play button on start screen
+                function runBenchmarkDemo() {
+                    currentDemoPhase = 1;
+                    showDemoPhase(1);
                 }
 
                 function resetBenchmarkDemo() {
@@ -7565,6 +7629,10 @@
                     // Show start screen
                     document.getElementById("demoStart").style.display =
                         "block";
+
+                    // Reset navigation state
+                    currentDemoPhase = 0;
+                    updateDemoNavigation();
                 }
 
                 function openDemoModal() {
@@ -8504,8 +8572,25 @@
                             </div>
                         </div>
                         <div class="benchmark-demo__footer">
-                            <span>Context Engine</span>
-                            <span>Analyze → Train → Test → Deploy</span>
+                            <button
+                                class="benchmark-demo__nav-btn"
+                                id="demoPrevBtn"
+                                onclick="prevDemoPhase()"
+                                disabled
+                            >
+                                ← Previous
+                            </button>
+                            <span
+                                >Phase <span id="demoPhaseNum">0</span> of
+                                9</span
+                            >
+                            <button
+                                class="benchmark-demo__nav-btn benchmark-demo__nav-btn--next"
+                                id="demoNextBtn"
+                                onclick="nextDemoPhase()"
+                            >
+                                Next →
+                            </button>
                         </div>
                     </div>
                 </div>
