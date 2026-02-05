@@ -761,34 +761,31 @@
                 animation: fadeIn 0.5s ease;
             }
 
-            .score-circle {
-                width: 120px;
-                height: 120px;
-                border-radius: 50%;
-                margin: 0 auto 1.5rem;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                font-size: 2.5rem;
+            .score-text {
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+
+            .score-text__number {
+                font-size: 3rem;
                 font-weight: 700;
-                color: var(--snow);
+                line-height: 1;
             }
 
-            .score-circle.excellent {
-                background: var(--olive);
-            }
-            .score-circle.good {
-                background: var(--tangerine);
-                color: var(--espresso);
-            }
-            .score-circle.needs-work {
-                background: var(--salmon);
+            .score-text__label {
+                font-size: 0.9rem;
+                color: var(--text-muted);
+                margin-top: 0.25rem;
             }
 
-            .score-circle span {
-                font-size: 0.8rem;
-                font-weight: 500;
+            .score-text.excellent .score-text__number {
+                color: var(--olive);
+            }
+            .score-text.good .score-text__number {
+                color: var(--tangerine);
+            }
+            .score-text.needs-work .score-text__number {
+                color: var(--salmon);
             }
 
             /* Checklist */
@@ -4192,9 +4189,11 @@
                         </div>
 
                         <div class="quiz-results" id="quiz1Results">
-                            <div class="score-circle" id="quiz1Score">
-                                <span id="quiz1ScoreNum">0</span>/5
-                                <span>correct</span>
+                            <div class="score-text" id="quiz1Score">
+                                <div class="score-text__number">
+                                    <span id="quiz1ScoreNum">0</span>/5
+                                </div>
+                                <div class="score-text__label">correct</div>
                             </div>
                             <h3 id="quiz1Message"></h3>
                             <p id="quiz1Advice" class="text-muted"></p>
@@ -4392,9 +4391,11 @@
                         </div>
 
                         <div class="quiz-results" id="quiz2Results">
-                            <div class="score-circle" id="quiz2Score">
-                                <span id="quiz2ScoreNum">0</span>/5
-                                <span>correct</span>
+                            <div class="score-text" id="quiz2Score">
+                                <div class="score-text__number">
+                                    <span id="quiz2ScoreNum">0</span>/5
+                                </div>
+                                <div class="score-text__label">correct</div>
                             </div>
                             <h3 id="quiz2Message"></h3>
                             <p id="quiz2Advice" class="text-muted"></p>
@@ -4617,9 +4618,11 @@
                         </div>
 
                         <div class="quiz-results" id="quiz3Results">
-                            <div class="score-circle" id="quiz3Score">
-                                <span id="quiz3ScoreNum">0</span>/5
-                                <span>correct</span>
+                            <div class="score-text" id="quiz3Score">
+                                <div class="score-text__number">
+                                    <span id="quiz3ScoreNum">0</span>/5
+                                </div>
+                                <div class="score-text__label">correct</div>
                             </div>
                             <h3 id="quiz3Message"></h3>
                             <p id="quiz3Advice" class="text-muted"></p>
@@ -4852,9 +4855,11 @@
                         </div>
 
                         <div class="quiz-results" id="quiz4Results">
-                            <div class="score-circle" id="quiz4Score">
-                                <span id="quiz4ScoreNum">0</span>/5
-                                <span>correct</span>
+                            <div class="score-text" id="quiz4Score">
+                                <div class="score-text__number">
+                                    <span id="quiz4ScoreNum">0</span>/5
+                                </div>
+                                <div class="score-text__label">correct</div>
                             </div>
                             <h3 id="quiz4Message"></h3>
                             <p id="quiz4Advice" class="text-muted"></p>
