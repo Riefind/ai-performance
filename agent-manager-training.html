@@ -2133,7 +2133,14 @@
         <!-- Header -->
         <header class="header">
             <div class="header__inner">
-                <a href="#home" class="header__logo">
+                <a
+                    href="#"
+                    class="header__logo"
+                    onclick="
+                        goToSection('role');
+                        return false;
+                    "
+                >
                     <img
                         src="docs/assets/images/logo.png"
                         alt="Influx"
@@ -2396,9 +2403,9 @@
                         <div class="card">
                             <h3>📚 Context Engineering</h3>
                             <p class="text-muted">
-                                Build and maintain the AI's knowledge base using
-                                atomic markdown. Create clear guidance on tone,
-                                escalation rules, and definitions.
+                                Build and maintain the AI Agent's knowledge base
+                                using atomic markdown. Create clear guidance on
+                                tone, escalation rules, and definitions.
                             </p>
                             <ul
                                 style="
@@ -2618,7 +2625,8 @@
                                 >design, technical integrity, and
                                 accuracy</strong
                             >
-                            of the AI's knowledge base and testing protocols.
+                            of the AI Agent's knowledge base and testing
+                            protocols.
                         </p>
                     </div>
 
@@ -2645,7 +2653,7 @@
                     <p>
                         Learn the Flywheel method to build, test, and improve
                         AI-powered customer service. The more you use it, the
-                        better your AI gets.
+                        better your AI Agent gets.
                     </p>
 
                     <div class="flywheel-container">
@@ -2695,19 +2703,19 @@
                         <p>
                             Your daily system for managing AI Agents. Four
                             stages that repeat continuously, making your AI
-                            better each cycle.
+                            Agent better each cycle.
                         </p>
                     </div>
 
                     <div class="card-grid">
                         <div class="card">
                             <span class="badge badge-train">Train</span>
-                            <h3>📚 What AI Knows & How It Behaves</h3>
+                            <h3>📚 What AI Agent Knows & How It Behaves</h3>
                             <p>
                                 Create <strong>Content</strong> (facts and
                                 information) and
                                 <strong>Guidance</strong> (rules and tone) to
-                                teach your AI.
+                                teach your AI Agent.
                             </p>
                         </div>
                         <div class="card">
@@ -2715,17 +2723,17 @@
                             <h3>🧪 Verify Before Going Live</h3>
                             <p>
                                 Run simulated customer conversations to check if
-                                AI answers correctly. Fix problems before real
-                                customers see them.
+                                AI Agent answers correctly. Fix problems before
+                                real customers see them.
                             </p>
                         </div>
                         <div class="card">
                             <span class="badge badge-deploy">Deploy</span>
                             <h3>🚀 Publish to Live Channels</h3>
                             <p>
-                                Set AI live across every channel — chat, email,
-                                and phone — for consistent support wherever
-                                customers reach out.
+                                Set AI Agent live across every channel — chat,
+                                email, and phone — for consistent support
+                                wherever customers reach out.
                             </p>
                         </div>
                         <div class="card">
@@ -2754,12 +2762,13 @@
                                 <tr>
                                     <td><strong>Faithfulness</strong></td>
                                     <td>
-                                        Does AI use only the facts we trained it
-                                        on?
+                                        Does AI Agent use only the facts we
+                                        trained it on?
                                     </td>
                                     <td class="text-muted">
-                                        Low scores = AI making things up. Leads
-                                        to customer complaints and brand damage.
+                                        Low scores = AI Agent making things up.
+                                        Leads to customer complaints and brand
+                                        damage.
                                     </td>
                                     <td>≥ 0.9</td>
                                     <td>
@@ -2775,12 +2784,12 @@
                                         <strong>Semantic Similarity</strong>
                                     </td>
                                     <td>
-                                        Does AI's meaning match our reference
-                                        answer?
+                                        Does AI Agent's meaning match our
+                                        reference answer?
                                     </td>
                                     <td class="text-muted">
-                                        Ensures AI gives correct meaning, not
-                                        just similar-sounding words.
+                                        Ensures AI Agent gives correct meaning,
+                                        not just similar-sounding words.
                                     </td>
                                     <td>≥ 0.7</td>
                                     <td>
@@ -2794,7 +2803,8 @@
                                 <tr>
                                     <td><strong>Resolution Rate</strong></td>
                                     <td>
-                                        How many questions did AI resolve alone?
+                                        How many questions did AI Agent resolve
+                                        alone?
                                     </td>
                                     <td class="text-muted">
                                         Higher = fewer human agents needed =
@@ -2814,7 +2824,7 @@
                                     <td>How many questions went to humans?</td>
                                     <td class="text-muted">
                                         High handover defeats the purpose of AI
-                                        automation.
+                                        Agent automation.
                                     </td>
                                     <td>Lower = Better</td>
                                     <td>
@@ -2828,7 +2838,8 @@
                                 <tr>
                                     <td><strong>CSAT</strong></td>
                                     <td>
-                                        Are customers happy with AI answers?
+                                        Are customers happy with AI Agent
+                                        answers?
                                     </td>
                                     <td class="text-muted">
                                         Direct measure of customer experience.
@@ -2923,10 +2934,10 @@
                 <div class="container">
                     <div class="section-header">
                         <span class="badge badge-train">Stage 1</span>
-                        <h2>📚 Train: Teach Your AI</h2>
+                        <h2>📚 Train: Teach Your AI Agent</h2>
                         <p>
-                            Training has two parts: Content (what AI knows) and
-                            Guidance (how AI behaves).
+                            Training has two parts: Content (what AI Agent
+                            knows) and Guidance (how AI Agent behaves).
                         </p>
                     </div>
 
@@ -2936,15 +2947,15 @@
                                 class="accordion-header"
                                 onclick="toggleAccordion(this)"
                             >
-                                <h4>📖 Content — What AI Knows</h4>
+                                <h4>📖 Content — What AI Agent Knows</h4>
                                 <span class="accordion-icon">+</span>
                             </div>
                             <div class="accordion-content">
                                 <div class="accordion-content-inner">
                                     <p>
                                         Content is the information that teaches
-                                        AI what to say. Think of it as the AI's
-                                        study materials.
+                                        AI Agent what to say. Think of it as the
+                                        AI Agent's study materials.
                                     </p>
 
                                     <h4 class="mt-lg">
@@ -2963,7 +2974,7 @@
                                             <p class="text-muted mt-sm">
                                                 <strong>Problem:</strong> Too
                                                 many facts in one sentence. Hard
-                                                for AI to find specific
+                                                for AI Agent to find specific
                                                 information.
                                             </p>
                                         </div>
@@ -3006,13 +3017,13 @@
                                 class="accordion-header"
                                 onclick="toggleAccordion(this)"
                             >
-                                <h4>🎯 Guidance — How AI Behaves</h4>
+                                <h4>🎯 Guidance — How AI Agent Behaves</h4>
                                 <span class="accordion-icon">+</span>
                             </div>
                             <div class="accordion-content">
                                 <div class="accordion-content-inner">
                                     <p>
-                                        Guidance tells the AI
+                                        Guidance tells the AI Agent
                                         <strong>how to behave</strong>, not what
                                         to know. It covers tone, rules, and
                                         escalation.
@@ -3023,7 +3034,7 @@
                                         <pre>
 ## Category Heading
 
-- IF [customer situation] THEN [what the AI should do]</pre
+- IF [customer situation] THEN [what the AI Agent should do]</pre
                                         >
                                     </div>
 
@@ -3091,9 +3102,9 @@
                             <div class="flashcard__back">
                                 <div class="flashcard__definition">
                                     <strong>Content</strong> = Facts the AI
-                                    knows (Q&A format)<br /><br />
-                                    <strong>Guidance</strong> = How AI behaves
-                                    (IF-THEN rules)
+                                    Agent knows (Q&A format)<br /><br />
+                                    <strong>Guidance</strong> = How AI Agent
+                                    behaves (IF-THEN rules)
                                 </div>
                             </div>
                         </div>
@@ -3114,7 +3125,8 @@
                                 data-correct="false"
                                 onclick="checkMiniQuiz(this, 'train')"
                             >
-                                Content — it's information the AI needs to know
+                                Content — it's information the AI Agent needs to
+                                know
                             </div>
                             <div
                                 class="mini-quiz__option"
@@ -3165,8 +3177,8 @@
                         <h2>🧪 Test: Verify Before Going Live</h2>
                         <p>
                             Run simulated customer conversations to see exactly
-                            how AI will behave. Find and fix problems before
-                            real customers see them.
+                            how AI Agent will behave. Find and fix problems
+                            before real customers see them.
                         </p>
                     </div>
 
@@ -3219,8 +3231,8 @@
                                         >
                                     </td>
                                     <td>
-                                        AI made up information OR content is
-                                        missing facts
+                                        AI Agent made up information OR content
+                                        is missing facts
                                     </td>
                                     <td>
                                         Go to
@@ -3243,12 +3255,12 @@
                                         >
                                     </td>
                                     <td>
-                                        AI's answer has different meaning than
-                                        expected
+                                        AI Agent's answer has different meaning
+                                        than expected
                                     </td>
                                     <td>
-                                        Check if AI is actually wrong, or update
-                                        the benchmark reference answer
+                                        Check if AI Agent is actually wrong, or
+                                        update the benchmark reference answer
                                     </td>
                                 </tr>
                             </tbody>
@@ -3292,7 +3304,7 @@
                                 data-correct="false"
                                 onclick="checkMiniQuiz(this, 'test')"
                             >
-                                The AI is responding too slowly
+                                The AI Agent is responding too slowly
                             </div>
                             <div
                                 class="mini-quiz__option"
@@ -3306,8 +3318,8 @@
                                 data-correct="true"
                                 onclick="checkMiniQuiz(this, 'test')"
                             >
-                                The AI may be making things up — check if the
-                                content is missing or unclear
+                                The AI Agent may be making things up — check if
+                                the content is missing or unclear
                             </div>
                         </div>
                         <div
@@ -3357,8 +3369,8 @@
                         <span class="badge badge-deploy">Stage 3</span>
                         <h2>🚀 Deploy: Go Live</h2>
                         <p>
-                            Set AI live across every channel for consistent
-                            support wherever customers reach out.
+                            Set AI Agent live across every channel for
+                            consistent support wherever customers reach out.
                         </p>
                     </div>
 
@@ -3499,8 +3511,8 @@
                                 data-correct="false"
                                 onclick="checkMiniQuiz(this, 'deploy')"
                             >
-                                When you want to test how the AI performs with
-                                real customers
+                                When you want to test how the AI Agent performs
+                                with real customers
                             </div>
                             <div
                                 class="mini-quiz__option"
@@ -3569,7 +3581,7 @@
                             <h3>📈 Performance Dashboard</h3>
                             <p>
                                 See key metrics like Resolution Rate and CSAT.
-                                Track trends over time to know if AI is
+                                Track trends over time to know if AI Agent is
                                 improving.
                             </p>
                         </div>
@@ -3577,8 +3589,8 @@
                             <h3>🎯 Optimize</h3>
                             <p>
                                 Get AI-powered recommendations to improve your
-                                content and guidance. See where AI struggles
-                                most.
+                                content and guidance. See where AI Agent
+                                struggles most.
                             </p>
                         </div>
                         <div class="card">
@@ -3591,8 +3603,8 @@
                         <div class="card">
                             <h3>💬 Conversations</h3>
                             <p>
-                                Review actual AI conversations. See what worked
-                                and what failed in real interactions.
+                                Review actual AI Agent conversations. See what
+                                worked and what failed in real interactions.
                             </p>
                         </div>
                     </div>
@@ -3607,7 +3619,9 @@
                             >
                                 ❌
                             </div>
-                            <div><strong>AI gave wrong answer</strong></div>
+                            <div>
+                                <strong>AI Agent gave wrong answer</strong>
+                            </div>
                         </div>
                         <div class="flow-arrow">↓</div>
 
@@ -3717,7 +3731,7 @@
                             <span class="flashcard__label">Tap to flip</span>
                             <div class="flashcard__front">
                                 <div class="flashcard__term">
-                                    AI gave wrong answer — now what?
+                                    AI Agent gave wrong answer — now what?
                                 </div>
                                 <div class="flashcard__hint">
                                     What's the troubleshooting order?
@@ -3743,9 +3757,9 @@
                             <span class="mini-quiz__badge">Quick Check</span>
                         </div>
                         <div class="mini-quiz__question">
-                            You find the AI gave a wrong answer. The correct
-                            info IS in your Content. What's the next thing to
-                            check?
+                            You find the AI Agent gave a wrong answer. The
+                            correct info IS in your Content. What's the next
+                            thing to check?
                         </div>
                         <div class="mini-quiz__options">
                             <div
@@ -3753,7 +3767,7 @@
                                 data-correct="false"
                                 onclick="checkMiniQuiz(this, 'analyze')"
                             >
-                                Delete the AI and start over
+                                Delete the AI Agent and start over
                             </div>
                             <div
                                 class="mini-quiz__option"
@@ -3845,8 +3859,9 @@
                             </h5>
                             <p class="text-muted">
                                 FastShip deployed their AI agent, but customers
-                                kept complaining that the AI gave wrong tracking
-                                information. Support tickets were piling up.
+                                kept complaining that the AI Agent gave wrong
+                                tracking information. Support tickets were
+                                piling up.
                             </p>
                             <div class="case-study__metrics">
                                 <div
@@ -4074,6 +4089,7 @@
                                     </div>
                                     <div class="quiz-option" data-index="2">
                                         Creating Content and Guidance for the AI
+                                        Agent
                                     </div>
                                     <div class="quiz-option" data-index="3">
                                         Running benchmark evaluations
@@ -4089,17 +4105,20 @@
                                 <h4>2. What is "Faithfulness" measuring?</h4>
                                 <div class="quiz-options">
                                     <div class="quiz-option" data-index="0">
-                                        How fast the AI responds to customers
+                                        How fast the AI Agent responds to
+                                        customers
                                     </div>
                                     <div class="quiz-option" data-index="1">
-                                        Whether the AI uses only the facts from
-                                        our training content
+                                        Whether the AI Agent uses only the facts
+                                        from our training content
                                     </div>
                                     <div class="quiz-option" data-index="2">
                                         How happy customers are with the AI
+                                        Agent
                                     </div>
                                     <div class="quiz-option" data-index="3">
-                                        How many questions the AI can answer
+                                        How many questions the AI Agent can
+                                        answer
                                     </div>
                                 </div>
                                 <div class="quiz-feedback">
@@ -4119,7 +4138,7 @@
                                         content
                                     </div>
                                     <div class="quiz-option" data-index="1">
-                                        Deploy the AI anyway and monitor
+                                        Deploy the AI Agent anyway and monitor
                                     </div>
                                     <div class="quiz-option" data-index="2">
                                         Delete the benchmark and create a new
@@ -4178,7 +4197,8 @@
                                         improve
                                     </div>
                                     <div class="quiz-option" data-index="3">
-                                        You archive the AI and build a new one
+                                        You archive the AI Agent and build a new
+                                        one
                                     </div>
                                 </div>
                                 <div class="quiz-feedback">
@@ -4376,8 +4396,8 @@
                                         questions in formal technical language
                                     </div>
                                     <div class="quiz-option" data-index="2">
-                                        Because the AI only understands casual
-                                        language
+                                        Because the AI Agent only understands
+                                        casual language
                                     </div>
                                     <div class="quiz-option" data-index="3">
                                         Because it makes the test faster to run
@@ -4515,7 +4535,7 @@
                                     </div>
                                     <div class="quiz-option" data-index="2">
                                         The reference answer is exactly what you
-                                        want the AI to say
+                                        want the AI Agent to say
                                     </div>
                                     <div class="quiz-option" data-index="3">
                                         It was created by a senior manager
@@ -4570,7 +4590,7 @@
                                 </h4>
                                 <div class="quiz-options">
                                     <div class="quiz-option" data-index="0">
-                                        To make the AI fail on purpose
+                                        To make the AI Agent fail on purpose
                                     </div>
                                     <div class="quiz-option" data-index="1">
                                         Because edge cases are the most common
@@ -5080,7 +5100,8 @@
                         color: var(--sand);
                     "
                 >
-                    "The more you use the Flywheel, the better your AI gets."
+                    "The more you use the Flywheel, the better your AI Agent
+                    gets."
                 </p>
                 <p>Train → Test → Deploy → Analyze → Repeat</p>
             </footer>
@@ -5582,13 +5603,13 @@
                             correct:
                                 "Correct! Train includes Content (what AI knows) and Guidance (how AI behaves).",
                             incorrect:
-                                "Not quite. Train is about teaching the AI through Content and Guidance.",
+                                "Not quite. Train is about teaching the AI Agent through Content and Guidance.",
                         },
                         {
                             correct:
-                                "Correct! Faithfulness measures if the AI sticks to the facts we gave it and doesn't make things up.",
+                                "Correct! Faithfulness measures if the AI Agent sticks to the facts we gave it and doesn't make things up.",
                             incorrect:
-                                "Not quite. Faithfulness checks if AI uses only the facts from our training content.",
+                                "Not quite. Faithfulness checks if AI Agent uses only the facts from our training content.",
                         },
                         {
                             correct:
@@ -5650,9 +5671,9 @@
                         },
                         {
                             correct:
-                                "Correct! The reference answer is your 'gold standard' — exactly what you want the AI to say for that query.",
+                                "Correct! The reference answer is your 'gold standard' — exactly what you want the AI Agent to say for that query.",
                             incorrect:
-                                "Not quite. A benchmark is a 'gold standard' when the reference answer is exactly what you want the AI to respond.",
+                                "Not quite. A benchmark is a 'gold standard' when the reference answer is exactly what you want the AI Agent to respond.",
                         },
                         {
                             correct:
@@ -5676,9 +5697,9 @@
                     quiz4: [
                         {
                             correct:
-                                "Correct! The Q&A format with category heading makes it easy for AI to find and retrieve the right fact.",
+                                "Correct! The Q&A format with category heading makes it easy for AI Agent to find and retrieve the right fact.",
                             incorrect:
-                                "Not quite. Structured Q&A format ([Category] → Question → Answer) is best for AI retrieval.",
+                                "Not quite. Structured Q&A format ([Category] → Question → Answer) is best for AI Agent retrieval.",
                         },
                         {
                             correct:
@@ -6180,6 +6201,15 @@
                 <div class="glossary-content">
                     <dl>
                         <div class="glossary-term">
+                            <dt>AI Agent</dt>
+                            <dd>
+                                An AI-powered virtual assistant that handles
+                                customer conversations automatically. It uses
+                                Content and Guidance to provide accurate,
+                                on-brand responses.
+                            </dd>
+                        </div>
+                        <div class="glossary-term">
                             <dt>Atomic Content</dt>
                             <dd>
                                 One fact per statement. Don't combine multiple
@@ -6198,24 +6228,25 @@
                         <div class="glossary-term">
                             <dt>Content</dt>
                             <dd>
-                                Facts and information the AI knows. Written in
-                                Q&A format: [Category] → Question? → Answer.
+                                Facts and information the AI Agent knows.
+                                Written in atomic markdown format with ##
+                                headers and bullet points.
                             </dd>
                         </div>
                         <div class="glossary-term">
                             <dt>CSAT</dt>
                             <dd>
                                 Customer Satisfaction score. A direct measure of
-                                how happy customers are with AI interactions.
-                                Higher is better.
+                                how happy customers are with AI Agent
+                                interactions. Higher is better.
                             </dd>
                         </div>
                         <div class="glossary-term">
                             <dt>Faithfulness</dt>
                             <dd>
-                                Score (0-1) measuring whether the AI sticks to
-                                trained facts and doesn't make things up.
-                                Target: ≥0.9
+                                Score (0-1) measuring whether the AI Agent
+                                sticks to trained facts and doesn't make things
+                                up. Target: ≥0.9
                             </dd>
                         </div>
                         <div class="glossary-term">
@@ -6223,13 +6254,13 @@
                             <dd>
                                 The continuous improvement cycle: Train → Test →
                                 Deploy → Analyze → Repeat. The more you use it,
-                                the better your AI gets.
+                                the better your AI Agent gets.
                             </dd>
                         </div>
                         <div class="glossary-term">
                             <dt>Guidance</dt>
                             <dd>
-                                Rules for AI behavior: tone, escalation
+                                Rules for AI Agent behavior: tone, escalation
                                 triggers, and situational responses. Format: IF
                                 [situation] THEN [action].
                             </dd>
@@ -6237,25 +6268,25 @@
                         <div class="glossary-term">
                             <dt>Handover</dt>
                             <dd>
-                                When the AI transfers a conversation to a human
-                                agent. High handover % defeats the purpose of AI
-                                automation.
+                                When the AI Agent transfers a conversation to a
+                                human agent. High handover % defeats the purpose
+                                of AI Agent automation.
                             </dd>
                         </div>
                         <div class="glossary-term">
                             <dt>Resolution Rate</dt>
                             <dd>
-                                Percentage of customer queries the AI resolves
-                                without human help. Higher = fewer human agents
-                                needed = lower cost.
+                                Percentage of customer queries the AI Agent
+                                resolves without human help. Higher = fewer
+                                human agents needed = lower cost.
                             </dd>
                         </div>
                         <div class="glossary-term">
                             <dt>Semantic Similarity</dt>
                             <dd>
-                                Score (0-1) measuring whether the AI's meaning
-                                matches the expected reference answer. Target:
-                                ≥0.7
+                                Score (0-1) measuring whether the AI Agent's
+                                meaning matches the expected reference answer.
+                                Target: ≥0.7
                             </dd>
                         </div>
                     </dl>
