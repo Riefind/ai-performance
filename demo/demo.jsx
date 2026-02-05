@@ -7,8 +7,8 @@ const BenchmarkDemo = () => {
   const pausedRef = useRef(false);
   const [speed, setSpeed] = useState(1);
   const speedRef = useRef(1);
-  const [showControls, setShowControls] = useState(false);
-  const [showToolbar, setShowToolbar] = useState(true);
+  const [showUI, setShowUI] = useState(true);
+  const [isAutoplaying, setIsAutoplaying] = useState(false);
 
   // Phase 1: Why AI Agent Management?
   const [showWhyTitle, setShowWhyTitle] = useState(false);
@@ -402,6 +402,175 @@ const BenchmarkDemo = () => {
     }
   };
 
+  const goToPhase = (targetPhase) => {
+    // Reset all states first
+    setShowWhyTitle(false);
+    setShowWhySubtitle(false);
+    setShowWhyPoints([false, false, false]);
+    setShowWhyConclusion(false);
+    setShowSolutionTitle(false);
+    setShowSolutionText(false);
+    setShowSolutionBenefits([false, false, false, false]);
+    setShowFlywheelTitle(false);
+    setShowFlywheelSubtitle(false);
+    setShowFlywheelSteps([false, false, false, false]);
+    setActiveFlywheelStep(-1);
+    setShowFlywheelArrows([false, false, false, false]);
+    setShowFlywheelLoop(false);
+    setShowGatherTitle(false);
+    setShowGatherText1(false);
+    setShowGatherSources([false, false, false]);
+    setShowGatherText2(false);
+    setShowWhatTitle(false);
+    setShowWhatDefinition(false);
+    setStreamedWhatDefinition("");
+    setShowWhatDiagram([false, false, false]);
+    setShowWhatSummary(false);
+    setShowStep1Title(false);
+    setShowStep1BigTitle(false);
+    setShowStep1Definition(false);
+    setStreamedStep1Def("");
+    setShowStep1Question(false);
+    setShowStep1Answer(false);
+    setShowStep2Title(false);
+    setShowStep2BigTitle(false);
+    setShowStep2Definition(false);
+    setStreamedStep2Def("");
+    setShowKnowledge([false, false, false]);
+    setShowStep3Title(false);
+    setShowStep3BigTitle(false);
+    setShowStep3Definition(false);
+    setStreamedStep3Def("");
+    setShowStep3Expected(false);
+    setShowStep3AI(false);
+    setStreamedAiAnswer("");
+    setShowStep4Title(false);
+    setShowStep4BigTitle(false);
+    setShowStep4Definition(false);
+    setStreamedStep4Def("");
+    setShowFaithfulness(false);
+    setShowSimilarity(false);
+    setShowResult(false);
+    setShowPassReason(false);
+    setFaithfulness(0);
+    setSimilarity(0);
+    setPassed(false);
+    setShowResultsTitle(false);
+    setShowResultsSubtitle(false);
+    setShowResultsMetrics([false, false, false]);
+    setShowCTA(false);
+    setShowFinalLogo(false);
+    setShowFinalTagline(false);
+
+    // Show all elements for target phase
+    if (targetPhase === 1) {
+      setShowWhyTitle(true);
+      setShowWhySubtitle(true);
+      setShowWhyPoints([true, true, true]);
+      setShowWhyConclusion(true);
+    } else if (targetPhase === 2) {
+      setShowSolutionTitle(true);
+      setShowSolutionText(true);
+      setShowSolutionBenefits([true, true, true, true]);
+    } else if (targetPhase === 3) {
+      setShowFlywheelTitle(true);
+      setShowFlywheelSubtitle(true);
+      setShowFlywheelSteps([true, true, true, true]);
+      setShowFlywheelArrows([true, true, true, true]);
+      setShowFlywheelLoop(true);
+      setActiveFlywheelStep(-1);
+    } else if (targetPhase === 4) {
+      setShowGatherTitle(true);
+      setShowGatherText1(true);
+      setShowGatherSources([true, true, true]);
+      setShowGatherText2(true);
+    } else if (targetPhase === 5) {
+      setShowWhatTitle(true);
+      setShowWhatDefinition(true);
+      setStreamedWhatDefinition(
+        "A way to test if your AI gives correct answers before customers see them.",
+      );
+      setShowWhatDiagram([true, true, true]);
+      setShowWhatSummary(true);
+    } else if (targetPhase === 6) {
+      setShowStep1Title(true);
+      setShowStep1BigTitle(true);
+      setShowStep1Definition(true);
+      setStreamedStep1Def("Write down a question and the correct answer.");
+      setShowStep1Question(true);
+      setShowStep1Answer(true);
+    } else if (targetPhase === 7) {
+      setShowStep2Title(true);
+      setShowStep2BigTitle(true);
+      setShowStep2Definition(true);
+      setStreamedStep2Def(
+        "The AI searches your knowledge base for relevant info.",
+      );
+      setShowKnowledge([true, true, true]);
+    } else if (targetPhase === 8) {
+      setShowStep3Title(true);
+      setShowStep3BigTitle(true);
+      setShowStep3Definition(true);
+      setStreamedStep3Def(
+        "The AI creates an answer using the knowledge it found.",
+      );
+      setShowStep3Expected(true);
+      setShowStep3AI(true);
+      setStreamedAiAnswer(
+        "Returns are accepted within 30 days. The customer pays a $5 fee deducted from the refund.",
+      );
+    } else if (targetPhase === 9) {
+      setShowStep4Title(true);
+      setShowStep4BigTitle(true);
+      setShowStep4Definition(true);
+      setStreamedStep4Def("Measure how accurate the AI's answer is.");
+      setShowFaithfulness(true);
+      setShowSimilarity(true);
+      setFaithfulness(0.94);
+      setSimilarity(0.87);
+      setShowResult(true);
+      setPassed(true);
+      setShowPassReason(true);
+    } else if (targetPhase === 10) {
+      setShowResultsTitle(true);
+      setShowResultsSubtitle(true);
+      setShowResultsMetrics([true, true, true]);
+      setShowCTA(true);
+    } else if (targetPhase === 11) {
+      setShowFinalLogo(true);
+      setShowFinalTagline(true);
+    }
+
+    setPhase(targetPhase);
+  };
+
+  const goToPreviousPhase = () => {
+    if (phase > 1) {
+      goToPhase(phase - 1);
+    }
+  };
+
+  const startManualDemo = () => {
+    setStarted(true);
+    goToPhase(1);
+  };
+
+  const startAutoplay = () => {
+    resetDemo();
+    setShowUI(false);
+    setIsAutoplaying(true);
+    setTimeout(() => {
+      runFullDemo();
+    }, 100);
+  };
+
+  const stopAutoplay = () => {
+    setIsAutoplaying(false);
+    pausedRef.current = true;
+    setPaused(true);
+    setShowUI(true);
+  };
+
   const resetDemo = () => {
     setStarted(false);
     setPhase(0);
@@ -744,11 +913,11 @@ const BenchmarkDemo = () => {
       </span>
     ) : null;
 
-  // Handle Enter key to start demo
+  // Handle Enter key to start demo (manual mode)
   React.useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Enter" && !started) {
-        runFullDemo();
+        startManualDemo();
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -866,7 +1035,7 @@ const BenchmarkDemo = () => {
                 animation: "pulse 2s infinite",
                 cursor: "pointer",
               }}
-              onClick={runFullDemo}
+              onClick={startManualDemo}
             >
               <svg
                 width="50"
@@ -897,7 +1066,7 @@ const BenchmarkDemo = () => {
               How we make sure your AI gives the right answers
             </p>
             <button
-              onClick={runFullDemo}
+              onClick={startManualDemo}
               style={{
                 backgroundColor: colors.tangerine,
                 color: colors.snow,
@@ -2574,157 +2743,197 @@ const BenchmarkDemo = () => {
         )}
       </main>
 
-      {/* Footer with Control Panel */}
-      {showToolbar ? (
-        <footer
+      {/* Control Panel - shows when demo started and UI visible */}
+      {started && showUI && (
+        <div
           style={{
-            padding: "16px 48px",
-            borderTop: `1px solid ${colors.hazelnut}`,
+            position: "fixed",
+            bottom: "20px",
+            left: "50%",
+            transform: "translateX(-50%)",
             display: "flex",
-            justifyContent: "center",
+            gap: "8px",
             alignItems: "center",
-            backgroundColor: colors.snow,
-            gap: "16px",
+            zIndex: 100,
+            background: colors.snow,
+            padding: "10px 16px",
+            borderRadius: "16px",
+            boxShadow: `0 4px 24px ${colors.espresso}20`,
           }}
         >
-          {showControls ? (
-            <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "4px",
-                  background: colors.sand,
-                  borderRadius: "8px",
-                  padding: "4px",
-                }}
-              >
-                {[0.5, 1, 1.5, 2].map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => changeSpeed(s)}
-                    style={{
-                      background:
-                        speed === s ? colors.tangerine : "transparent",
-                      color: speed === s ? colors.snow : colors.espresso,
-                      border: "none",
-                      borderRadius: "6px",
-                      padding: "6px 12px",
-                      fontSize: "13px",
-                      fontWeight: 600,
-                      cursor: "pointer",
-                      transition: "all 0.2s ease",
-                    }}
-                  >
-                    {s}x
-                  </button>
-                ))}
-              </div>
+          {/* Navigation */}
+          <button
+            onClick={goToPreviousPhase}
+            disabled={phase <= 1}
+            style={{
+              background: phase <= 1 ? colors.sand : colors.snow,
+              color: phase <= 1 ? colors.hazelnut : colors.espresso,
+              border: `2px solid ${phase <= 1 ? colors.hazelnut : colors.tangerine}`,
+              borderRadius: "8px",
+              padding: "8px 16px",
+              fontSize: "14px",
+              fontWeight: 600,
+              cursor: phase <= 1 ? "not-allowed" : "pointer",
+              transition: "all 0.2s ease",
+            }}
+          >
+            ← Prev
+          </button>
+          <button
+            onClick={skipToNextPhase}
+            disabled={phase >= 11}
+            style={{
+              background: phase >= 11 ? colors.sand : colors.tangerine,
+              color: phase >= 11 ? colors.hazelnut : colors.snow,
+              border: `2px solid ${phase >= 11 ? colors.hazelnut : colors.tangerine}`,
+              borderRadius: "8px",
+              padding: "8px 16px",
+              fontSize: "14px",
+              fontWeight: 600,
+              cursor: phase >= 11 ? "not-allowed" : "pointer",
+              transition: "all 0.2s ease",
+            }}
+          >
+            Next →
+          </button>
+
+          {/* Divider */}
+          <div
+            style={{
+              width: "1px",
+              height: "24px",
+              background: colors.hazelnut,
+              margin: "0 8px",
+            }}
+          />
+
+          {/* Speed controls */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+              background: colors.sand,
+              borderRadius: "8px",
+              padding: "4px",
+            }}
+          >
+            {[0.5, 1, 1.5, 2].map((s) => (
               <button
-                onClick={togglePause}
+                key={s}
+                onClick={() => changeSpeed(s)}
                 style={{
-                  background: paused ? colors.tangerine : colors.snow,
-                  color: paused ? colors.snow : colors.espresso,
-                  border: `2px solid ${colors.tangerine}`,
-                  borderRadius: "8px",
-                  padding: "8px 16px",
-                  fontSize: "14px",
+                  background: speed === s ? colors.tangerine : "transparent",
+                  color: speed === s ? colors.snow : colors.espresso,
+                  border: "none",
+                  borderRadius: "6px",
+                  padding: "6px 10px",
+                  fontSize: "12px",
                   fontWeight: 600,
                   cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
                   transition: "all 0.2s ease",
                 }}
               >
-                {paused ? (
-                  <>
-                    <span>▶</span> Resume
-                  </>
-                ) : (
-                  <>
-                    <span>⏸</span> Pause
-                  </>
-                )}
+                {s}x
               </button>
-              <button
-                onClick={() => setShowControls(false)}
-                style={{
-                  background: "transparent",
-                  color: colors.mocha,
-                  border: "none",
-                  padding: "8px",
-                  fontSize: "18px",
-                  cursor: "pointer",
-                  opacity: 0.6,
-                  transition: "opacity 0.2s ease",
-                }}
-                title="Hide controls"
-              >
-                ✕
-              </button>
-            </div>
-          ) : (
-            <button
-              onClick={() => setShowControls(true)}
-              style={{
-                background: colors.sand,
-                color: colors.mocha,
-                border: "none",
-                borderRadius: "6px",
-                padding: "6px 12px",
-                fontSize: "12px",
-                fontWeight: 500,
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-              }}
-            >
-              ⚙️ Controls
-            </button>
-          )}
+            ))}
+          </div>
+
+          {/* Pause/Resume */}
           <button
-            onClick={() => setShowToolbar(false)}
+            onClick={togglePause}
+            style={{
+              background: paused ? colors.tangerine : colors.snow,
+              color: paused ? colors.snow : colors.espresso,
+              border: `2px solid ${colors.tangerine}`,
+              borderRadius: "8px",
+              padding: "8px 12px",
+              fontSize: "14px",
+              fontWeight: 600,
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+            }}
+          >
+            {paused ? "▶ Resume" : "⏸ Pause"}
+          </button>
+
+          {/* Autoplay */}
+          <button
+            onClick={startAutoplay}
+            style={{
+              background: colors.denim,
+              color: colors.snow,
+              border: "none",
+              borderRadius: "8px",
+              padding: "8px 12px",
+              fontSize: "14px",
+              fontWeight: 600,
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+            }}
+            title="Reset and autoplay demo"
+          >
+            ▶ Autoplay
+          </button>
+
+          {/* Divider */}
+          <div
+            style={{
+              width: "1px",
+              height: "24px",
+              background: colors.hazelnut,
+              margin: "0 8px",
+            }}
+          />
+
+          {/* Hide UI */}
+          <button
+            onClick={() => setShowUI(false)}
             style={{
               background: "transparent",
               color: colors.mocha,
-              border: `1px solid ${colors.hazelnut}`,
-              borderRadius: "6px",
-              padding: "6px 12px",
-              fontSize: "12px",
+              border: "none",
+              borderRadius: "8px",
+              padding: "8px 12px",
+              fontSize: "14px",
               fontWeight: 500,
               cursor: "pointer",
-              opacity: 0.6,
-              transition: "all 0.2s ease",
+              opacity: 0.7,
+              transition: "opacity 0.2s ease",
             }}
-            title="Hide toolbar for recording"
+            title="Hide controls for recording"
           >
-            🎬 Hide
+            👁️ Hide
           </button>
-        </footer>
-      ) : (
+        </div>
+      )}
+
+      {/* Show UI Button - when UI is hidden */}
+      {started && !showUI && (
         <button
-          onClick={() => setShowToolbar(true)}
+          onClick={stopAutoplay}
           style={{
             position: "fixed",
-            bottom: "16px",
-            right: "16px",
+            bottom: "20px",
+            left: "50%",
+            transform: "translateX(-50%)",
             background: colors.sand,
             color: colors.mocha,
             border: "none",
-            borderRadius: "50%",
-            width: "40px",
-            height: "40px",
-            fontSize: "16px",
+            borderRadius: "10px",
+            padding: "10px 20px",
+            fontSize: "14px",
+            fontWeight: 500,
             cursor: "pointer",
             opacity: 0.3,
             transition: "opacity 0.2s ease",
             zIndex: 100,
           }}
-          onMouseEnter={(e) => (e.target.style.opacity = 0.8)}
+          onMouseEnter={(e) => (e.target.style.opacity = 0.9)}
           onMouseLeave={(e) => (e.target.style.opacity = 0.3)}
-          title="Show toolbar"
+          title="Show controls"
         >
-          ⚙️
+          👁️ Show Controls
         </button>
       )}
 

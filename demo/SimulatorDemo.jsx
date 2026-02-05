@@ -7,8 +7,8 @@ const SimulatorDemo = () => {
   const pausedRef = useRef(false);
   const [speed, setSpeed] = useState(1);
   const speedRef = useRef(1);
-  const [showControls, setShowControls] = useState(false);
-  const [showToolbar, setShowToolbar] = useState(true);
+  const [showUI, setShowUI] = useState(true); // Controls header and control panel visibility
+  const [isAutoplaying, setIsAutoplaying] = useState(false);
 
   // Phase 1: Intro
   const [showIntroTitle, setShowIntroTitle] = useState(false);
@@ -286,82 +286,152 @@ Damaged or used items are not eligible for return.`;
     setSpeed(newSpeed);
   };
 
+  const goToPreviousPhase = () => {
+    if (phase > 1) {
+      const prevPhase = phase - 1;
+      goToPhase(prevPhase);
+    }
+  };
+
   const skipToNextPhase = () => {
     if (phase < 9) {
       const nextPhase = phase + 1;
-
-      // Immediately show all elements for skipped phase
-      if (nextPhase === 1) {
-        setShowIntroTitle(true);
-        setShowIntroSubtitle(true);
-        setShowToolPreviews([true, true, true]);
-        setShowIntroTagline(true);
-      } else if (nextPhase === 2) {
-        setShowOverviewTitle(true);
-        setShowOverviewSubtitle(true);
-        setShowToolCards([true, true, true]);
-      } else if (nextPhase === 3) {
-        setShowSimSetupTitle(true);
-        setShowSimSetupBigTitle(true);
-        setShowSimCommand(true);
-        setStreamedSimCommand(simCommand);
-        setShowTestCase(true);
-        setShowExpectedAnswer(true);
-        setStreamedExpected(expectedAnswer);
-        setShowContextSnippet(true);
-      } else if (nextPhase === 4) {
-        setShowSimResultsTitle(true);
-        setShowSimResultsBigTitle(true);
-        setShowExpectedCard(true);
-        setShowAiResponseCard(true);
-        setStreamedAiResponse(aiAnswer);
-        setShowFaithfulness(true);
-        setShowSimilarity(true);
-        setFaithfulness(0.92);
-        setSimilarity(0.85);
-        setShowSimPass(true);
-        setSimPassed(true);
-        setShowSimExplanation(true);
-      } else if (nextPhase === 5) {
-        setShowLintTitle(true);
-        setShowLintBigTitle(true);
-        setShowLintCommand(true);
-        setStreamedLintCommand(lintCommand);
-        setShowMarkdownBlock(true);
-        setShowLintHighlights([true, true, true]);
-      } else if (nextPhase === 6) {
-        setShowLintResultsTitle(true);
-        setShowLintItems([true, true, true]);
-        setShowCorrectedMarkdown(true);
-        setShowTokenSavings(true);
-        setTokenSavings(15);
-      } else if (nextPhase === 7) {
-        setShowScoreTitle(true);
-        setShowScoreBigTitle(true);
-        setShowScoreCommand(true);
-        setStreamedScoreCommand(scoreCommand);
-        setShowContextBlock(true);
-        setShowCrispnessGauge(true);
-        setShowEfficiencyGauge(true);
-        setCrispness(7.5);
-        setEfficiency(8.2);
-        setShowOverallScore(true);
-        setShowWaste(true);
-      } else if (nextPhase === 8) {
-        setShowVideoTitle(true);
-        setShowVideoSubtitle(true);
-        setShowVideoPlayer(true);
-      } else if (nextPhase === 9) {
-        setShowSummaryTitle(true);
-        setShowSummarySubtitle(true);
-        setShowSummaryCards([true, true, true]);
-        setShowReadyBadge(true);
-        setShowFinalLogo(true);
-        setShowFinalTagline(true);
-      }
-
-      setPhase(nextPhase);
+      goToPhase(nextPhase);
     }
+  };
+
+  const goToPhase = (targetPhase) => {
+    // Reset all phase states first
+    setShowIntroTitle(false);
+    setShowIntroSubtitle(false);
+    setShowToolPreviews([false, false, false]);
+    setShowIntroTagline(false);
+    setShowOverviewTitle(false);
+    setShowOverviewSubtitle(false);
+    setShowToolCards([false, false, false]);
+    setShowSimSetupTitle(false);
+    setShowSimSetupBigTitle(false);
+    setShowSimCommand(false);
+    setStreamedSimCommand("");
+    setShowTestCase(false);
+    setShowExpectedAnswer(false);
+    setStreamedExpected("");
+    setShowContextSnippet(false);
+    setShowSimResultsTitle(false);
+    setShowSimResultsBigTitle(false);
+    setShowExpectedCard(false);
+    setShowAiResponseCard(false);
+    setStreamedAiResponse("");
+    setShowFaithfulness(false);
+    setShowSimilarity(false);
+    setFaithfulness(0);
+    setSimilarity(0);
+    setShowSimPass(false);
+    setSimPassed(false);
+    setShowSimExplanation(false);
+    setShowLintTitle(false);
+    setShowLintBigTitle(false);
+    setShowLintCommand(false);
+    setStreamedLintCommand("");
+    setShowMarkdownBlock(false);
+    setShowLintHighlights([false, false, false]);
+    setShowLintResultsTitle(false);
+    setShowLintItems([false, false, false]);
+    setShowCorrectedMarkdown(false);
+    setShowTokenSavings(false);
+    setTokenSavings(0);
+    setShowScoreTitle(false);
+    setShowScoreBigTitle(false);
+    setShowScoreCommand(false);
+    setStreamedScoreCommand("");
+    setShowContextBlock(false);
+    setShowCrispnessGauge(false);
+    setShowEfficiencyGauge(false);
+    setCrispness(0);
+    setEfficiency(0);
+    setShowOverallScore(false);
+    setShowWaste(false);
+    setShowVideoTitle(false);
+    setShowVideoSubtitle(false);
+    setShowVideoPlayer(false);
+    setShowSummaryTitle(false);
+    setShowSummarySubtitle(false);
+    setShowSummaryCards([false, false, false]);
+    setShowReadyBadge(false);
+    setShowFinalLogo(false);
+    setShowFinalTagline(false);
+
+    // Show all elements for target phase
+    if (targetPhase === 1) {
+      setShowIntroTitle(true);
+      setShowIntroSubtitle(true);
+      setShowToolPreviews([true, true, true]);
+      setShowIntroTagline(true);
+    } else if (targetPhase === 2) {
+      setShowOverviewTitle(true);
+      setShowOverviewSubtitle(true);
+      setShowToolCards([true, true, true]);
+    } else if (targetPhase === 3) {
+      setShowSimSetupTitle(true);
+      setShowSimSetupBigTitle(true);
+      setShowSimCommand(true);
+      setStreamedSimCommand(simCommand);
+      setShowTestCase(true);
+      setShowExpectedAnswer(true);
+      setStreamedExpected(expectedAnswer);
+      setShowContextSnippet(true);
+    } else if (targetPhase === 4) {
+      setShowSimResultsTitle(true);
+      setShowSimResultsBigTitle(true);
+      setShowExpectedCard(true);
+      setShowAiResponseCard(true);
+      setStreamedAiResponse(aiAnswer);
+      setShowFaithfulness(true);
+      setShowSimilarity(true);
+      setFaithfulness(0.92);
+      setSimilarity(0.85);
+      setShowSimPass(true);
+      setSimPassed(true);
+      setShowSimExplanation(true);
+    } else if (targetPhase === 5) {
+      setShowLintTitle(true);
+      setShowLintBigTitle(true);
+      setShowLintCommand(true);
+      setStreamedLintCommand(lintCommand);
+      setShowMarkdownBlock(true);
+      setShowLintHighlights([true, true, true]);
+    } else if (targetPhase === 6) {
+      setShowLintResultsTitle(true);
+      setShowLintItems([true, true, true]);
+      setShowCorrectedMarkdown(true);
+      setShowTokenSavings(true);
+      setTokenSavings(15);
+    } else if (targetPhase === 7) {
+      setShowScoreTitle(true);
+      setShowScoreBigTitle(true);
+      setShowScoreCommand(true);
+      setStreamedScoreCommand(scoreCommand);
+      setShowContextBlock(true);
+      setShowCrispnessGauge(true);
+      setShowEfficiencyGauge(true);
+      setCrispness(7.5);
+      setEfficiency(8.2);
+      setShowOverallScore(true);
+      setShowWaste(true);
+    } else if (targetPhase === 8) {
+      setShowVideoTitle(true);
+      setShowVideoSubtitle(true);
+      setShowVideoPlayer(true);
+    } else if (targetPhase === 9) {
+      setShowSummaryTitle(true);
+      setShowSummarySubtitle(true);
+      setShowSummaryCards([true, true, true]);
+      setShowReadyBadge(true);
+      setShowFinalLogo(true);
+      setShowFinalTagline(true);
+    }
+
+    setPhase(targetPhase);
   };
 
   const resetDemo = () => {
@@ -426,6 +496,27 @@ Damaged or used items are not eligible for return.`;
     setShowReadyBadge(false);
     setShowFinalLogo(false);
     setShowFinalTagline(false);
+  };
+
+  const startManualDemo = () => {
+    setStarted(true);
+    goToPhase(1);
+  };
+
+  const startAutoplay = () => {
+    resetDemo();
+    setShowUI(false);
+    setIsAutoplaying(true);
+    setTimeout(() => {
+      runFullDemo();
+    }, 100);
+  };
+
+  const stopAutoplay = () => {
+    setIsAutoplaying(false);
+    pausedRef.current = true;
+    setPaused(true);
+    setShowUI(true);
   };
 
   const runFullDemo = async () => {
@@ -693,11 +784,11 @@ Damaged or used items are not eligible for return.`;
     </div>
   );
 
-  // Handle Enter key to start demo
+  // Handle Enter key to start demo (manual mode)
   React.useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Enter" && !started) {
-        runFullDemo();
+        startManualDemo();
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -716,70 +807,50 @@ Damaged or used items are not eligible for return.`;
         overflow: "hidden",
       }}
     >
-      {/* Header */}
-      <header
-        style={{
-          padding: "28px 64px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          borderBottom: `1px solid ${colors.hazelnut}`,
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <img
-            src="/images/logo.png"
-            alt="Influx"
-            style={{ height: "44px", width: "auto" }}
-          />
-        </div>
-
-        {started && (
-          <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((p) => (
-                <div
-                  key={p}
-                  style={{
-                    width: p === phase ? "32px" : "10px",
-                    height: "10px",
-                    borderRadius: "5px",
-                    backgroundColor:
-                      phase >= p ? colors.tangerine : colors.hazelnut,
-                    transition: "all 0.3s ease",
-                  }}
-                />
-              ))}
-            </div>
-            {phase < 9 && (
-              <button
-                onClick={skipToNextPhase}
-                style={{
-                  background: "transparent",
-                  border: `1px solid ${colors.hazelnut}`,
-                  borderRadius: "8px",
-                  padding: "8px 16px",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  color: colors.mocha,
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.borderColor = colors.tangerine;
-                  e.target.style.color = colors.tangerine;
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.borderColor = colors.hazelnut;
-                  e.target.style.color = colors.mocha;
-                }}
-              >
-                Skip →
-              </button>
-            )}
+      {/* Header - conditionally shown */}
+      {showUI && (
+        <header
+          style={{
+            padding: "28px 64px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            borderBottom: `1px solid ${colors.hazelnut}`,
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+            <img
+              src="/images/logo.png"
+              alt="Influx"
+              style={{ height: "44px", width: "auto" }}
+            />
           </div>
-        )}
-      </header>
+
+          {started && (
+            <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+              <div
+                style={{ display: "flex", gap: "8px", alignItems: "center" }}
+              >
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((p) => (
+                  <div
+                    key={p}
+                    style={{
+                      width: p === phase ? "32px" : "10px",
+                      height: "10px",
+                      borderRadius: "5px",
+                      backgroundColor:
+                        phase >= p ? colors.tangerine : colors.hazelnut,
+                      transition: "all 0.3s ease",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => goToPhase(p)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </header>
+      )}
 
       {/* Main Content */}
       <main
@@ -815,7 +886,7 @@ Damaged or used items are not eligible for return.`;
                 animation: "pulse 2s infinite",
                 cursor: "pointer",
               }}
-              onClick={runFullDemo}
+              onClick={startManualDemo}
             >
               <svg
                 width="60"
@@ -846,7 +917,7 @@ Damaged or used items are not eligible for return.`;
               Client-side evaluation tools for AI agent performance
             </p>
             <button
-              onClick={runFullDemo}
+              onClick={startManualDemo}
               style={{
                 backgroundColor: colors.tangerine,
                 color: colors.snow,
@@ -1918,9 +1989,6 @@ Damaged or used items are not eligible for return.`;
             >
               The linter scans your agent's markdown files for formatting issues
               that waste tokens.
-              <br />
-              AI models are charged by tokens — cleaner markdown means lower
-              costs and faster responses.
             </p>
 
             <CodeBlock
@@ -2862,188 +2930,201 @@ Damaged or used items are not eligible for return.`;
                 </span>
               </div>
             </div>
-
-            <div
-              style={{
-                ...raindrop(showFinalLogo),
-                marginBottom: "24px",
-              }}
-            >
-              <img
-                src="/images/logo.png"
-                alt="Influx"
-                style={{
-                  height: "72px",
-                  width: "auto",
-                }}
-              />
-            </div>
-
-            <p
-              style={{
-                fontSize: "28px",
-                color: colors.mocha,
-                fontWeight: 500,
-                ...raindrop(showFinalTagline, 0.2),
-              }}
-            >
-              Influx AI Agent Simulator — Test before you ship.
-            </p>
           </div>
         )}
       </main>
 
-      {/* Footer with Control Panel */}
-      {showToolbar ? (
-        <footer
-          style={{
-            padding: "20px 64px",
-            borderTop: `1px solid ${colors.hazelnut}`,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: colors.snow,
-            gap: "20px",
-          }}
-        >
-          {showControls ? (
-            <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  background: colors.sand,
-                  borderRadius: "10px",
-                  padding: "6px",
-                }}
-              >
-                {[0.5, 1, 1.5, 2].map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => changeSpeed(s)}
-                    style={{
-                      background:
-                        speed === s ? colors.tangerine : "transparent",
-                      color: speed === s ? colors.snow : colors.espresso,
-                      border: "none",
-                      borderRadius: "8px",
-                      padding: "8px 16px",
-                      fontSize: "16px",
-                      fontWeight: 600,
-                      cursor: "pointer",
-                      transition: "all 0.2s ease",
-                    }}
-                  >
-                    {s}x
-                  </button>
-                ))}
-              </div>
-              <button
-                onClick={togglePause}
-                style={{
-                  background: paused ? colors.tangerine : colors.snow,
-                  color: paused ? colors.snow : colors.espresso,
-                  border: `2px solid ${colors.tangerine}`,
-                  borderRadius: "10px",
-                  padding: "10px 20px",
-                  fontSize: "16px",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  transition: "all 0.2s ease",
-                }}
-              >
-                {paused ? (
-                  <>
-                    <span>▶</span> Resume
-                  </>
-                ) : (
-                  <>
-                    <span>⏸</span> Pause
-                  </>
-                )}
-              </button>
-              <button
-                onClick={() => setShowControls(false)}
-                style={{
-                  background: "transparent",
-                  color: colors.mocha,
-                  border: "none",
-                  padding: "10px",
-                  fontSize: "20px",
-                  cursor: "pointer",
-                  opacity: 0.6,
-                  transition: "opacity 0.2s ease",
-                }}
-                title="Hide controls"
-              >
-                ✕
-              </button>
-            </div>
-          ) : (
-            <button
-              onClick={() => setShowControls(true)}
-              style={{
-                background: colors.sand,
-                color: colors.mocha,
-                border: "none",
-                borderRadius: "8px",
-                padding: "8px 16px",
-                fontSize: "14px",
-                fontWeight: 500,
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-              }}
-            >
-              ⚙️ Controls
-            </button>
-          )}
-          <button
-            onClick={() => setShowToolbar(false)}
-            style={{
-              background: "transparent",
-              color: colors.mocha,
-              border: `1px solid ${colors.hazelnut}`,
-              borderRadius: "8px",
-              padding: "8px 16px",
-              fontSize: "14px",
-              fontWeight: 500,
-              cursor: "pointer",
-              opacity: 0.6,
-              transition: "all 0.2s ease",
-            }}
-            title="Hide toolbar for recording"
-          >
-            🎬 Hide
-          </button>
-        </footer>
-      ) : (
-        <button
-          onClick={() => setShowToolbar(true)}
+      {/* Control Panel - shows when demo started and UI visible */}
+      {started && showUI && (
+        <div
           style={{
             position: "fixed",
             bottom: "20px",
-            right: "20px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            gap: "8px",
+            alignItems: "center",
+            zIndex: 100,
+            background: colors.snow,
+            padding: "10px 16px",
+            borderRadius: "16px",
+            boxShadow: `0 4px 24px ${colors.espresso}20`,
+          }}
+        >
+          {/* Navigation */}
+          <button
+            onClick={goToPreviousPhase}
+            disabled={phase <= 1}
+            style={{
+              background: phase <= 1 ? colors.sand : colors.snow,
+              color: phase <= 1 ? colors.hazelnut : colors.espresso,
+              border: `2px solid ${phase <= 1 ? colors.hazelnut : colors.tangerine}`,
+              borderRadius: "8px",
+              padding: "8px 16px",
+              fontSize: "14px",
+              fontWeight: 600,
+              cursor: phase <= 1 ? "not-allowed" : "pointer",
+              transition: "all 0.2s ease",
+            }}
+          >
+            ← Prev
+          </button>
+          <button
+            onClick={skipToNextPhase}
+            disabled={phase >= 9}
+            style={{
+              background: phase >= 9 ? colors.sand : colors.tangerine,
+              color: phase >= 9 ? colors.hazelnut : colors.snow,
+              border: `2px solid ${phase >= 9 ? colors.hazelnut : colors.tangerine}`,
+              borderRadius: "8px",
+              padding: "8px 16px",
+              fontSize: "14px",
+              fontWeight: 600,
+              cursor: phase >= 9 ? "not-allowed" : "pointer",
+              transition: "all 0.2s ease",
+            }}
+          >
+            Next →
+          </button>
+
+          {/* Divider */}
+          <div
+            style={{
+              width: "1px",
+              height: "24px",
+              background: colors.hazelnut,
+              margin: "0 8px",
+            }}
+          />
+
+          {/* Speed controls */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+              background: colors.sand,
+              borderRadius: "8px",
+              padding: "4px",
+            }}
+          >
+            {[0.5, 1, 1.5, 2].map((s) => (
+              <button
+                key={s}
+                onClick={() => changeSpeed(s)}
+                style={{
+                  background: speed === s ? colors.tangerine : "transparent",
+                  color: speed === s ? colors.snow : colors.espresso,
+                  border: "none",
+                  borderRadius: "6px",
+                  padding: "6px 10px",
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                }}
+              >
+                {s}x
+              </button>
+            ))}
+          </div>
+
+          {/* Pause/Resume */}
+          <button
+            onClick={togglePause}
+            style={{
+              background: paused ? colors.tangerine : colors.snow,
+              color: paused ? colors.snow : colors.espresso,
+              border: `2px solid ${colors.tangerine}`,
+              borderRadius: "8px",
+              padding: "8px 12px",
+              fontSize: "14px",
+              fontWeight: 600,
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+            }}
+          >
+            {paused ? "▶ Resume" : "⏸ Pause"}
+          </button>
+
+          {/* Autoplay */}
+          <button
+            onClick={startAutoplay}
+            style={{
+              background: colors.denim,
+              color: colors.snow,
+              border: "none",
+              borderRadius: "8px",
+              padding: "8px 12px",
+              fontSize: "14px",
+              fontWeight: 600,
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+            }}
+            title="Reset and autoplay demo"
+          >
+            ▶ Autoplay
+          </button>
+
+          {/* Divider */}
+          <div
+            style={{
+              width: "1px",
+              height: "24px",
+              background: colors.hazelnut,
+              margin: "0 8px",
+            }}
+          />
+
+          {/* Hide UI */}
+          <button
+            onClick={() => setShowUI(false)}
+            style={{
+              background: "transparent",
+              color: colors.mocha,
+              border: "none",
+              borderRadius: "8px",
+              padding: "8px 12px",
+              fontSize: "14px",
+              fontWeight: 500,
+              cursor: "pointer",
+              opacity: 0.7,
+              transition: "opacity 0.2s ease",
+            }}
+            title="Hide controls for recording"
+          >
+            👁️ Hide
+          </button>
+        </div>
+      )}
+
+      {/* Show UI Button - when UI is hidden */}
+      {started && !showUI && (
+        <button
+          onClick={stopAutoplay}
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            left: "50%",
+            transform: "translateX(-50%)",
             background: colors.sand,
             color: colors.mocha,
             border: "none",
-            borderRadius: "50%",
-            width: "48px",
-            height: "48px",
-            fontSize: "20px",
+            borderRadius: "10px",
+            padding: "10px 20px",
+            fontSize: "14px",
+            fontWeight: 500,
             cursor: "pointer",
             opacity: 0.3,
             transition: "opacity 0.2s ease",
             zIndex: 100,
           }}
-          onMouseEnter={(e) => (e.target.style.opacity = 0.8)}
+          onMouseEnter={(e) => (e.target.style.opacity = 0.9)}
           onMouseLeave={(e) => (e.target.style.opacity = 0.3)}
-          title="Show toolbar"
+          title="Show controls"
         >
-          ⚙️
+          👁️ Show Controls
         </button>
       )}
 
