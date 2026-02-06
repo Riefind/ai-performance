@@ -702,7 +702,8 @@ Damaged or used items are not eligible for return.`;
 
     // Auto-play video fullscreen if available
     const video = videoRef.current;
-    if (video) {
+    const hasVideo = video && video.networkState !== 3 && video.duration > 0;
+    if (hasVideo) {
       video.style.display = "block";
       video.currentTime = 0;
       try {
@@ -722,7 +723,6 @@ Damaged or used items are not eligible for return.`;
         }
         video.style.display = "none";
       } catch (e) {
-        // Video play failed (no file or blocked), continue with placeholder
         video.style.display = "none";
         await wait(3500);
       }
