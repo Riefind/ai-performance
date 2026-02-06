@@ -1,210 +1,156 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Client Performance</title>
-    <link rel="stylesheet" href="assets/styles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="icon" href="assets/images/icon.png" type="image/png" />
-  </head>
-  <body>
-    <header class="header">
-      <div class="container header__inner">
-        <img src="assets/images/logo.png" alt="Logo" class="header__logo" />
-      </div>
-    </header>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Client Performance Dashboards</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-    <main class="main">
-      <div class="container">
-        <section class="section">
-          <h1>Client Performance</h1>
-          <p class="text-muted">Quality scores and simulation results.</p>
+            body {
+                font-family:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 40px 20px;
+            }
 
-          <div class="stats mt-lg" id="summary-stats">
-            <div class="stat">
-              <div class="stat__value" id="total-agents">-</div>
-              <div class="stat__label">Agents</div>
+            .container {
+                max-width: 800px;
+                width: 100%;
+                text-align: center;
+            }
+
+            h1 {
+                color: white;
+                font-size: 32px;
+                margin-bottom: 12px;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .subtitle {
+                color: rgba(255, 255, 255, 0.9);
+                font-size: 16px;
+                margin-bottom: 50px;
+            }
+
+            .cards {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 30px;
+            }
+
+            .card {
+                background: white;
+                border-radius: 16px;
+                padding: 40px 30px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+                text-decoration: none;
+                color: inherit;
+                transition: all 0.3s ease;
+            }
+
+            .card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+            }
+
+            .card-icon {
+                font-size: 48px;
+                margin-bottom: 20px;
+            }
+
+            .card-title {
+                font-size: 22px;
+                font-weight: 700;
+                color: #2d3748;
+                margin-bottom: 12px;
+            }
+
+            .card-description {
+                font-size: 14px;
+                color: #718096;
+                line-height: 1.6;
+                margin-bottom: 20px;
+            }
+
+            .card-cta {
+                display: inline-block;
+                padding: 10px 24px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+            .card:hover .card-cta {
+                background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            }
+
+            @media (max-width: 768px) {
+                h1 {
+                    font-size: 26px;
+                }
+
+                .cards {
+                    grid-template-columns: 1fr;
+                }
+
+                .card {
+                    padding: 30px 25px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Client Performance Dashboards</h1>
+            <p class="subtitle">
+                Select a client to view their AI performance metrics
+            </p>
+
+            <div class="cards">
+                <a href="dashboards/pulse.html" class="card">
+                    <div class="card-icon">🎁</div>
+                    <div class="card-title">Pulse Giftcards</div>
+                    <div class="card-description">
+                        Response time performance tracking across handling
+                        workflows. Monitor Human FRT, AI Close times, and Human
+                        Close metrics.
+                    </div>
+                    <span class="card-cta">View Dashboard</span>
+                </a>
+
+                <a href="dashboards/books.html" class="card">
+                    <div class="card-icon">📚</div>
+                    <div class="card-title">Books.by</div>
+                    <div class="card-description">
+                        AI agent performance metrics including involvement
+                        rates, resolution rates, customer satisfaction scores,
+                        and routing data.
+                    </div>
+                    <span class="card-cta">View Dashboard</span>
+                </a>
+
+                <a href="dashboards/babyboo-comparison.html" class="card">
+                    <div class="card-icon">🔬</div>
+                    <div class="card-title">BabyBoo AI Comparison</div>
+                    <div class="card-description">
+                        Side-by-side comparison of PA and BabyBoo AI setups.
+                        Analyze faithfulness scores, similarity metrics, and
+                        action matching across evaluation datasets.
+                    </div>
+                    <span class="card-cta">View Comparison</span>
+                </a>
             </div>
-            <div class="stat">
-              <div class="stat__value" id="avg-quality">-</div>
-              <div class="stat__label">Avg Quality</div>
-            </div>
-            <div class="stat">
-              <div class="stat__value" id="avg-pass-rate">-</div>
-              <div class="stat__label">Avg Pass Rate</div>
-            </div>
-            <div class="stat">
-              <div class="stat__value" id="total-tests">-</div>
-              <div class="stat__label">Total Tests</div>
-            </div>
-          </div>
-
-          <div class="agent-grid mt-lg" id="agent-grid">
-            <div class="card">
-              <p class="text-muted text-center">Loading agents...</p>
-            </div>
-          </div>
-        </section>
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="container footer__inner">
-        <span>Context Engine</span>
-        <span id="last-updated">-</span>
-      </div>
-    </footer>
-
-    <script>
-      // Agent configurations - update this list when adding new agents
-      const AGENTS = [
-        { id: 1, name: "example-agent", displayName: "Example Agent" },
-      ];
-
-      async function fetchAgentData(agent) {
-        try {
-          const response = await fetch(`../data/${agent.name}/report.json`);
-          if (!response.ok) return null;
-          const data = await response.json();
-          return { ...agent, ...data };
-        } catch (e) {
-          console.warn(`Could not load data for ${agent.name}:`, e);
-          return null;
-        }
-      }
-
-      function getScoreClass(score) {
-        if (score >= 8) return "score--high";
-        if (score >= 6) return "score--medium";
-        return "score--low";
-      }
-
-      function getPassRateClass(rate) {
-        if (rate >= 0.9) return "";
-        if (rate >= 0.7) return "pass-rate__fill--warning";
-        return "pass-rate__fill--error";
-      }
-
-      function renderAgentCard(agent) {
-        const qualityScore = agent.quality?.average_score?.toFixed(1) || "-";
-        const passRate = agent.simulation?.pass_rate || 0;
-        const passRatePercent = (passRate * 100).toFixed(0);
-        const passed = agent.simulation?.passed || 0;
-        const failed = agent.simulation?.failed || 0;
-
-        return `
-        <a href="agents/${agent.name}.html" class="agent-card card">
-          <div class="card__header">
-            <div>
-              <div class="agent-card__name">${agent.displayName}</div>
-              <div class="agent-card__id">ID: ${agent.id}</div>
-            </div>
-            <div class="score ${getScoreClass(parseFloat(qualityScore))}">${qualityScore}</div>
-          </div>
-          <div class="stats">
-            <div class="stat">
-              <div class="stat__value text-success">${passed}</div>
-              <div class="stat__label">Passed</div>
-            </div>
-            <div class="stat">
-              <div class="stat__value text-error">${failed}</div>
-              <div class="stat__label">Failed</div>
-            </div>
-            <div class="stat">
-              <div class="stat__value">${passRatePercent}%</div>
-              <div class="stat__label">Pass Rate</div>
-            </div>
-          </div>
-          <div class="pass-rate mt-md">
-            <div class="pass-rate__fill ${getPassRateClass(passRate)}" style="width: ${passRatePercent}%"></div>
-          </div>
-        </a>
-      `;
-      }
-
-      function renderNoDataCard(agent) {
-        return `
-        <div class="card">
-          <div class="card__header">
-            <div>
-              <div class="agent-card__name">${agent.displayName}</div>
-              <div class="agent-card__id">ID: ${agent.id}</div>
-            </div>
-          </div>
-          <p class="text-muted text-sm mt-md">No report data available. Run <code>sim ${agent.name}</code> to generate.</p>
         </div>
-      `;
-      }
-
-      function calculateSummary(agents) {
-        const withData = agents.filter((a) => a.quality || a.simulation);
-        const totalAgents = agents.length;
-        const totalTests = withData.reduce(
-          (sum, a) => sum + (a.simulation?.total_cases || 0),
-          0,
-        );
-
-        const qualityScores = withData
-          .filter((a) => a.quality?.average_score)
-          .map((a) => a.quality.average_score);
-        const avgQuality = qualityScores.length
-          ? (
-              qualityScores.reduce((a, b) => a + b, 0) / qualityScores.length
-            ).toFixed(1)
-          : "-";
-
-        const passRates = withData
-          .filter((a) => a.simulation?.pass_rate !== undefined)
-          .map((a) => a.simulation.pass_rate);
-        const avgPassRate = passRates.length
-          ? (
-              (passRates.reduce((a, b) => a + b, 0) / passRates.length) *
-              100
-            ).toFixed(0) + "%"
-          : "-";
-
-        return { totalAgents, totalTests, avgQuality, avgPassRate };
-      }
-
-      async function init() {
-        const agentData = await Promise.all(AGENTS.map(fetchAgentData));
-        const agents = AGENTS.map((agent, i) => agentData[i] || agent);
-
-        const grid = document.getElementById("agent-grid");
-        grid.innerHTML = agents
-          .map((agent) =>
-            agent.quality || agent.simulation
-              ? renderAgentCard(agent)
-              : renderNoDataCard(agent),
-          )
-          .join("");
-
-        const summary = calculateSummary(agents);
-        document.getElementById("total-agents").textContent =
-          summary.totalAgents;
-        document.getElementById("total-tests").textContent = summary.totalTests;
-        document.getElementById("avg-quality").textContent = summary.avgQuality;
-        document.getElementById("avg-pass-rate").textContent =
-          summary.avgPassRate;
-
-        const latestUpdate = agents
-          .filter((a) => a.generated_at)
-          .map((a) => new Date(a.generated_at))
-          .sort((a, b) => b - a)[0];
-
-        if (latestUpdate) {
-          document.getElementById("last-updated").textContent =
-            `Updated ${latestUpdate.toLocaleDateString()}`;
-        }
-      }
-
-      init();
-    </script>
-  </body>
+    </body>
 </html>
