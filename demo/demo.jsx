@@ -950,7 +950,12 @@ const BenchmarkDemo = () => {
           <img
             src="./images/logo.png"
             alt="Influx"
-            style={{ height: "36px", width: "auto" }}
+            style={{ height: "36px", width: "auto", cursor: "pointer" }}
+            onClick={() =>
+              window.dispatchEvent(
+                new KeyboardEvent("keydown", { key: "Escape" }),
+              )
+            }
           />
         </div>
 

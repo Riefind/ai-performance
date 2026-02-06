@@ -822,7 +822,12 @@ Damaged or used items are not eligible for return.`;
             <img
               src="./images/logo.png"
               alt="Influx"
-              style={{ height: "44px", width: "auto" }}
+              style={{ height: "44px", width: "auto", cursor: "pointer" }}
+              onClick={() =>
+                window.dispatchEvent(
+                  new KeyboardEvent("keydown", { key: "Escape" }),
+                )
+              }
             />
           </div>
 
