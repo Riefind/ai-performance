@@ -537,6 +537,8 @@ Damaged or used items are not eligible for return.`;
     resetDemo();
     pausedRef.current = false;
     setPaused(false);
+    speedRef.current = 0.5;
+    setSpeed(0.5);
     setShowUI(false);
     setIsAutoplaying(true);
     setTimeout(() => {
@@ -870,30 +872,6 @@ Damaged or used items are not eligible for return.`;
               }
             />
           </div>
-
-          {started && (
-            <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-              <div
-                style={{ display: "flex", gap: "8px", alignItems: "center" }}
-              >
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((p) => (
-                  <div
-                    key={p}
-                    style={{
-                      width: p === phase ? "32px" : "10px",
-                      height: "10px",
-                      borderRadius: "5px",
-                      backgroundColor:
-                        phase >= p ? colors.tangerine : colors.hazelnut,
-                      transition: "all 0.3s ease",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => goToPhase(p)}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
         </header>
       )}
 
@@ -905,7 +883,7 @@ Damaged or used items are not eligible for return.`;
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          padding: "56px 80px",
+          padding: "32px 60px 48px",
           maxWidth: "1800px",
           margin: "0 auto",
           width: "100%",
@@ -3025,6 +3003,52 @@ Damaged or used items are not eligible for return.`;
           </div>
         )}
       </main>
+
+      {/* Bottom Progress Bar */}
+      {started && (
+        <div
+          style={{
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            padding: "12px 64px",
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            backgroundColor: `${colors.cream}ee`,
+            borderTop: `1px solid ${colors.hazelnut}`,
+            zIndex: 50,
+          }}
+        >
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((p) => (
+            <div
+              key={p}
+              style={{
+                flex: 1,
+                height: "6px",
+                borderRadius: "3px",
+                backgroundColor:
+                  phase >= p ? colors.tangerine : colors.hazelnut,
+                transition: "all 0.3s ease",
+                cursor: "pointer",
+                opacity: phase >= p ? 1 : 0.4,
+              }}
+              onClick={() => goToPhase(p)}
+            />
+          ))}
+          <span
+            style={{
+              fontSize: "12px",
+              color: colors.mocha,
+              marginLeft: "12px",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {phase} / 9
+          </span>
+        </div>
+      )}
 
       {/* Control Panel - shows when demo started and UI visible */}
       {started && showUI && (

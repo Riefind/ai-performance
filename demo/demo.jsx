@@ -557,6 +557,10 @@ const BenchmarkDemo = () => {
 
   const startAutoplay = () => {
     resetDemo();
+    pausedRef.current = false;
+    setPaused(false);
+    speedRef.current = 0.5;
+    setSpeed(0.5);
     setShowUI(false);
     setIsAutoplaying(true);
     setTimeout(() => {
@@ -958,52 +962,6 @@ const BenchmarkDemo = () => {
             }
           />
         </div>
-
-        {started && (
-          <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-            <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((p) => (
-                <div
-                  key={p}
-                  style={{
-                    width: p === phase ? "24px" : "8px",
-                    height: "8px",
-                    borderRadius: "4px",
-                    backgroundColor:
-                      phase >= p ? colors.tangerine : colors.hazelnut,
-                    transition: "all 0.3s ease",
-                  }}
-                />
-              ))}
-            </div>
-            {phase < 11 && (
-              <button
-                onClick={skipToNextPhase}
-                style={{
-                  background: "transparent",
-                  border: `1px solid ${colors.hazelnut}`,
-                  borderRadius: "6px",
-                  padding: "6px 12px",
-                  fontSize: "13px",
-                  fontWeight: 500,
-                  color: colors.mocha,
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.borderColor = colors.tangerine;
-                  e.target.style.color = colors.tangerine;
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.borderColor = colors.hazelnut;
-                  e.target.style.color = colors.mocha;
-                }}
-              >
-                Skip →
-              </button>
-            )}
-          </div>
-        )}
       </header>
 
       {/* Main Content */}
@@ -1014,7 +972,7 @@ const BenchmarkDemo = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          padding: "40px 64px",
+          padding: "32px 60px 48px",
           maxWidth: "1600px",
           margin: "0 auto",
           width: "100%",
@@ -2748,6 +2706,52 @@ const BenchmarkDemo = () => {
         )}
       </main>
 
+      {/* Bottom Progress Bar */}
+      {started && (
+        <div
+          style={{
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            padding: "12px 64px",
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            backgroundColor: `${colors.cream}ee`,
+            borderTop: `1px solid ${colors.hazelnut}`,
+            zIndex: 50,
+          }}
+        >
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((p) => (
+            <div
+              key={p}
+              style={{
+                flex: 1,
+                height: "6px",
+                borderRadius: "3px",
+                backgroundColor:
+                  phase >= p ? colors.tangerine : colors.hazelnut,
+                transition: "all 0.3s ease",
+                cursor: "pointer",
+                opacity: phase >= p ? 1 : 0.4,
+              }}
+              onClick={() => goToPhase(p)}
+            />
+          ))}
+          <span
+            style={{
+              fontSize: "12px",
+              color: colors.mocha,
+              marginLeft: "12px",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {phase} / 11
+          </span>
+        </div>
+      )}
+
       {/* Control Panel - shows when demo started and UI visible */}
       {started && showUI && (
         <div
@@ -2920,18 +2924,17 @@ const BenchmarkDemo = () => {
           onClick={stopAutoplay}
           style={{
             position: "fixed",
-            right: "20px",
-            top: "50%",
-            transform: "translateY(-50%)",
+            right: "8px",
+            bottom: "8px",
             background: colors.sand,
             color: colors.mocha,
             border: "none",
-            borderRadius: "10px",
-            padding: "10px 20px",
-            fontSize: "14px",
+            borderRadius: "6px",
+            padding: "4px 8px",
+            fontSize: "10px",
             fontWeight: 500,
             cursor: "pointer",
-            opacity: 0.3,
+            opacity: 0.15,
             transition: "opacity 0.2s ease",
             zIndex: 100,
           }}
