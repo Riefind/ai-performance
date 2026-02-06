@@ -43,7 +43,7 @@ const DemoSelector = () => {
       }}
     >
       <img
-        src="/images/logo.png"
+        src="./images/logo.png"
         alt="Influx"
         style={{ height: "60px", marginBottom: "48px" }}
       />
