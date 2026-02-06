@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 
 const SimulatorDemo = () => {
   const [started, setStarted] = useState(false);
@@ -9,7 +9,6 @@ const SimulatorDemo = () => {
   const speedRef = useRef(1);
   const [showUI, setShowUI] = useState(true); // Controls header and control panel visibility
   const [isAutoplaying, setIsAutoplaying] = useState(false);
-  const [videosReady, setVideosReady] = useState([false, false, false, false]);
 
   // Phase 1: Intro
   const [showIntroTitle, setShowIntroTitle] = useState(false);
@@ -203,34 +202,31 @@ Damaged or used items are not eligible for return.`;
   ];
 
   const demoVideos = [
-    { key: "sim", label: "Simulation", icon: "🧪", src: "./videos/sim.mp4" },
-    { key: "lint", label: "Lint", icon: "🔍", src: "./videos/lint.mp4" },
-    { key: "score", label: "Score", icon: "📊", src: "./videos/score.mp4" },
+    {
+      key: "sim",
+      label: "Simulation",
+      icon: "🧪",
+      embed: "https://streamable.com/e/374b7o",
+    },
+    {
+      key: "lint",
+      label: "Lint",
+      icon: "🔍",
+      embed: "https://streamable.com/e/dx2koo",
+    },
+    {
+      key: "score",
+      label: "Score",
+      icon: "📊",
+      embed: "https://streamable.com/e/lfov3h",
+    },
     {
       key: "report",
       label: "Generate Report",
       icon: "📋",
-      src: "./videos/report.mp4",
+      embed: "https://streamable.com/e/1rviao",
     },
   ];
-
-  // Check which videos are available on mount by loading metadata
-  useEffect(() => {
-    demoVideos.forEach((v, i) => {
-      const video = document.createElement("video");
-      video.preload = "metadata";
-      video.onloadedmetadata = () => {
-        setVideosReady((prev) => {
-          const next = [...prev];
-          next[i] = true;
-          return next;
-        });
-        video.remove();
-      };
-      video.onerror = () => video.remove();
-      video.src = v.src;
-    });
-  }, []);
 
   // Colors (1.4x scaled demo)
   const colors = {
@@ -734,25 +730,10 @@ Damaged or used items are not eligible for return.`;
     await wait(500);
 
     // Auto-play videos sequentially inline
+    // Auto-play each video for 15 seconds
     for (let vi = 0; vi < demoVideos.length; vi++) {
-      if (!videosReady[vi]) continue;
       setActiveVideoIndex(vi);
-      await new Promise((resolve) => {
-        const check = () => {
-          const videos = document.querySelectorAll(
-            "video[data-autoplay-video]",
-          );
-          if (videos.length > 0) {
-            const video = videos[0];
-            video.addEventListener("ended", resolve, { once: true });
-            video.play().catch(() => resolve());
-          } else {
-            setTimeout(check, 100);
-          }
-        };
-        check();
-      });
-      await wait(500);
+      await wait(15000);
     }
     setActiveVideoIndex(null);
 
@@ -2789,18 +2770,13 @@ Damaged or used items are not eligible for return.`;
                         border: `1px solid ${colors.hazelnut}`,
                         position: "relative",
                         overflow: "hidden",
-                        cursor: videosReady[i] ? "pointer" : "default",
-                        opacity: videosReady[i] ? 1 : 0.5,
+                        cursor: "pointer",
                         transition: "transform 0.2s ease, box-shadow 0.2s ease",
                       }}
-                      onClick={() => {
-                        if (videosReady[i]) setActiveVideoIndex(i);
-                      }}
+                      onClick={() => setActiveVideoIndex(i)}
                       onMouseEnter={(e) => {
-                        if (videosReady[i]) {
-                          e.currentTarget.style.transform = "scale(1.02)";
-                          e.currentTarget.style.boxShadow = `0 12px 40px ${colors.espresso}20`;
-                        }
+                        e.currentTarget.style.transform = "scale(1.02)";
+                        e.currentTarget.style.boxShadow = `0 12px 40px ${colors.espresso}20`;
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.transform = "scale(1)";
@@ -2820,15 +2796,9 @@ Damaged or used items are not eligible for return.`;
                       >
                         {v.label}
                       </div>
-                      {videosReady[i] ? (
-                        <div style={{ fontSize: "14px", color: colors.forest }}>
-                          Click to play
-                        </div>
-                      ) : (
-                        <div style={{ fontSize: "14px", color: colors.mocha }}>
-                          Video not found
-                        </div>
-                      )}
+                      <div style={{ fontSize: "14px", color: colors.forest }}>
+                        Click to play
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -2858,21 +2828,26 @@ Damaged or used items are not eligible for return.`;
                   </button>
                   <div
                     style={{
-                      backgroundColor: colors.terminal,
                       borderRadius: "16px",
                       overflow: "hidden",
                       boxShadow: `0 8px 32px ${colors.espresso}20`,
+                      aspectRatio: "16/9",
+                      position: "relative",
                     }}
                   >
-                    <video
-                      key={demoVideos[activeVideoIndex].src}
-                      src={demoVideos[activeVideoIndex].src}
+                    <iframe
+                      key={demoVideos[activeVideoIndex].embed}
+                      src={`${demoVideos[activeVideoIndex].embed}?autoplay=1`}
                       data-autoplay-video
-                      controls
-                      autoPlay
+                      allow="autoplay; fullscreen"
+                      allowFullScreen
                       style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
                         width: "100%",
-                        display: "block",
+                        height: "100%",
+                        border: "none",
                       }}
                     />
                   </div>
