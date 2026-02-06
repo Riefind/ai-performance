@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 const SimulatorDemo = () => {
   const [started, setStarted] = useState(false);
@@ -9,7 +9,7 @@ const SimulatorDemo = () => {
   const speedRef = useRef(1);
   const [showUI, setShowUI] = useState(true); // Controls header and control panel visibility
   const [isAutoplaying, setIsAutoplaying] = useState(false);
-  const videoRef = useRef(null);
+  const [videosReady, setVideosReady] = useState([false, false, false, false]);
 
   // Phase 1: Intro
   const [showIntroTitle, setShowIntroTitle] = useState(false);
@@ -86,6 +86,7 @@ const SimulatorDemo = () => {
   const [showVideoTitle, setShowVideoTitle] = useState(false);
   const [showVideoSubtitle, setShowVideoSubtitle] = useState(false);
   const [showVideoPlayer, setShowVideoPlayer] = useState(false);
+  const [activeVideoIndex, setActiveVideoIndex] = useState(null);
 
   // Phase 9: Summary
   const [showSummaryTitle, setShowSummaryTitle] = useState(false);
@@ -200,6 +201,35 @@ Damaged or used items are not eligible for return.`;
       color: "#FFA400",
     },
   ];
+
+  const demoVideos = [
+    { key: "sim", label: "Simulation", icon: "🧪", src: "./videos/sim.mp4" },
+    { key: "lint", label: "Lint", icon: "🔍", src: "./videos/lint.mp4" },
+    { key: "score", label: "Score", icon: "📊", src: "./videos/score.mp4" },
+    {
+      key: "report",
+      label: "Generate Report",
+      icon: "📋",
+      src: "./videos/report.mp4",
+    },
+  ];
+
+  // Check which videos are available on mount
+  useEffect(() => {
+    demoVideos.forEach((v, i) => {
+      fetch(v.src, { method: "HEAD" })
+        .then((res) => {
+          if (res.ok) {
+            setVideosReady((prev) => {
+              const next = [...prev];
+              next[i] = true;
+              return next;
+            });
+          }
+        })
+        .catch(() => {});
+    });
+  }, []);
 
   // Colors (1.4x scaled demo)
   const colors = {
@@ -355,6 +385,7 @@ Damaged or used items are not eligible for return.`;
     setShowVideoTitle(false);
     setShowVideoSubtitle(false);
     setShowVideoPlayer(false);
+    setActiveVideoIndex(null);
     setShowSummaryTitle(false);
     setShowSummarySubtitle(false);
     setShowSummaryCards([false, false, false]);
@@ -491,6 +522,7 @@ Damaged or used items are not eligible for return.`;
     setShowVideoTitle(false);
     setShowVideoSubtitle(false);
     setShowVideoPlayer(false);
+    setActiveVideoIndex(null);
     setShowSummaryTitle(false);
     setShowSummarySubtitle(false);
     setShowSummaryCards([false, false, false]);
@@ -700,35 +732,28 @@ Damaged or used items are not eligible for return.`;
     setShowVideoPlayer(true);
     await wait(500);
 
-    // Auto-play video fullscreen if available
-    const video = videoRef.current;
-    const hasVideo = video && video.networkState !== 3 && video.duration > 0;
-    if (hasVideo) {
-      video.style.display = "block";
-      video.currentTime = 0;
-      try {
-        await video.play();
-        try {
-          await video.requestFullscreen();
-        } catch (e) {
-          // Fullscreen may be blocked by browser
-        }
-        // Wait for video to end
-        await new Promise((resolve) => {
-          video.addEventListener("ended", resolve, { once: true });
-        });
-        // Exit fullscreen if still in it
-        if (document.fullscreenElement) {
-          document.exitFullscreen().catch(() => {});
-        }
-        video.style.display = "none";
-      } catch (e) {
-        video.style.display = "none";
-        await wait(3500);
-      }
-    } else {
-      await wait(3500);
+    // Auto-play videos sequentially inline
+    for (let vi = 0; vi < demoVideos.length; vi++) {
+      if (!videosReady[vi]) continue;
+      setActiveVideoIndex(vi);
+      await new Promise((resolve) => {
+        const check = () => {
+          const videos = document.querySelectorAll(
+            "video[data-autoplay-video]",
+          );
+          if (videos.length > 0) {
+            const video = videos[0];
+            video.addEventListener("ended", resolve, { once: true });
+            video.play().catch(() => resolve());
+          } else {
+            setTimeout(check, 100);
+          }
+        };
+        check();
+      });
+      await wait(500);
     }
+    setActiveVideoIndex(null);
 
     // === PHASE 9: Summary ===
     setPhase(9);
@@ -2736,80 +2761,133 @@ Damaged or used items are not eligible for return.`;
               Watch the full evaluation workflow
             </p>
 
-            <div
-              style={{
-                backgroundColor: colors.terminal,
-                borderRadius: "24px",
-                aspectRatio: "16/9",
-                width: "100%",
-                maxWidth: "1200px",
-                margin: "0 auto",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: `0 16px 64px ${colors.espresso}20`,
-                position: "relative",
-                overflow: "hidden",
-                ...raindrop(showVideoPlayer),
-              }}
-            >
-              <video
-                ref={videoRef}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  display: "none",
-                }}
-                controls
-                poster=""
-              >
-                <source src="./videos/demo.mp4" type="video/mp4" />
-              </video>
-
-              {/* Placeholder content */}
-              <div
-                style={{
-                  textAlign: "center",
-                  color: colors.syntax,
-                }}
-              >
+            <div style={raindrop(showVideoPlayer)}>
+              {activeVideoIndex === null ? (
                 <div
                   style={{
-                    width: "120px",
-                    height: "120px",
-                    margin: "0 auto 32px",
-                    borderRadius: "50%",
-                    backgroundColor: `${colors.salmon}20`,
-                    border: `4px solid ${colors.salmon}`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    cursor: "pointer",
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: "24px",
+                    width: "100%",
+                    maxWidth: "1200px",
+                    margin: "0 auto",
                   }}
                 >
-                  <svg
-                    width="50"
-                    height="50"
-                    viewBox="0 0 24 24"
-                    fill={colors.salmon}
+                  {demoVideos.map((v, i) => (
+                    <div
+                      key={v.key}
+                      style={{
+                        backgroundColor: colors.snow,
+                        borderRadius: "16px",
+                        aspectRatio: "16/9",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        boxShadow: `0 8px 32px ${colors.espresso}10`,
+                        border: `1px solid ${colors.hazelnut}`,
+                        position: "relative",
+                        overflow: "hidden",
+                        cursor: videosReady[i] ? "pointer" : "default",
+                        opacity: videosReady[i] ? 1 : 0.5,
+                        transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                      }}
+                      onClick={() => {
+                        if (videosReady[i]) setActiveVideoIndex(i);
+                      }}
+                      onMouseEnter={(e) => {
+                        if (videosReady[i]) {
+                          e.currentTarget.style.transform = "scale(1.02)";
+                          e.currentTarget.style.boxShadow = `0 12px 40px ${colors.espresso}20`;
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = "scale(1)";
+                        e.currentTarget.style.boxShadow = `0 8px 32px ${colors.espresso}10`;
+                      }}
+                    >
+                      <div style={{ fontSize: "72px", marginBottom: "16px" }}>
+                        {v.icon}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "24px",
+                          fontWeight: 600,
+                          color: colors.espresso,
+                          marginBottom: "8px",
+                        }}
+                      >
+                        {v.label}
+                      </div>
+                      {videosReady[i] ? (
+                        <div style={{ fontSize: "14px", color: colors.forest }}>
+                          Click to play
+                        </div>
+                      ) : (
+                        <div style={{ fontSize: "14px", color: colors.mocha }}>
+                          Video not found
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div
+                  style={{
+                    width: "100%",
+                    maxWidth: "1200px",
+                    margin: "0 auto",
+                  }}
+                >
+                  <button
+                    onClick={() => setActiveVideoIndex(null)}
+                    style={{
+                      background: "none",
+                      border: `2px solid ${colors.tangerine}`,
+                      color: colors.tangerine,
+                      padding: "10px 24px",
+                      borderRadius: "10px",
+                      fontSize: "16px",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      marginBottom: "24px",
+                    }}
                   >
-                    <polygon points="5 3 19 12 5 21 5 3" />
-                  </svg>
+                    ← Back to videos
+                  </button>
+                  <div
+                    style={{
+                      backgroundColor: colors.terminal,
+                      borderRadius: "16px",
+                      overflow: "hidden",
+                      boxShadow: `0 8px 32px ${colors.espresso}20`,
+                    }}
+                  >
+                    <video
+                      key={demoVideos[activeVideoIndex].src}
+                      src={demoVideos[activeVideoIndex].src}
+                      data-autoplay-video
+                      controls
+                      autoPlay
+                      style={{
+                        width: "100%",
+                        display: "block",
+                      }}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      marginTop: "16px",
+                      fontSize: "20px",
+                      fontWeight: 600,
+                      color: colors.espresso,
+                    }}
+                  >
+                    {demoVideos[activeVideoIndex].icon}{" "}
+                    {demoVideos[activeVideoIndex].label}
+                  </div>
                 </div>
-                <div
-                  style={{
-                    fontSize: "28px",
-                    fontWeight: 600,
-                    marginBottom: "12px",
-                  }}
-                >
-                  Video Placeholder
-                </div>
-                <div style={{ fontSize: "20px", color: colors.mocha }}>
-                  Add your demo recording to /videos/demo.mp4
-                </div>
-              </div>
+              )}
             </div>
           </div>
         )}
