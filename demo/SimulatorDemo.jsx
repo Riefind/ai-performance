@@ -206,25 +206,25 @@ Damaged or used items are not eligible for return.`;
       key: "sim",
       label: "Simulation",
       icon: "🧪",
-      embed: "https://streamable.com/e/374b7o",
+      embed: "https://streamable.com/e/05d5b7",
     },
     {
       key: "lint",
       label: "Lint",
       icon: "🔍",
-      embed: "https://streamable.com/e/dx2koo",
+      embed: "https://streamable.com/e/irbotm",
     },
     {
       key: "score",
       label: "Score",
       icon: "📊",
-      embed: "https://streamable.com/e/lfov3h",
+      embed: "https://streamable.com/e/s6yi1a",
     },
     {
       key: "report",
       label: "Generate Report",
       icon: "📋",
-      embed: "https://streamable.com/e/1rviao",
+      embed: "https://streamable.com/e/edf53q",
     },
   ];
 
