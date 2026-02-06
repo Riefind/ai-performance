@@ -505,6 +505,8 @@ Damaged or used items are not eligible for return.`;
 
   const startAutoplay = () => {
     resetDemo();
+    pausedRef.current = false;
+    setPaused(false);
     setShowUI(false);
     setIsAutoplaying(true);
     setTimeout(() => {
