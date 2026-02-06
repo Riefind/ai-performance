@@ -9,6 +9,7 @@ const SimulatorDemo = () => {
   const speedRef = useRef(1);
   const [showUI, setShowUI] = useState(true); // Controls header and control panel visibility
   const [isAutoplaying, setIsAutoplaying] = useState(false);
+  const videoRef = useRef(null);
 
   // Phase 1: Intro
   const [showIntroTitle, setShowIntroTitle] = useState(false);
@@ -697,7 +698,37 @@ Damaged or used items are not eligible for return.`;
     setShowVideoSubtitle(true);
     await wait(700);
     setShowVideoPlayer(true);
-    await wait(4000);
+    await wait(500);
+
+    // Auto-play video fullscreen if available
+    const video = videoRef.current;
+    if (video) {
+      video.style.display = "block";
+      video.currentTime = 0;
+      try {
+        await video.play();
+        try {
+          await video.requestFullscreen();
+        } catch (e) {
+          // Fullscreen may be blocked by browser
+        }
+        // Wait for video to end
+        await new Promise((resolve) => {
+          video.addEventListener("ended", resolve, { once: true });
+        });
+        // Exit fullscreen if still in it
+        if (document.fullscreenElement) {
+          document.exitFullscreen().catch(() => {});
+        }
+        video.style.display = "none";
+      } catch (e) {
+        // Video play failed (no file or blocked), continue with placeholder
+        video.style.display = "none";
+        await wait(3500);
+      }
+    } else {
+      await wait(3500);
+    }
 
     // === PHASE 9: Summary ===
     setPhase(9);
@@ -2722,18 +2753,18 @@ Damaged or used items are not eligible for return.`;
                 ...raindrop(showVideoPlayer),
               }}
             >
-              {/* Video placeholder - replace src with actual video */}
               <video
+                ref={videoRef}
                 style={{
                   width: "100%",
                   height: "100%",
                   objectFit: "cover",
-                  display: "none", // Hide until video is added
+                  display: "none",
                 }}
                 controls
                 poster=""
               >
-                <source src="/videos/demo.mp4" type="video/mp4" />
+                <source src="./videos/demo.mp4" type="video/mp4" />
               </video>
 
               {/* Placeholder content */}
