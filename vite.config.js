@@ -5,7 +5,7 @@ import { resolve } from "path";
 export default defineConfig({
   plugins: [react()],
   root: "demo",
-  base: "./",
+  base: "/demo/",
   publicDir: "../docs/assets",
   server: {
     open: true,

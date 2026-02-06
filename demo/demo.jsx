@@ -952,7 +952,7 @@ const BenchmarkDemo = () => {
       >
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <img
-            src="./images/logo.png"
+            src="/demo/images/logo.png"
             alt="Influx"
             style={{ height: "36px", width: "auto", cursor: "pointer" }}
             onClick={() =>
@@ -2682,7 +2682,7 @@ const BenchmarkDemo = () => {
               }}
             >
               <img
-                src="./images/logo.png"
+                src="/demo/images/logo.png"
                 alt="Influx"
                 style={{
                   height: "80px",

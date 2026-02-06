@@ -862,7 +862,7 @@ Damaged or used items are not eligible for return.`;
         >
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
             <img
-              src="./images/logo.png"
+              src="/demo/images/logo.png"
               alt="Influx"
               style={{ height: "44px", width: "auto", cursor: "pointer" }}
               onClick={() =>

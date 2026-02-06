@@ -3,8 +3,28 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Client Performance Dashboards</title>
+        <title>AI Performance | Influx</title>
+        <link rel="icon" type="image/png" href="/demo/images/icon.png" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
         <style>
+            :root {
+                --tangerine: #ffa400;
+                --salmon: #f38454;
+                --espresso: #201b13;
+                --cocoa: #4e403b;
+                --bone: #faf9f6;
+                --snow: #ffffff;
+                --charcoal: #55524e;
+                --mocha: #75665f;
+                --hazelnut: #d3c5bf;
+                --sand: #f5f3ed;
+            }
+
             * {
                 margin: 0;
                 padding: 0;
@@ -12,9 +32,9 @@
             }
 
             body {
-                font-family:
-                    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+                background: var(--bone);
+                color: var(--espresso);
                 min-height: 100vh;
                 display: flex;
                 align-items: center;
@@ -23,81 +43,105 @@
             }
 
             .container {
-                max-width: 800px;
+                max-width: 720px;
                 width: 100%;
                 text-align: center;
             }
 
+            .logo {
+                height: 40px;
+                margin-bottom: 32px;
+            }
+
             h1 {
-                color: white;
-                font-size: 32px;
-                margin-bottom: 12px;
-                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                font-size: 28px;
+                font-weight: 700;
+                color: var(--espresso);
+                margin-bottom: 8px;
             }
 
             .subtitle {
-                color: rgba(255, 255, 255, 0.9);
-                font-size: 16px;
-                margin-bottom: 50px;
+                font-size: 15px;
+                color: var(--mocha);
+                margin-bottom: 48px;
             }
 
             .cards {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 30px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
             }
 
             .card {
-                background: white;
-                border-radius: 16px;
-                padding: 40px 30px;
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+                background: var(--snow);
+                border: 1px solid var(--hazelnut);
+                border-radius: 12px;
+                padding: 36px 28px;
                 text-decoration: none;
                 color: inherit;
-                transition: all 0.3s ease;
+                transition: all 0.2s ease;
             }
 
             .card:hover {
-                transform: translateY(-8px);
-                box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+                transform: translateY(-4px);
+                box-shadow: 0 12px 32px rgba(32, 27, 19, 0.1);
+                border-color: var(--tangerine);
             }
 
             .card-icon {
-                font-size: 48px;
-                margin-bottom: 20px;
+                width: 48px;
+                height: 48px;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 20px;
+                font-size: 22px;
+            }
+
+            .card-icon--demo {
+                background: linear-gradient(135deg, var(--tangerine), var(--salmon));
+                color: var(--snow);
+            }
+
+            .card-icon--training {
+                background: linear-gradient(135deg, #547099, #122849);
+                color: var(--snow);
             }
 
             .card-title {
-                font-size: 22px;
+                font-size: 18px;
                 font-weight: 700;
-                color: #2d3748;
-                margin-bottom: 12px;
+                color: var(--espresso);
+                margin-bottom: 8px;
             }
 
             .card-description {
-                font-size: 14px;
-                color: #718096;
+                font-size: 13px;
+                color: var(--mocha);
                 line-height: 1.6;
-                margin-bottom: 20px;
+                margin-bottom: 24px;
             }
 
             .card-cta {
                 display: inline-block;
                 padding: 10px 24px;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
+                background: var(--espresso);
+                color: var(--snow);
                 border-radius: 8px;
-                font-size: 14px;
+                font-size: 13px;
                 font-weight: 600;
+                transition: background 0.2s ease;
             }
 
             .card:hover .card-cta {
-                background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+                background: var(--tangerine);
+                color: var(--espresso);
             }
 
-            @media (max-width: 768px) {
+            @media (max-width: 600px) {
                 h1 {
-                    font-size: 26px;
+                    font-size: 24px;
                 }
 
                 .cards {
@@ -105,50 +149,45 @@
                 }
 
                 .card {
-                    padding: 30px 25px;
+                    padding: 28px 24px;
                 }
             }
         </style>
     </head>
     <body>
         <div class="container">
-            <h1>Client Performance Dashboards</h1>
-            <p class="subtitle">
-                Select a client to view their AI performance metrics
-            </p>
+            <img src="/demo/images/logo.png" alt="Influx" class="logo" />
+            <h1>AI Performance</h1>
+            <p class="subtitle">Select where you'd like to go</p>
 
             <div class="cards">
-                <a href="dashboards/pulse.html" class="card">
-                    <div class="card-icon">🎁</div>
-                    <div class="card-title">Pulse Giftcards</div>
-                    <div class="card-description">
-                        Response time performance tracking across handling
-                        workflows. Monitor Human FRT, AI Close times, and Human
-                        Close metrics.
+                <a href="demo/index.html" class="card">
+                    <div class="card-icon card-icon--demo">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="5 3 19 12 5 21 5 3"/>
+                        </svg>
                     </div>
-                    <span class="card-cta">View Dashboard</span>
+                    <div class="card-title">Interactive Demo</div>
+                    <div class="card-description">
+                        Animated walkthroughs of AI agent management
+                        and the agent simulator in action.
+                    </div>
+                    <span class="card-cta">Launch Demo</span>
                 </a>
 
-                <a href="dashboards/books.html" class="card">
-                    <div class="card-icon">📚</div>
-                    <div class="card-title">Books.by</div>
-                    <div class="card-description">
-                        AI agent performance metrics including involvement
-                        rates, resolution rates, customer satisfaction scores,
-                        and routing data.
+                <a href="reports/agent-manager-training.html" class="card">
+                    <div class="card-icon card-icon--training">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                        </svg>
                     </div>
-                    <span class="card-cta">View Dashboard</span>
-                </a>
-
-                <a href="dashboards/babyboo-comparison.html" class="card">
-                    <div class="card-icon">🔬</div>
-                    <div class="card-title">BabyBoo AI Comparison</div>
+                    <div class="card-title">AI Agent Training</div>
                     <div class="card-description">
-                        Side-by-side comparison of PA and BabyBoo AI setups.
-                        Analyze faithfulness scores, similarity metrics, and
-                        action matching across evaluation datasets.
+                        Complete training course with quizzes, flashcards,
+                        and hands-on exercises for agent managers.
                     </div>
-                    <span class="card-cta">View Comparison</span>
+                    <span class="card-cta">Start Training</span>
                 </a>
             </div>
         </div>
