@@ -2944,15 +2944,16 @@ Damaged or used items are not eligible for return.`;
         <div
           style={{
             position: "fixed",
-            bottom: "20px",
-            left: "50%",
-            transform: "translateX(-50%)",
+            right: "20px",
+            top: "50%",
+            transform: "translateY(-50%)",
             display: "flex",
+            flexDirection: "column",
             gap: "8px",
             alignItems: "center",
             zIndex: 100,
             background: colors.snow,
-            padding: "10px 16px",
+            padding: "16px 10px",
             borderRadius: "16px",
             boxShadow: `0 4px 24px ${colors.espresso}20`,
           }}
@@ -3110,9 +3111,9 @@ Damaged or used items are not eligible for return.`;
           onClick={stopAutoplay}
           style={{
             position: "fixed",
-            bottom: "20px",
-            left: "50%",
-            transform: "translateX(-50%)",
+            right: "20px",
+            top: "50%",
+            transform: "translateY(-50%)",
             background: colors.sand,
             color: colors.mocha,
             border: "none",
