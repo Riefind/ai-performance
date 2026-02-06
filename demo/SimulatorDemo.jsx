@@ -214,20 +214,21 @@ Damaged or used items are not eligible for return.`;
     },
   ];
 
-  // Check which videos are available on mount
+  // Check which videos are available on mount by loading metadata
   useEffect(() => {
     demoVideos.forEach((v, i) => {
-      fetch(v.src, { method: "HEAD" })
-        .then((res) => {
-          if (res.ok) {
-            setVideosReady((prev) => {
-              const next = [...prev];
-              next[i] = true;
-              return next;
-            });
-          }
-        })
-        .catch(() => {});
+      const video = document.createElement("video");
+      video.preload = "metadata";
+      video.onloadedmetadata = () => {
+        setVideosReady((prev) => {
+          const next = [...prev];
+          next[i] = true;
+          return next;
+        });
+        video.remove();
+      };
+      video.onerror = () => video.remove();
+      video.src = v.src;
     });
   }, []);
 
