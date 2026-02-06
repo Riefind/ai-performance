@@ -853,7 +853,7 @@ Damaged or used items are not eligible for return.`;
       {showUI && (
         <header
           style={{
-            padding: "28px 64px",
+            padding: "16px 48px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -883,10 +883,11 @@ Damaged or used items are not eligible for return.`;
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          padding: "32px 60px 48px",
+          padding: "16px 40px 40px",
           maxWidth: "1800px",
           margin: "0 auto",
           width: "100%",
+          zoom: 0.75,
           overflow: "hidden",
           minHeight: 0,
         }}
@@ -1534,6 +1535,7 @@ Damaged or used items are not eligible for return.`;
               width: "100%",
               maxWidth: "1500px",
               animation: "fadeIn 0.5s ease",
+              zoom: 0.85,
             }}
           >
             <div
@@ -2356,6 +2358,7 @@ Damaged or used items are not eligible for return.`;
               width: "100%",
               maxWidth: "1500px",
               animation: "fadeIn 0.5s ease",
+              zoom: 0.85,
             }}
           >
             <div
